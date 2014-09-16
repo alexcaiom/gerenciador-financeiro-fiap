@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, SimpleCalendar!</string>
+    <string name="app_name">Registro de Finanças</string>
+    <string name="action_settings">Configurações</string>
+    <string name="title_activity_calendario">Calendário</string>
+    <string name="title_activity_login">Login</string>
+</resources>

@@ -1,0 +1,83 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Login" >
+
+    <!-- Adiconar textos no String.xml -->
+    
+    <LinearLayout android:layout_width="match_parent"
+	    android:layout_height="60dp"
+	    android:paddingBottom="0dp"
+	    android:gravity="center|bottom"
+	    android:background="@android:color/holo_blue_dark">
+        
+        <TextView
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:text="@string/app_name" 
+	        android:textSize="22sp"
+	        android:layout_marginTop="5dp"
+	        android:textColor="@android:color/white"/>
+        
+    </LinearLayout>
+    
+    <LinearLayout android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical"
+	    android:layout_marginTop="45dp"
+	    android:padding="30dp">
+        
+        <TextView
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:text="@string/Login" 
+	        android:textSize="18sp"/>
+        
+        <View
+		    android:layout_width="fill_parent"
+		    android:layout_height="1dp"
+		    android:layout_marginBottom="15dp"
+		    android:background="@android:color/darker_gray"/>
+        
+        <EditText
+	        android:id="@+id/txtLogin"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:hint="@string/Login"
+	        android:layout_marginBottom="15dp"
+	        android:textColor="@android:color/darker_gray"
+	        android:inputType="text"
+	        android:singleLine="true" />
+        
+        <EditText
+	        android:id="@+id/txtSenha"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:hint="@string/Senha"
+	        android:layout_marginBottom="15dp"
+	        android:textColor="@android:color/darker_gray"
+	        android:inputType="textPassword"
+	        android:singleLine="true"
+	        />
+        
+        <Button
+	        android:id="@+id/btnLogin"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:text="@string/signin"
+	        android:background="@android:color/white"
+	        android:textColor="@android:color/black"/>
+    </LinearLayout>
+
+     <LinearLayout android:layout_width="match_parent"
+	    android:layout_height="30dp"
+	    android:gravity="bottom"
+	    android:background="@android:color/holo_blue_dark">
+        
+        
+         
+    </LinearLayout>
+    
+</LinearLayout>
