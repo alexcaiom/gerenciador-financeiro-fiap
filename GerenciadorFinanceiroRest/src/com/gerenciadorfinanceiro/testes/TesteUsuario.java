@@ -8,11 +8,11 @@ import org.junit.Test;
 
 import com.gerenciadorfinanceiro.orm.dao.DAOUsuario;
 import com.gerenciadorfinanceiro.orm.model.usuario.Usuario;
-import com.gerenciadorfinanceiro.servico.Servico;
+import com.gerenciadorfinanceiro.servico.ServicoUsuario;
 
 public class TesteUsuario {
 
-//	@Test
+	@Test
 	public void TesteUsuarioInsercao() {
 		Usuario u = new Usuario("alex", "lifesgood");
 		DAOUsuario dao = new DAOUsuario();
@@ -21,24 +21,24 @@ public class TesteUsuario {
 		fail("Not yet implemented");
 	}
 	
-//	@Test
+	@Test
 	public void TestUsuarioLista(){
-		List<Usuario> usuarios = Servico.getInstancia().listarUsuarios();
+		List<Usuario> usuarios = ServicoUsuario.getInstancia().listarUsuarios();
 		assertNotNull(usuarios);
 		for (Usuario usuario : usuarios) {
 			System.out.println(usuario.toString());
 		}
 	}
 	
-//	@Test
+	@Test
 	public void TestUsuarioPesquisaPorId(){
-		Usuario usuarios = Servico.getInstancia().pesquisarUsuarioPorID(1l);
+		Usuario usuarios = ServicoUsuario.getInstancia().pesquisarUsuarioPorID(1l);
 		assertNotNull(usuarios);
 	}
 	
 	@Test
 	public void TestUsuarioPesquisaPorIp(){
-		List<Usuario> usuario = Servico.getInstancia().pesquisarUsuariosPorIPComo("alex");
+		List<Usuario> usuario = ServicoUsuario.getInstancia().pesquisarUsuariosPorLoginComo("alex");
 		assertNotNull(usuario);
 	}
 	

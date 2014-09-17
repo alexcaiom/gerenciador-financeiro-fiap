@@ -34,7 +34,9 @@ abstract class GenericDAO<T> extends Classe implements Serializable {
 	}
 
 	public void commit() {
-		getEm().getTransaction().commit();
+		if (getEm().getTransaction().isActive()) {
+			getEm().getTransaction().commit();
+		}
 		System.out.println("Transação efetuada para "+entityClass.getSimpleName());
 	}
 

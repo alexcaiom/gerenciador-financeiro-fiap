@@ -3,13 +3,18 @@
  */
 package com.gerenciadorfinanceiro.excecoes;
 
+import java.io.Serializable;
+
+import javax.xml.bind.annotation.XmlRootElement;
+
 
 
 /**
  * @author Alex
  *
  */
-public class SysErr extends Erro {
+@XmlRootElement
+public class SysErr extends Erro implements Serializable {
 
 	/**
 	 * 

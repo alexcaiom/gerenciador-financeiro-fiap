@@ -10,7 +10,7 @@ package com.gerenciadorfinanceiro.orm.model;
 public enum EnumUsuarioCadastrado {
 
 	SUCESSO(0, "Seja Bem Vindo!"),
-	USUARIO_DUPLICADO(1, "Este Usuário já existe!"),
+	USUARIO_DUPLICADO(1, "Usuario ja existente!"),
 	SENHA_INVALIDA(2, "Senha inválida"),
 	ERRO_AO_CRIAR_USUARIO(3, "Ocorreu um erro ao criar o usuário");
 	

@@ -3,7 +3,6 @@
  */
 package com.gerenciadorfinanceiro.orm.model;
 
-import com.gerenciadorfinanceiro.utils.Constantes;
 
 /**
  * @author Alex
@@ -24,11 +23,6 @@ public enum TipoContato {
 	private TipoContato(int cod, String descricao){
 		this.cod = cod;
 		this.descricao = descricao;
-		if(cod == 1 || cod == 2 || cod == 3){
-			this.mensagem = Constantes.DISCAR_PARA;	
-		} else if(cod == 4 || cod == 5) {
-			this.mensagem = Constantes.ENVIAR_MENSAGEM_PARA;
-		}
 	}
 
 	/**

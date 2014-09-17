@@ -3,7 +3,6 @@
  */
 package com.gerenciadorfinanceiro.orm.model;
 
-import com.gerenciadorfinanceiro.utils.Constantes;
 
 /**
  * @author Alex
@@ -22,7 +21,6 @@ public enum TipoTelefone {
 	TipoTelefone(int cod, String tipo){
 		this.cod = cod;
 		this.tipo = tipo;
-		this.mensagem = Constantes.DISCAR_PARA+this.tipo;
 	}
 
 	public int getCod() {

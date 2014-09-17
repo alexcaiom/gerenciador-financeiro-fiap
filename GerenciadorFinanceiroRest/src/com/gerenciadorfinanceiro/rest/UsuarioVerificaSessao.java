@@ -6,14 +6,13 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.gerenciadorfinanceiro.orm.model.usuario.Usuario;
 import com.gerenciadorfinanceiro.servico.ServicoUsuario;
 
-@Path("/usuario/pesquisarPorID/{id}")
-public class UsuarioPesquisarPorID {
+@Path("/usuario/verificaSessao/{login}/{senha}")
+public class UsuarioVerificaSessao {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Usuario pesquisarUsuarioPorID(@PathParam("id") Long id){
-		return ServicoUsuario.getInstancia().pesquisarUsuarioPorID(id);
+	public String usuarioEstaLogado(@PathParam("login") String login, @PathParam("senha") String senha){
+		return ServicoUsuario.getInstancia().usuarioEstaLogado(login, senha);
 	}
 }

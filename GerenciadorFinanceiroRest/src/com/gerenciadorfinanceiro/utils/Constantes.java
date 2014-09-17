@@ -9,42 +9,19 @@ package com.gerenciadorfinanceiro.utils;
  */
 public class Constantes {
 
-	/**
-	 * BANCO DE DADOS
-	 */
-	public static final String BANCO_DADOS_NOME = "myIP.db";
-	public static final int BANCO_DADOS_VERSAO = 1;
-	
-	/**
-	 * OPERACOES
-	 */
-	public static final String USUARIO = "login";
-	public static final String DISCAR_PARA = "Discar para ";
-	public static final String ENVIAR_MENSAGEM_PARA = "Enviar mensagem para ";
-	
-	
-	public static final String ITEM_AMIGO = "amigo";
-	
-	/**
-	 * MASCARAS
-	 */
-	public static final String MASK_CELULAR = "(##)#-####-####";
-	public static final String ESCUTADOR = "ESCUTADOR";
-	
-	
-	/**
-	 * Constantes de Operacao
-	 */
-	public static final String OPERACAO_INCLUSAO = "Inclusão";
-	public static final String OPERACAO_ATUALIZACAO = "Atualização";
-	public static final String OPERACAO_EXCLUSAO = "Exclusão";
-	public static final String OPERACAO_PESQUISA = "Pesquisa";
+	public static final String USUARIO = "usuario";
 	
 	/**
 	 * CONSTANTES DE MENSAGEM
 	 */
 	public static final String MENSAGEM_SUCESSO = "A {operacao} do {item} foi realizada com sucesso!";
 	public static final String MENSAGEM_FALHA = "A {operacao} do {item} falhou! Tente mais tarde!";
+
+	/**
+	 * Horario Comercial
+	 */
+	public static final int HORARIO_MINIMO_HORA = 7;
+	public static final int HORARIO_MAXIMO_HORA = 18;
 	
 	public static final String getMensagemSucesso(Class qualVO, String operacao){
 		return MENSAGEM_SUCESSO.replace("{operacao}", operacao).replace("{item}", qualVO.getSimpleName());

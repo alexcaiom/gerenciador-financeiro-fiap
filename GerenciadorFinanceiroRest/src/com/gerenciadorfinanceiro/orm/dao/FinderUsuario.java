@@ -37,23 +37,23 @@ public class FinderUsuario extends Finder<Usuario>{
 		return super.findOneResult(Usuario.SELECIONAR_POR_ID, parametros);
 	}
 
-	public Usuario findByIP(String ip) {
+	public Usuario findByLogin(String login) {
 		log("Consultando "+getNomeEntidade());
 		Map<String, Object> parametros = new HashMap<String, Object>();
-		parametros.put("ip", ip);
+		parametros.put("login", login);
 		return super.findOneResult(Usuario.SELECIONAR_POR_IP, parametros);
 	}	
 	
-	public List<Usuario> findByIPLike(String ip) {
+	public List<Usuario> findByLoginComo(String login) {
 		CriteriaBuilder cb = getEm().getCriteriaBuilder();
 	    CriteriaQuery<Usuario> c = cb.createQuery(Usuario.class);
 	    Root<Usuario> usuario = c.from(Usuario.class);
 	    c.select(usuario);
 	    List<Predicate> criteria = new ArrayList<Predicate>();
 
-	    if (ip != null) {
-	        ParameterExpression<String> p = cb.parameter(String.class, "ip");
-	        criteria.add(cb.like(usuario.<String>get("ip"), p));
+	    if (login != null) {
+	        ParameterExpression<String> p = cb.parameter(String.class, "login");
+	        criteria.add(cb.like(usuario.<String>get("login"), p));
 	    }
 
 	    if (criteria.size() == 0) {
@@ -66,8 +66,8 @@ public class FinderUsuario extends Finder<Usuario>{
 
 	    TypedQuery<Usuario> q = getEm().createQuery(c);
 
-	    if (ip != null) {
-	        q.setParameter("ip", ip);
+	    if (login != null) {
+	        q.setParameter("login", login);
 	    }
 	    
 	    return q.getResultList();

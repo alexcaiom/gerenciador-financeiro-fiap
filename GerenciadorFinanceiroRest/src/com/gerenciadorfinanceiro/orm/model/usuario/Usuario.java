@@ -4,15 +4,14 @@
 package com.gerenciadorfinanceiro.orm.model.usuario;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,7 +24,10 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.gerenciadorfinanceiro.abstratas.Classe;
+import com.gerenciadorfinanceiro.orm.model.EnumUsuarioAutenticado;
 import com.gerenciadorfinanceiro.orm.model.EnumUsuarioVisualizacao;
+import com.gerenciadorfinanceiro.orm.model.Movimentacao;
 
 /**
  * @author Alex
@@ -45,21 +47,21 @@ import com.gerenciadorfinanceiro.orm.model.EnumUsuarioVisualizacao;
 @Table(name="tbl_usuario")
 @NamedQueries({
 	@NamedQuery(name="selecionarUsuarioPorId", query="select c from Usuario c where c.id = :id"),
-	@NamedQuery(name="selecionarPorIp", query="select c from Usuario c where c.ip = :ip")
+	@NamedQuery(name="selecionarPorLogin", query="select c from Usuario c where c.login = :login")
 })
-public class Usuario implements Serializable {
+public class Usuario extends Classe implements Serializable {
 	
 	private static final long serialVersionUID = -3548328139537131262L;
 	
 	public static final String SELECIONAR_POR_ID 		= "selecionarUsuarioPorId";
-	public static final String SELECIONAR_POR_IP 		= "selecionarPorIp";
+	public static final String SELECIONAR_POR_IP 		= "selecionarPorLogin";
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(nullable=false, name="ID")
 	private Long id;
-	@Column(unique=true, nullable=false, name="IP")
-	private String ip = "";
+	@Column(unique=true, nullable=false, name="login")
+	private String login = "";
 	@Column(name="nome")
 	private String nome = "";
 	@Column(name="sobrenome")
@@ -89,9 +91,16 @@ public class Usuario implements Serializable {
 	
 	@Enumerated(EnumType.STRING)
 	private Role tipo;
+
+	private Integer contadorSenhaInvalida = 0;
 	
+	@Enumerated(EnumType.STRING)
 	@Column
-	private String status = "";
+	private EnumUsuarioAutenticado status = null;
+	
+	@OneToMany
+	@JoinColumn(name="usuario_id", nullable=true)
+	private List<Movimentacao> movimentacoes;
 	
 	@OneToMany
 	@JoinColumn(name="usuario_id", nullable=true, unique=true)
@@ -104,8 +113,8 @@ public class Usuario implements Serializable {
 	 * @param nome
 	 * @param senha
 	 */
-	public Usuario(String ip, String senha) {
-		this.ip = ip;
+	public Usuario(String login, String senha) {
+		this.login = login;
 		this.senha = senha;
 	}
 	/**
@@ -113,9 +122,9 @@ public class Usuario implements Serializable {
 	 * @param nome
 	 * @param senha
 	 */
-	public Usuario(Long id, String ip, String senha) {
+	public Usuario(Long id, String login, String senha) {
 		this.id = id;
-		this.ip = ip;
+		this.login = login;
 		this.senha = senha;
 	}
 
@@ -133,6 +142,14 @@ public class Usuario implements Serializable {
 	 */
 	public final void setId(long id) {
 		this.id = id;
+	}
+
+	public String getLogin() {
+		return login;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
 	}
 
 	public String getNome() {
@@ -167,22 +184,6 @@ public class Usuario implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-
-
-	/**
-	 * @return the ip
-	 */
-	public final String getIp() {
-		return ip;
-	}
-
-	/**
-	 * @param ip the ip to set
-	 */
-	public final void setIp(String ip) {
-		this.ip = ip;
 	}
 
 	/**
@@ -301,18 +302,41 @@ public class Usuario implements Serializable {
 		return Role.CLIENTE.equals(tipo);
 	}
 
+	public Integer getContadorSenhaInvalida() {
+		return contadorSenhaInvalida;
+	}
+
+	public void setContadorSenhaInvalida(Integer contadorSenhaInvalida) {
+		this.contadorSenhaInvalida = contadorSenhaInvalida;
+	}
+
 	/**
 	 * @return the status
 	 */
-	public final String getStatus() {
+	public final EnumUsuarioAutenticado getStatus() {
 		return status;
 	}
 
 	/**
 	 * @param status the status to set
 	 */
-	public final void setStatus(String status) {
+	public final void setStatus(EnumUsuarioAutenticado status) {
 		this.status = status;
+	}
+	
+	public void addMovimentacao(Movimentacao movimentacao){
+		getMovimentacoes().add(movimentacao);
+	}
+
+	public List<Movimentacao> getMovimentacoes() {
+		if (naoExiste(movimentacoes)) {
+			setMovimentacoes(new ArrayList<Movimentacao>());
+		}
+		return movimentacoes;
+	}
+
+	public void setMovimentacoes(List<Movimentacao> movimentacoes) {
+		this.movimentacoes = movimentacoes;
 	}
 
 	/**
@@ -338,7 +362,7 @@ public class Usuario implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return getIp() + " - "+getStatus();
+		return getLogin() + " - "+getStatus();
 	}
 	
 	

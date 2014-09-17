@@ -14,8 +14,11 @@ import com.gerenciadorfinanceiro.excecoes.SysErr;
 import com.gerenciadorfinanceiro.orm.dao.DAOUsuario;
 import com.gerenciadorfinanceiro.orm.dao.FinderUsuario;
 import com.gerenciadorfinanceiro.orm.interfaces.IUsuarioBO;
+import com.gerenciadorfinanceiro.orm.model.EnumUsuarioAutenticado;
 import com.gerenciadorfinanceiro.orm.model.EnumUsuarioCadastrado;
 import com.gerenciadorfinanceiro.orm.model.usuario.Usuario;
+import com.gerenciadorfinanceiro.utils.Sessoes;
+import com.gerenciadorfinanceiro.utils.UtilsData;
 
 /**
  * @author Alex
@@ -32,36 +35,55 @@ public class BOUsuario extends Classe
 	
 	/**
 	 * Metodo de Autenticacao de Usuario
-	 * @param ip
+	 * @param login
 	 * @param senha
 	 * @return
 	 */
-	public Usuario autentica(String ip, String senha) throws Erro {
+	public Usuario autentica(String login, String senha) throws Erro {
 		log("Autenticando "+getNomeEntidade());
 		Usuario u = new Usuario();
-		u.setIp(ip);
-		Usuario uAuth = new  Usuario();
-		uAuth = getFinder().findByIP(u.getIp());
+		u.setLogin(login);
+		Usuario usuarioRecuperadoDoBD = new  Usuario();
+		usuarioRecuperadoDoBD = getFinder().findByLogin(u.getLogin());
 		
 		//Primeiro verificamos se o usuario existe.
-		if(uAuth == null){
-			log(getNomeEntidade()+ " inexistente...");
-			return uAuth;
-		} else {
-			//Depois verificamos se usuario e senha informado batem com o banco.
-			if (!(ip.equals(uAuth.getIp()) && 
-					senha.equals(uAuth.getSenha()))){
-				log(getNomeEntidade()+ " informado com senha inválida...");
-				throw new ErroNegocio(getNomeEntidade()+ " informado com senha inválida...");
-			} else {
+		if(existe(usuarioRecuperadoDoBD)){
+			//Verificamos se usuario e senha informado batem com o banco.
+			boolean usuarioConfere = (login.equals(usuarioRecuperadoDoBD.getLogin()) && senha.equals(usuarioRecuperadoDoBD.getSenha()));
+			boolean usuarioEstaBloqueado = !(usuarioRecuperadoDoBD.getStatus() == null || !usuarioRecuperadoDoBD.getStatus().equals(EnumUsuarioAutenticado.USUARIO_BLOQUEADO));
+			boolean ehFinalDeSemana = UtilsData.ehFinalDeSemana();
+			boolean ehHorarioComercial = UtilsData.ehHorarioComercial();
+			
+			boolean usuarioPodeAcessar = usuarioConfere 
+								&& !usuarioEstaBloqueado 
+								&& !ehFinalDeSemana 
+								&& ehHorarioComercial; 
+			
+			if (usuarioPodeAcessar){
 				log(getNomeEntidade()+ " autenticado com sucesso");
+			} else if (!usuarioConfere) {
+				log(getNomeEntidade()+ " informado com senha inválida...");
+				usuarioRecuperadoDoBD.setContadorSenhaInvalida(usuarioRecuperadoDoBD.getContadorSenhaInvalida()+1);
+				boolean avisaUsuarioBloqueioNoProximoErro = (3 - usuarioRecuperadoDoBD.getContadorSenhaInvalida()) == 1;
+				trataSenhaInvalidaDoUsuario(usuarioRecuperadoDoBD);
+				
+				if (avisaUsuarioBloqueioNoProximoErro) {
+					throw new ErroNegocio(EnumUsuarioAutenticado.SENHA_INVALIDA_ULTIMA_TENTATIVA.getMensagem());
+				} else {
+					throw new ErroNegocio(EnumUsuarioAutenticado.SENHA_INVALIDA.getMensagem());
+				}
+			} else if(usuarioEstaBloqueado) {
+				throw new ErroNegocio(EnumUsuarioAutenticado.USUARIO_BLOQUEADO.getMensagem() );
+			} else if (ehFinalDeSemana) {
+				throw new ErroNegocio(EnumUsuarioAutenticado.USUARIO_BLOQUEADO.getMensagem() );
 			}
+		} else {
+			log(EnumUsuarioAutenticado.USUARIO_INEXISTENTE.getMensagem());
+			throw new ErroNegocio(EnumUsuarioAutenticado.USUARIO_INEXISTENTE.getMensagem());
 		}
-		return uAuth;
+		return usuarioRecuperadoDoBD;
 	}
 
-	
-	
 	public List<Usuario> listarUsuarios(){
 		log("Listando "+getNomeEntidade()+"s");
 		List<Usuario> usuarios = new ArrayList<Usuario>();
@@ -85,15 +107,18 @@ public class BOUsuario extends Classe
 	}
 
 	@Override
-	public Object inserir(Usuario usuario) {
+	public Usuario inserir(Usuario usuario) throws SysErr, ErroNegocio {
 		log("Inserindo "+getNomeEntidade());
-		if(getFinder().findByIP(usuario.getIp()) != null){
-			return new ErroNegocio("Usuário já existente!");
+		boolean usuarioJaExiste = getFinder().findByLogin(usuario.getLogin()) != null;
+		if(usuarioJaExiste){
+			throw new ErroNegocio(EnumUsuarioCadastrado.USUARIO_DUPLICADO.getMensagem());
 		} else {
 			Usuario uCadastrado = getDAO().inserir(usuario);
-			if (uCadastrado == null){
-				return EnumUsuarioCadastrado.ERRO_AO_CRIAR_USUARIO;
+			boolean ocorreuAlgumErro = uCadastrado == null;
+			if (ocorreuAlgumErro){
+				throw new ErroNegocio(EnumUsuarioCadastrado.ERRO_AO_CRIAR_USUARIO.getMensagem());
 			} else {
+				Sessoes.addSessao(uCadastrado);
 				return uCadastrado;
 			}
 		}
@@ -120,12 +145,12 @@ public class BOUsuario extends Classe
 		return usuario;
 	}
 	
-	public Usuario pesquisarPorIP(String ip){
-		return getFinder().findByIP(ip);
+	public Usuario pesquisarPorLogin(String login){
+		return getFinder().findByLogin(login);
 	}
 	
-	public List<Usuario> pesquisarPorIPComo(String ip) {
-		List<Usuario> usuarios = getFinder().findByIPLike(ip);
+	public List<Usuario> pesquisarPorLoginComo(String login) {
+		List<Usuario> usuarios = getFinder().findByLoginComo(login);
 		
 		for (Usuario usuario : usuarios) {
 			System.out.println(usuario);
@@ -134,32 +159,62 @@ public class BOUsuario extends Classe
 		
 		return usuarios;
 	}
+	
+	public Boolean usuarioEstaLogado(String login, String senha)  {
+		Object o = null;
+		try{
+			o = autentica(login, senha);
+		} catch (ErroNegocio e){
+			if (e.getErro().equals(EnumUsuarioAutenticado.USUARIO_INEXISTENTE.getMensagem())) {
+				return false;
+			}
+		}
+		Usuario u = null;
+		if (existe(o) && o instanceof Usuario) {
+			u = (Usuario) o;
+		}
+		boolean usuarioEstaLogado = false;
+		if (existe(u)) {
+			usuarioEstaLogado = Sessoes.usuarioLogado(u.getLogin());
+		}
+		return usuarioEstaLogado;
+	}
+
+	public void deslogar(String login) {
+		Sessoes.expirarSessao(login);
+	}
+	
+	private void trataSenhaInvalidaDoUsuario(Usuario usuarioRecuperadoDoBD) {
+		int numeroDeChancesRestantes = 3 - usuarioRecuperadoDoBD.getContadorSenhaInvalida();
+		boolean deveBloquearUsuario = numeroDeChancesRestantes == 0;
+		if (deveBloquearUsuario) {
+			usuarioRecuperadoDoBD.setStatus(EnumUsuarioAutenticado.USUARIO_BLOQUEADO);				
+		}
+		getDAO().atualizar(usuarioRecuperadoDoBD);
+	}
+	
 	private String getNomeEntidade(){
 		return CLASSE_NOME.substring(2);
 	}
 	
 	private DAOUsuario getDAO(){
-		if (this.dao == null) {
+		if (naoExiste(this.dao)) {
 			this.dao = DAOUsuario.getInstancia();
 		}
 		return dao;
 	}
 	
 	private FinderUsuario getFinder(){
-		if (this.finder == null) {
+		if (naoExiste(this.finder)) {
 			this.finder = FinderUsuario.getInstancia();
 		}
 		return finder;
 	}
 	
-
 	public static BOUsuario getInstancia() {
-		if(instancia == null){
+		if(naoExiste(instancia)){
 			instancia = new BOUsuario();
 		}
 		return instancia;
 	}
-
-
-	
 }

@@ -1,22 +1,18 @@
 package com.gerenciadorfinanceiro.rest;
 
-import java.util.List;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.gerenciadorfinanceiro.orm.model.usuario.Usuario;
 import com.gerenciadorfinanceiro.servico.ServicoUsuario;
 
-@Path("/usuario/lista")
-public class UsuarioLista {
-
+@Path("/usuario/login/{login}/{senha}")
+public class UsuarioLogin {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Usuario> listarUsuarios(){
-		return ServicoUsuario.getInstancia().listarUsuarios();
+	public Object logar(@PathParam("login") String login, @PathParam("senha") String senha){
+		return ServicoUsuario.getInstancia().logar(login, senha);
 	}
-	
 }

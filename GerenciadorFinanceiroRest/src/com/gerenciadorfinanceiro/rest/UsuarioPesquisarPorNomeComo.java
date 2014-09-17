@@ -9,13 +9,13 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.gerenciadorfinanceiro.orm.model.usuario.Usuario;
-import com.gerenciadorfinanceiro.servico.Servico;
+import com.gerenciadorfinanceiro.servico.ServicoUsuario;
 
-@Path("/usuario/pesquisarPorIPComo/{ip}")
-public class UsuarioPesquisarPorIPComo {
+@Path("/usuario/pesquisarPorIPComo/{login}")
+public class UsuarioPesquisarPorNomeComo {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Usuario> pesquisarUsuarioPorIP(@PathParam("ip") String ip){
-		return Servico.getInstancia().pesquisarUsuariosPorIPComo(ip);
+	public List<Usuario> pesquisarUsuarioPorIP(@PathParam("login") String login){
+		return ServicoUsuario.getInstancia().pesquisarUsuariosPorLoginComo(login);
 	}
 }
