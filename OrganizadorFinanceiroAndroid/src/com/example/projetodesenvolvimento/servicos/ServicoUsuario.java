@@ -3,6 +3,7 @@
  */
 package com.example.projetodesenvolvimento.servicos;
 
+import com.example.projetodesenvolvimento.excecoes.Erro;
 import com.example.projetodesenvolvimento.excecoes.ErroNegocio;
 import com.example.projetodesenvolvimento.excecoes.SysErr;
 import com.example.projetodesenvolvimento.orm.modelos.Usuario;
@@ -17,8 +18,14 @@ import com.example.projetodesenvolvimento.ws.implementacoes.UsuarioWS;
 public class ServicoUsuario {
 
 	public static void logar(String login, String senha) throws ErroNegocio, SysErr{
-		//Usuario usuario = new UsuarioWS().login(login, senha);
-		Usuario usuario = new Usuario(login, senha, 0);
+		Usuario usuario = null;
+		try {
+			usuario = new UsuarioWS().login(login, senha);
+		} catch (Erro e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+//		Usuario usuario = new Usuario(login, senha, 0);
 		Sessao.addParametro(Constantes.USUARIO, usuario);
 	}
 

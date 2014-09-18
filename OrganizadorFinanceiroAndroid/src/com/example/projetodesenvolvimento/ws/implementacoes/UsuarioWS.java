@@ -5,6 +5,8 @@ package com.example.projetodesenvolvimento.ws.implementacoes;
 
 import org.json.JSONObject;
 
+import com.example.projetodesenvolvimento.excecoes.Erro;
+import com.example.projetodesenvolvimento.excecoes.ErroNegocio;
 import com.example.projetodesenvolvimento.excecoes.SysErr;
 import com.example.projetodesenvolvimento.orm.modelos.Usuario;
 import com.example.projetodesenvolvimento.ws.WSAcoes;
@@ -15,10 +17,18 @@ import com.example.projetodesenvolvimento.ws.WSAcoes;
  */
 public class UsuarioWS extends WSAcoes {
 
-	public Usuario login(String login, String senha) throws SysErr{
-		JSONObject objetoJson = getUsuario(login, senha);
+	public Usuario login(String login, String senha) throws Erro{
+		String acao = "login";
+		Usuario usuario = null;
+		try{
+			JSONObject objetoJson = getJSONObject(acao, login, senha);
+			usuario = new Usuario();
+			preencheVo(usuario, objetoJson);
+			
+		}catch (Erro e){
+			throw e;
+		}
 		
-		Usuario usuario = new Usuario();
 		return usuario;
 	}
 
@@ -40,6 +50,12 @@ public class UsuarioWS extends WSAcoes {
 	public void excluir(Usuario usuario) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	private void preencheVo(Usuario u, JSONObject o){
+		if (existe(o) && existe(u)) {
+			
+		}
 	}
 	
 }

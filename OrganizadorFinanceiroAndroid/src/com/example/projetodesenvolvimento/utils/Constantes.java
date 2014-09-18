@@ -31,6 +31,13 @@ public class Constantes {
 	public static final String MASK_CELULAR = "(##)#-####-####";
 	public static final String ESCUTADOR = "ESCUTADOR";
 	
-	public static final String DADOS_LOGIN_INVALIDOS = "O Login/ Senha informados são inválidos.";
+	public static final String DADOS_LOGIN_INVALIDOS = "O Login/ Senha informados sï¿½o invï¿½lidos.";
+
+	/**
+	 * Constates de Requisicao HTTP
+	 */
+	public static final String CONEXAO_PROTOCOLO = "http";
+	public static final String CONEXAO_LOCAL = "alexcaiom.com.br";
+	public static final String CONEXAO_CONTEXTO = "GerenciadorFinanceiro/rest";
 	
 }
