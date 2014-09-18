@@ -12,6 +12,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,7 +25,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.gerenciadorfinanceiro.abstratas.Classe;
 import com.gerenciadorfinanceiro.orm.model.EnumUsuarioAutenticado;
 import com.gerenciadorfinanceiro.orm.model.EnumUsuarioVisualizacao;
 import com.gerenciadorfinanceiro.orm.model.Movimentacao;
@@ -42,14 +42,14 @@ import com.gerenciadorfinanceiro.orm.model.Movimentacao;
 
 //Entidade
 //Tabela
-@XmlRootElement
+@XmlRootElement(name="usuario")
 @Entity
 @Table(name="tbl_usuario")
 @NamedQueries({
 	@NamedQuery(name="selecionarUsuarioPorId", query="select c from Usuario c where c.id = :id"),
 	@NamedQuery(name="selecionarPorLogin", query="select c from Usuario c where c.login = :login")
 })
-public class Usuario extends Classe implements Serializable {
+public class Usuario implements Serializable {
 	
 	private static final long serialVersionUID = -3548328139537131262L;
 	
@@ -74,37 +74,16 @@ public class Usuario extends Classe implements Serializable {
 	private Date dataNascimento;
 	@Column(nullable = false, name="SENHA")
 	private String senha = "";
-	@Column(name="visualizacao_endereco", nullable=true)
-	private EnumUsuarioVisualizacao visualizacaoEndereco ;
-	@Column(name="visualizacao_contato", nullable=true)
-	private EnumUsuarioVisualizacao visualizacaoContato ;
 	
-	@Column(name="visualizacao_social", nullable=true)
-	private EnumUsuarioVisualizacao visualizacaoSocial ;
-	
-	@OneToMany
-	private List<UsuarioSocial> social;
-	@OneToMany
-	private List<UsuarioContato> contato;
-	@OneToMany
-	private List<UsuarioEndereco> endereco;
-	
-	@Enumerated(EnumType.STRING)
-	private Role tipo;
-
 	private Integer contadorSenhaInvalida = 0;
 	
 	@Enumerated(EnumType.STRING)
 	@Column
 	private EnumUsuarioAutenticado status = null;
 	
-	@OneToMany
+	@OneToMany(fetch=FetchType.EAGER)
 	@JoinColumn(name="usuario_id", nullable=true)
 	private List<Movimentacao> movimentacoes;
-	
-	@OneToMany
-	@JoinColumn(name="usuario_id", nullable=true, unique=true)
-	private List<Usuario> amigos = new ArrayList<Usuario>(); 
 	
 	public Usuario() {}
 
@@ -200,108 +179,6 @@ public class Usuario extends Classe implements Serializable {
 		this.senha = senha;
 	}
 
-	/**
-	 * @return the visualizacaoEndereco
-	 */
-	public final EnumUsuarioVisualizacao getVisualizacaoEndereco() {
-		return visualizacaoEndereco;
-	}
-
-	/**
-	 * @param visualizacaoEndereco the visualizacaoEndereco to set
-	 */
-	public final void setVisualizacaoEndereco(EnumUsuarioVisualizacao visualizacaoEndereco) {
-		this.visualizacaoEndereco = visualizacaoEndereco;
-	}
-
-	/**
-	 * @return the visualizacaoContato
-	 */
-	public final EnumUsuarioVisualizacao getVisualizacaoContato() {
-		return visualizacaoContato;
-	}
-
-	/**
-	 * @param visualizacaoContato the visualizacaoContato to set
-	 */
-	public final void setVisualizacaoContato(EnumUsuarioVisualizacao visualizacaoContato) {
-		this.visualizacaoContato = visualizacaoContato;
-	}
-
-	/**
-	 * @return the visualizacaoSocial
-	 */
-	public final EnumUsuarioVisualizacao getVisualizacaoSocial() {
-		return visualizacaoSocial;
-	}
-
-	/**
-	 * @param visualizacaoSocial the visualizacaoSocial to set
-	 */
-	public final void setVisualizacaoSocial(EnumUsuarioVisualizacao visualizacaoSocial) {
-		this.visualizacaoSocial = visualizacaoSocial;
-	}
-
-	/**
-	 * @return the social
-	 */
-	public final List<UsuarioSocial> getSocial() {
-		return social;
-	}
-
-	/**
-	 * @param social the social to set
-	 */
-	public final void setSocial(List<UsuarioSocial> social) {
-		this.social = social;
-	}
-
-	/**
-	 * @return the contato
-	 */
-	public final List<UsuarioContato> getContato() {
-		return contato;
-	}
-
-	/**
-	 * @param contato the contato to set
-	 */
-	public final void setContato(List<UsuarioContato> contato) {
-		this.contato = contato;
-	}
-
-	/**
-	 * @return the endereco
-	 */
-	public final List<UsuarioEndereco> getEndereco() {
-		return endereco;
-	}
-
-	/**
-	 * @param endereco the endereco to set
-	 */
-	public final void setEndereco(List<UsuarioEndereco> endereco) {
-		this.endereco = endereco;
-	}
-
-	public Role getTipo() {
-		return tipo;
-	}
-
-
-
-	public void setTipo(Role tipo) {
-		this.tipo = tipo;
-	}
-
-	public boolean isAdmin() {
-		return Role.ADMINISTRADOR.equals(tipo);
-	}
-
-	public boolean isUser() {
-		return Role.CLIENTE.equals(tipo);
-	}
-
 	public Integer getContadorSenhaInvalida() {
 		return contadorSenhaInvalida;
 	}
@@ -329,7 +206,7 @@ public class Usuario extends Classe implements Serializable {
 	}
 
 	public List<Movimentacao> getMovimentacoes() {
-		if (naoExiste(movimentacoes)) {
+		if (movimentacoes == null) {
 			setMovimentacoes(new ArrayList<Movimentacao>());
 		}
 		return movimentacoes;
@@ -338,23 +215,6 @@ public class Usuario extends Classe implements Serializable {
 	public void setMovimentacoes(List<Movimentacao> movimentacoes) {
 		this.movimentacoes = movimentacoes;
 	}
-
-	/**
-	 * @return the amigos
-	 */
-	public final List<Usuario> getAmigos() {
-		return amigos;
-	}
-
-
-
-	/**
-	 * @param amigos the amigos to set
-	 */
-	public final void setAmigos(List<Usuario> amigos) {
-		this.amigos = amigos;
-	}
-
 
 
 	/* (non-Javadoc)

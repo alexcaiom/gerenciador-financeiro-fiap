@@ -3,6 +3,8 @@
  */
 package com.gerenciadorfinanceiro.utils;
 
+import javax.ws.rs.core.MediaType;
+
 /**
  * @author Alex
  *
@@ -30,5 +32,9 @@ public class Constantes {
 	public static final String getMensagemFalha(Class qualVO, String operacao){
 		return MENSAGEM_SUCESSO.replace("{operacao}", operacao).replace("{item}", qualVO.getSimpleName());
 	}
+	
+	
+	public static final String  CODIFICACAO  = "utf-8";
+	public static final String  REST_PRODUCES  = MediaType.APPLICATION_JSON;//+";charset="+CODIFICACAO;
 
 }

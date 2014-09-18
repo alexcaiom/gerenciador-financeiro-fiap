@@ -3,6 +3,7 @@
  */
 package com.gerenciadorfinanceiro.orm.bo;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +24,7 @@ public class BOMovimentacao extends Classe  {
 
 	private static BOMovimentacao instancia;
 	private DAOMovimentacao dao;
+	private FinderMovimentacao finder;
 	
 	private BOMovimentacao(){}
 	
@@ -36,9 +38,10 @@ public class BOMovimentacao extends Classe  {
 	}
 	
 	public Movimentacao inserir(Movimentacao movimentacao, String login) throws SysErr {
+		
 		Usuario usuario = BOUsuario.getInstancia().pesquisarPorLogin(login);
 		if (existe(usuario)) {
-			movimentacao.setUsuario(usuario);
+			movimentacao = getDao().inserir(movimentacao);
 			usuario.addMovimentacao(movimentacao);
 			BOUsuario.getInstancia().alterar(usuario);
 			return movimentacao;
@@ -72,6 +75,39 @@ public class BOMovimentacao extends Classe  {
 	public void excluir(Movimentacao o) throws SysErr {
 		getDao().excluir(o);
 	}
+	
+	public Movimentacao pesquisarMovimentacaoPorCodigo(Long codigo){
+		Movimentacao movimentacao = getDao().findReferenceOnly(codigo);
+		return movimentacao;
+	}
+	
+	/**
+	 * 
+	 * @param valorDe
+	 * @param valorAte
+	 * @return
+	 */
+	public List<Movimentacao> pesquisarPorFaixaDePreco(String valorDe, String valorAte) {
+		return getFinder().pesquisarPorFaixaDePreco(new BigDecimal(valorDe), new BigDecimal(valorAte));
+	}
+	
+	
+	public List<Movimentacao> pesquisarPorPeriodo(String dataDe, String dataAte) {
+		return getFinder().pesquisarPorFaixaDePreco(new BigDecimal(dataDe), new BigDecimal(dataAte));
+	}
+	
+	public List<Movimentacao> pesquisar(Movimentacao movimentacao){
+		return getFinder().find(movimentacao);
+	}
+	
+	public List<Movimentacao> pesquisarPorUsuario(String login){
+		Usuario usuario = BOUsuario.getInstancia().pesquisarPorLogin(login);
+		return usuario.getMovimentacoes();
+	}
+	
+	public List<Movimentacao> listar(){
+		return getFinder().listar(); 
+	}
 
 	/**
 	 * @return the dao
@@ -88,6 +124,17 @@ public class BOMovimentacao extends Classe  {
 	 */
 	public final void setDao(DAOMovimentacao dao) {
 		this.dao = dao;
+	}
+
+	public FinderMovimentacao getFinder() {
+		if (naoExiste(this.finder)) {
+			setFinder(FinderMovimentacao.getInstancia());
+		}
+		return finder;
+	}
+
+	public void setFinder(FinderMovimentacao finder) {
+		this.finder = finder;
 	}
 
 	public static BOMovimentacao getInstancia() {

@@ -75,7 +75,9 @@ public class BOUsuario extends Classe
 			} else if(usuarioEstaBloqueado) {
 				throw new ErroNegocio(EnumUsuarioAutenticado.USUARIO_BLOQUEADO.getMensagem() );
 			} else if (ehFinalDeSemana) {
-				throw new ErroNegocio(EnumUsuarioAutenticado.USUARIO_BLOQUEADO.getMensagem() );
+				throw new ErroNegocio(EnumUsuarioAutenticado.FINAL_DE_SEMANA.getMensagem() );
+			} else if (!ehHorarioComercial) {
+				throw new ErroNegocio(EnumUsuarioAutenticado.FORA_DO_HORARIO_COMERCIAL.getMensagem() );
 			}
 		} else {
 			log(EnumUsuarioAutenticado.USUARIO_INEXISTENTE.getMensagem());

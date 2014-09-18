@@ -19,6 +19,10 @@ public abstract class Classe {
 	 */
 	public static boolean naoExiste(Object o){
 		boolean naoExiste = o==null;
+		if (o instanceof String) {
+			String texto = (String) o;
+			naoExiste = texto.equals("null");
+		}
 		return naoExiste;
 	}
 	

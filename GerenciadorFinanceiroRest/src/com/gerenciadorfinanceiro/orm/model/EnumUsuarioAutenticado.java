@@ -38,4 +38,13 @@ public enum EnumUsuarioAutenticado {
 	public final String getMensagem() {
 		return mensagem;
 	}	
+	
+	public static EnumUsuarioAutenticado get(int cod){
+		for (EnumUsuarioAutenticado status : EnumUsuarioAutenticado.values()) {
+			if (status.getCod() == cod) {
+				return status;
+			}
+		}
+		return null;
+	}
 }

@@ -18,6 +18,9 @@ public class ErroVO implements Serializable {
 	public String mensagem;
 	
 	public ErroVO() {}
+	public ErroVO(Erro e){
+		this.erro = e.getErro();
+	}
 	
 	public void setErro(String erro) {
 		this.erro = erro;

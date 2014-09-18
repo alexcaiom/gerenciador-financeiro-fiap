@@ -27,7 +27,6 @@ public class TesteMovimentacao {
 		Usuario usuario =  BOUsuario.getInstancia().pesquisarPorLogin(login);
 		
 		assertNotNull(usuario);
-		m.setUsuario(usuario);
 		usuario.addMovimentacao(m);
 		BOUsuario.getInstancia().alterar(usuario);
 		assertNotNull(m);

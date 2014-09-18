@@ -26,14 +26,7 @@ public class ServicoUsuario extends Classe {
 			}
 			return o;
 		} catch (Erro e) {
-			ErroVO vo = new ErroVO();
-			try {
-				BeanUtils.copyProperties(vo, e);
-			} catch (IllegalAccessException e1) {
-				e1.printStackTrace();
-			} catch (InvocationTargetException e1) {
-				e1.printStackTrace();
-			}
+			ErroVO vo = new ErroVO(e);
 			return vo;
 		}
 	}
@@ -58,12 +51,18 @@ public class ServicoUsuario extends Classe {
 		return getUsuarioBO().inserir(o);
 	}
 	
-	public Object alterarUsuario(Usuario o){
+	public Object atualizar(String login, Usuario o){
+		String resposta = "";
 		try {
-			getUsuarioBO().alterar(o);
-			return new Boolean(true);
+			if (verificaLogin(login)) {
+				getUsuarioBO().alterar(o);
+				resposta = "Movimentação alterada com sucesso!";
+			} else {
+				resposta = "Sessão expirada! Logue-se novamente.";
+			}
+			return resposta;
 		} catch (SysErr e) {
-			return e;
+			return new ErroVO(e);
 		}
 	}
 
@@ -84,7 +83,6 @@ public class ServicoUsuario extends Classe {
 			}
 			return vo;
 		}
-		
 		return usuario;
 	}
 
@@ -105,7 +103,7 @@ public class ServicoUsuario extends Classe {
 			return vo.erro;
 		}
 	}
-
+	
 	public void deslogar(String login) {
 		getUsuarioBO().deslogar(login);
 	}
@@ -115,10 +113,16 @@ public class ServicoUsuario extends Classe {
 		return BOUsuario.getInstancia();
 	}
 	
+
+	private boolean verificaLogin(String login){
+		return Sessoes.temSessao(login);
+	}
+	
 	public static ServicoUsuario getInstancia() {
 		if (instancia == null) {
 			instancia = new ServicoUsuario();
 		}
 		return instancia;
 	}
+
 }
