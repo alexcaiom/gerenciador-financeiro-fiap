@@ -5,6 +5,7 @@ package com.example.projetodesenvolvimento.abstratas;
 
 import com.example.projetodesenvolvimento.LoginActivity;
 import com.example.projetodesenvolvimento.MainActivity;
+import com.example.projetodesenvolvimento.R;
 import com.example.projetodesenvolvimento.interfaces.ClasseActivityInterface;
 import com.example.projetodesenvolvimento.utils.Sessao;
 
@@ -12,6 +13,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 /**
@@ -64,11 +66,15 @@ public abstract class ClasseActivity extends Activity implements ClasseActivityI
 	
 	private void verificaSessao() {
 		if (!Sessao.usuarioLogado()) {
-			if (!this.getClass().getSimpleName().equalsIgnoreCase(LoginActivity.class.getSimpleName()) /*&& 
-					!this.getClass().getSimpleName().equalsIgnoreCase(CadastroUsuarioActivity.class.getSimpleName())*/) {
+			/*if (!this.getClass().getSimpleName().equalsIgnoreCase(LoginActivity.class.getSimpleName()) && 
+					!this.getClass().getSimpleName().equalsIgnoreCase(CadastroUsuarioActivity.class.getSimpleName())) {
 				irPara(LoginActivity.class);
-			}
+			}*/
 		}
+	}
+	
+	public void exibirMensagemDeProcessamento(){
+		
 	}
 	
 	protected void log(Object textoParaLog) {

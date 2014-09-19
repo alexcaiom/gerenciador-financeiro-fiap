@@ -1,0 +1,44 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SplashActivity" >
+
+    <LinearLayout
+        android:id="@+id/splash.layout.instrucoes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@color/blue"
+        android:orientation="horizontal" >
+
+        <Gallery
+            android:id="@+id/splash.imagens"
+            android:layout_width="0dip"
+            android:layout_height="415dp"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/splash.layout.acoes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/lightgray" >
+
+        <Button
+            android:id="@+id/btnIrParaTelaCadastro"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Cadastrar" />
+
+        <Button
+            android:id="@+id/btnIrParaTelaLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Login" />
+
+    </LinearLayout>
+
+</RelativeLayout>

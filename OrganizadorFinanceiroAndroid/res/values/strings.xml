@@ -1,8 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="hello">Hello World, SimpleCalendar!</string>
     <string name="app_name">Registro de Finanças</string>
     <string name="action_settings">Configurações</string>
     <string name="title_activity_calendario">Calendário</string>
     <string name="title_activity_login">Login</string>
+    <string name="title_activity_splash">SplashActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_cadastro">Cadastro</string>
+    <string name="title_activity_cadastro_usuario">Cadastre-se</string>
+
+    <!-- Labels de Cadastro de Movimentos -->
+    <string name="label_descricao">Descrição</string>
+    <string name="label_data">Data</string>
+    <string name="label_valor">Valor</string>
+    <string name="label_tipo">Tipo</string>
+
+    <!-- Labels Tipo de Movimento -->
+    <string name="tipo_movimento_gasto">Gasto</string>
+    <string name="tipo_movimento_ganho">Ganho</string>
+    
+    <!-- Labels Cadastro de Usuario -->
+    <string name="label_nome">Nome</string>
+    <string name="label_login">Usuário</string>
+    <string name="label_senha">Senha</string>
+    <string name="label_confirma_senha">Confirme a senha</string>
+    <string name="label_email">E-mail</string>
+    <string name="label_cadastrar">Cadastrar</string>
+    
+    <string name="label_processando">Processando</string>
+
 </resources>

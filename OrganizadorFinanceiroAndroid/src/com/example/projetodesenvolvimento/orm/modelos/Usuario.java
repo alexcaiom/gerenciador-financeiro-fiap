@@ -34,20 +34,23 @@ public class Usuario extends Pessoa {
 	public String getLogin() {
 		return login;
 	}
-	public void setLogin(String login) {
+	public Usuario comLogin(String login) {
 		this.login = login;
+		return this;
 	}
 	public String getSenha() {
 		return senha;
 	}
-	public void setSenha(String senha) {
+	public Usuario comSenha(String senha) {
 		this.senha = senha;
+		return this;
 	}
 	public int getBloqueado() {
 		return bloqueado;
 	}
-	public void setBloqueado(int bloqueado) {
+	public Usuario estaBloqueado(int bloqueado) {
 		this.bloqueado = bloqueado;
+		return this;
 	}
 	
 }

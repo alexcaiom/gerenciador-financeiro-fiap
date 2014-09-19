@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
+            android:name="com.example.projetodesenvolvimento.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,16 +23,33 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Calendario"
+            android:name="com.example.projetodesenvolvimento.Calendario"
             android:label="@string/title_activity_calendario" >
         </activity>
         <activity
-            android:name=".MyCalendarActivity"
+            android:name="com.example.projetodesenvolvimento.MyCalendarActivity"
             android:label="@string/title_activity_calendario" >
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name="com.example.projetodesenvolvimento.LoginActivity"
             android:label="@string/title_activity_login" >
+        </activity>
+        <activity
+            android:name="com.example.projetodesenvolvimento.SplashActivity"
+            android:label="@string/title_activity_splash" >
+        </activity>
+        <activity
+            android:name="com.example.projetodesenvolvimento.CadastroMovimentoActivity"
+            android:label="@string/title_activity_cadastro" >
+        </activity>
+        <activity
+            android:name="com.example.projetodesenvolvimento.CadastroUsuarioActivity"
+            android:label="@string/title_activity_cadastro_usuario" >
+        </activity>
+        <activity
+            android:name="com.example.projetodesenvolvimento.LoginUsuarioActivity"
+            android:label="@string/title_activity_login_usuario"
+            android:windowSoftInputMode="adjustResize|stateVisible" >
         </activity>
     </application>
 

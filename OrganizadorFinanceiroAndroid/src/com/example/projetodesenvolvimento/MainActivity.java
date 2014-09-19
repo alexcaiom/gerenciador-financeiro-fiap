@@ -52,7 +52,7 @@ public class MainActivity extends ClasseActivity {
 		btnAvancar.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intencao = new Intent(getApplicationContext(), MyCalendarActivity.class);
+				Intent intencao = new Intent(getApplicationContext(), SplashActivity.class);
 				startActivity(intencao);
 			}
 		});

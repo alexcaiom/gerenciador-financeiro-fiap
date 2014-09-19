@@ -5,9 +5,9 @@ package com.example.projetodesenvolvimento.ws.implementacoes;
 
 import org.json.JSONObject;
 
+import android.content.Context;
+
 import com.example.projetodesenvolvimento.excecoes.Erro;
-import com.example.projetodesenvolvimento.excecoes.ErroNegocio;
-import com.example.projetodesenvolvimento.excecoes.SysErr;
 import com.example.projetodesenvolvimento.orm.modelos.Usuario;
 import com.example.projetodesenvolvimento.ws.WSAcoes;
 
@@ -16,6 +16,9 @@ import com.example.projetodesenvolvimento.ws.WSAcoes;
  *
  */
 public class UsuarioWS extends WSAcoes {
+	
+	private static UsuarioWS instancia;
+	private Context contexto;
 
 	public Usuario login(String login, String senha) throws Erro{
 		String acao = "login";
@@ -56,6 +59,22 @@ public class UsuarioWS extends WSAcoes {
 		if (existe(o) && existe(u)) {
 			
 		}
+	}
+	
+	public Context getContexto() {
+		return contexto;
+	}
+
+	public void setContexto(Context contexto) {
+		this.contexto = contexto;
+	}
+
+	public static UsuarioWS getInstancia(Context contexto){
+		if (naoExiste(instancia)) {
+			instancia = new UsuarioWS();
+			instancia.setContexto(contexto);
+		}
+		return instancia;
 	}
 	
 }
