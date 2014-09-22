@@ -1,12 +1,11 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CadastroMovimentoActivity"
-    android:orientation="vertical"
      >
 
-    <LinearLayout 
+    <TableRow 
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -24,8 +23,8 @@
             android:inputType="text"
             android:singleLine="true"
             />
-    </LinearLayout>
-    <LinearLayout 
+    </TableRow>
+    <TableRow 
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -51,8 +50,8 @@
             android:layout_height="wrap_content"
             android:text="@string/tipo_movimento_ganho" />
     </RadioGroup>
-    </LinearLayout>
-    <LinearLayout 
+    </TableRow>
+    <TableRow 
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -70,6 +69,16 @@
             android:inputType="numberDecimal|"
             android:singleLine="true"
             />
-    </LinearLayout>
-
-</LinearLayout>
+    </TableRow>
+	<TableRow 
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    	<Button 
+    	    android:id="@+id/usuario.btnCadastrar"
+    	    android:layout_width="wrap_content"
+    	    android:layout_height="wrap_content"
+    	    android:text="@string/label_cadastrar"
+    	    />    
+	</TableRow>
+</TableLayout>

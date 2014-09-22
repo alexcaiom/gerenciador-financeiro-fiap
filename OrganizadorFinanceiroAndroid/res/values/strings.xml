@@ -10,6 +10,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_cadastro">Cadastro</string>
     <string name="title_activity_cadastro_usuario">Cadastre-se</string>
+    <string name="title_activity_menu">MenuActivity</string>
 
     <!-- Labels de Cadastro de Movimentos -->
     <string name="label_descricao">Descrição</string>
@@ -20,7 +21,7 @@
     <!-- Labels Tipo de Movimento -->
     <string name="tipo_movimento_gasto">Gasto</string>
     <string name="tipo_movimento_ganho">Ganho</string>
-    
+
     <!-- Labels Cadastro de Usuario -->
     <string name="label_nome">Nome</string>
     <string name="label_login">Usuário</string>
@@ -28,7 +29,16 @@
     <string name="label_confirma_senha">Confirme a senha</string>
     <string name="label_email">E-mail</string>
     <string name="label_cadastrar">Cadastrar</string>
-    
     <string name="label_processando">Processando</string>
+
+    <!-- Labels Menu de Grade -->
+    <string name="label_calendario">Calendário</string>
+    <string name="label_backup">Backup</string>
+    <string name="label_graficos">Gráficos</string>
+    <string name="label_categorias">Categorias</string>
+    <string name="label_financas">Finanças</string>
+    <string name="label_excluir_dados">Excluir Dados</string>
+    <string name="label_informacoes">Informações</string>
+    <string name="title_activity_financas">FinancasActivity</string>
 
 </resources>

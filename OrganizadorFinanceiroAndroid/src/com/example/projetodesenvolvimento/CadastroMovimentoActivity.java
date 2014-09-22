@@ -3,7 +3,6 @@ package com.example.projetodesenvolvimento;
 import com.example.projetodesenvolvimento.abstratas.ClasseActivity;
 
 import android.os.Bundle;
-import android.app.Activity;
 import android.view.Menu;
 
 public class CadastroMovimentoActivity extends ClasseActivity {
@@ -13,7 +12,7 @@ public class CadastroMovimentoActivity extends ClasseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_cadastro);
+		setContentView(R.layout.activity_cadastro_movimento);
 		/**Verificamos se realizaremos uma alteracao de movimento
 		 * ou se apenas cadastraremos um novo
 		 */

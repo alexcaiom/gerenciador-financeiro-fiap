@@ -7,16 +7,17 @@
     <LinearLayout
         android:id="@+id/splash.layout.instrucoes"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="false"
+        android:layout_centerInParent="true"
         android:background="@color/blue"
         android:orientation="horizontal" >
 
         <Gallery
             android:id="@+id/splash.imagens"
             android:layout_width="0dip"
-            android:layout_height="415dp"
-            android:layout_weight="1" />
+            android:layout_height="match_parent"
+            android:layout_weight=".5" />
 
     </LinearLayout>
 

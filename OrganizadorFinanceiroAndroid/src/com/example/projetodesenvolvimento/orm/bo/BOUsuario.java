@@ -15,7 +15,7 @@ import com.example.projetodesenvolvimento.excecoes.SysErr;
 import com.example.projetodesenvolvimento.interfaces.IUsuarioBO;
 import com.example.projetodesenvolvimento.orm.dao.finder.FinderUsuario;
 import com.example.projetodesenvolvimento.orm.modelos.Usuario;
-import com.example.projetodesenvolvimento.servicos.ServicoUsuario;
+import com.example.projetodesenvolvimento.servicos.remotos.ServicoUsuarioRemoto;
 
 /**
  * @author Alex
@@ -40,7 +40,7 @@ public class BOUsuario extends Classe implements IUsuarioBO {
 	 */
 	public void autentica(String login, String senha) throws ErroNegocio, SysErr {
 		log("Autenticando "+getNomeEntidade());
-		ServicoUsuario.logar(login, senha);
+		ServicoUsuarioRemoto.logar(login, senha);
 	}
 
 	public static BOUsuario getInstancia(Context contexto) {
@@ -53,7 +53,7 @@ public class BOUsuario extends Classe implements IUsuarioBO {
 	@Override
 	public void inserir(Usuario usuario) throws ErroNegocio, SysErr {
 		Log.i(CLASSE_NOME, "Inserindo "+getNomeEntidade());
-		ServicoUsuario.cadastrar(usuario);
+		ServicoUsuarioRemoto.cadastrar(usuario);
 	}
 
 	@Override

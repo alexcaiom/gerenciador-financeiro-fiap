@@ -61,7 +61,7 @@ public class SplashActivity extends ClasseActivity {
 		btnCadastrar.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				irPara(CadastroMovimentoActivity.class);
+				irPara(CadastroUsuarioActivity.class);
 			}
 		});
 		btnLogin.setOnClickListener(new OnClickListener() {
