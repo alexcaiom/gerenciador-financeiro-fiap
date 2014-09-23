@@ -61,6 +61,13 @@
 	        android:inputType="textPassword"
 	        android:singleLine="true"
 	        />
+        <TextView 
+            android:id="@+id/lblLoginInvalido"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/label_loginSenhaInvalidos"
+            android:visibility="gone"
+            />
         
         <Button
 	        android:id="@+id/btnLogin"

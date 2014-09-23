@@ -4,17 +4,15 @@
 package com.example.projetodesenvolvimento;
 
 import android.os.Bundle;
-import android.text.method.KeyListener;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.example.projetodesenvolvimento.abstratas.ClasseActivity;
-import com.example.projetodesenvolvimento.excecoes.Erro;
 import com.example.projetodesenvolvimento.excecoes.ErroNegocio;
 import com.example.projetodesenvolvimento.excecoes.SysErr;
 import com.example.projetodesenvolvimento.interfaces.ClasseActivityInterface;
@@ -31,6 +29,7 @@ public class LoginActivity extends ClasseActivity  implements ClasseActivityInte
 	private static final Class DESTINO = MenuActivity.class;
 	Button btnLogin;
 	EditText txtUsuario,  txtSenha;
+	TextView lblDadosInvalidos;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +42,7 @@ public class LoginActivity extends ClasseActivity  implements ClasseActivityInte
 		btnLogin = (Button) findViewById(R.id.btnLogin);
 		txtUsuario = (EditText) findViewById(R.id.txtLogin);
 		txtSenha = (EditText) findViewById(R.id.txtSenha);
+		lblDadosInvalidos = (TextView) findViewById(R.id.lblLoginInvalido);
 		carregarEventos();
 	}
 	
@@ -59,7 +59,8 @@ public class LoginActivity extends ClasseActivity  implements ClasseActivityInte
 			public boolean onKey(View v, int keyCode, KeyEvent event) {
 				if (keyCode == KeyEvent.KEYCODE_ENTER) {
 					logar();
-					avisar("keyCode:"+keyCode+"/enter:"+KeyEvent.KEYCODE_ENTER, Toast.LENGTH_SHORT);
+				} else {
+					lblDadosInvalidos.setVisibility(View.GONE);
 				}
 				return false;
 			}
@@ -81,6 +82,7 @@ public class LoginActivity extends ClasseActivity  implements ClasseActivityInte
 			if (e.getMessage().equals(Constantes.DADOS_LOGIN_INVALIDOS)) {
 				avisar(Constantes.DADOS_LOGIN_INVALIDOS);
 				txtSenha.requestFocus();
+				lblDadosInvalidos.setVisibility(View.VISIBLE);
 			}
 		} catch (SysErr e) {
 			Dialogos.Alerta.exibirMensagemErro(e, LoginActivity.this, null);

@@ -4,5 +4,6 @@
     <string name="Login">Login</string>
     <string name="Senha">Senha</string>
     <string name="signin">Entrar</string>
+    <string name="label_loginSenhaInvalidos">Login/Senha informados são inválidos!</string>
     
 </resources>

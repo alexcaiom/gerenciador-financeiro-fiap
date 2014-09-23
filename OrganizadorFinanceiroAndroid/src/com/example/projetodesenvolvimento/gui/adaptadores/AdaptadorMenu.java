@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -52,6 +53,7 @@ public class AdaptadorMenu extends BaseAdapter {
 			
 			ImageView iv = (ImageView) v.findViewById(R.id.grid_item_image);
 			iv.setImageResource(vo.getIdImagem());
+			iv.getLayoutParams().width = LayoutParams.MATCH_PARENT;
 			TextView tv = (TextView) v.findViewById(R.id.grid_item_text);
 			tv.setText(contexto.getString(vo.getIdLabel()));
 			

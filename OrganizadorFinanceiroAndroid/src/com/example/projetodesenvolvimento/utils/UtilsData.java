@@ -11,6 +11,13 @@ public class UtilsData extends Classe{
 
 	private static final String DATA_EXTENSO_MES = "MMMM";
 	private static String formatoBR = "d' de 'MMMM' de 'yyyy";
+	public static final String[] diasDaSemana = new String[] { "Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab" };
+	public static final String[] meses = { "Janeiro", "Fevereiro", "Março",
+			"Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro",
+			"Outubro", "Novembro", "Dezembro" };
+	public static final String[] months = { "January", "February", "March",
+		"April", "May", "June", "July", "August", "September",
+		"October", "November", "December" };
 
 	/**
 	 * Metodo que detecta com base na Data atual do servidor o dia da semana
@@ -178,4 +185,19 @@ public class UtilsData extends Classe{
 		return formataData(calendarToDate(getDataAtual()), formatoBR);
 	}
 	
+	public static Integer getMesNumerico(String strMes){
+		
+		for (int i = 0; i < meses.length; i++) {
+			String mes = meses[i];
+			if (mes.equals(strMes)) {
+				return i;
+			}
+		}
+		
+		return null;
+	}
+	
+	public static String getMonth(int mes){
+		return months[mes];
+	}
 }
