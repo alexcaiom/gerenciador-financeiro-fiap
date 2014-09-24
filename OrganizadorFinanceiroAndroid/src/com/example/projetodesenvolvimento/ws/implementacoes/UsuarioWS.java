@@ -19,12 +19,13 @@ public class UsuarioWS extends WSAcoes {
 	
 	private static UsuarioWS instancia;
 	private Context contexto;
+	private final String entidade = "usuario";
 
 	public Usuario login(String login, String senha) throws Erro{
 		String acao = "login";
 		Usuario usuario = null;
 		try{
-			JSONObject objetoJson = getJSONObject(acao, login, senha);
+			JSONObject objetoJson = getJSONObject(acao, entidade, login, senha);
 			usuario = new Usuario();
 			preencheVo(usuario, objetoJson);
 			
@@ -40,9 +41,20 @@ public class UsuarioWS extends WSAcoes {
 		return null;
 	}
 
-	public void cadastrar(Usuario usuario) {
-		// TODO Auto-generated method stub
-		
+	public void cadastrar(Usuario usuario) throws Erro {
+		String acao = "cadastro";
+		try{
+			String nome = usuario.getNome();
+			String email = usuario.getEmail();
+			String login = usuario.getLogin();
+			String senha = usuario.getSenha();
+			JSONObject objetoJson = getJSONObject(acao, entidade, login, email, senha);
+			usuario = new Usuario();
+			preencheVo(usuario, objetoJson);
+			
+		}catch (Erro e){
+			throw e;
+		}
 	}
 
 	public void alterar(Usuario usuario) {

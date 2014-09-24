@@ -29,15 +29,15 @@ public class ServicoUsuarioLocal {
 		Sessao.addParametro(Constantes.USUARIO, usuario);
 	}
 
-	public static void cadastrar(Usuario usuario) throws ErroNegocio, SysErr {
+	public static void cadastrar(Usuario usuario) throws Erro {
 		new UsuarioWS().cadastrar(usuario);
 	}
 	
-	public static void alterar(Usuario usuario) throws ErroNegocio, SysErr {
+	public static void alterar(Usuario usuario) throws Erro {
 		new UsuarioWS().alterar(usuario);
 	}
 
-	public static void excluir(Usuario usuario) throws ErroNegocio, SysErr {
+	public static void excluir(Usuario usuario) throws Erro {
 		new UsuarioWS().excluir(usuario);
 	}
 	

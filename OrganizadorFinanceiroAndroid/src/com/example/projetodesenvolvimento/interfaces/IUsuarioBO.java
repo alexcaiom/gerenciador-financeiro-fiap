@@ -3,8 +3,7 @@
  */
 package com.example.projetodesenvolvimento.interfaces;
 
-import com.example.projetodesenvolvimento.excecoes.ErroNegocio;
-import com.example.projetodesenvolvimento.excecoes.SysErr;
+import com.example.projetodesenvolvimento.excecoes.Erro;
 import com.example.projetodesenvolvimento.orm.modelos.Usuario;
 
 
@@ -14,8 +13,8 @@ import com.example.projetodesenvolvimento.orm.modelos.Usuario;
  */
 public interface IUsuarioBO {
 
-	public void inserir(Usuario usuario) throws SysErr, ErroNegocio;
-	public void alterar(Usuario usuario) throws SysErr, ErroNegocio;
-	public void excluir(Usuario usuario) throws SysErr, ErroNegocio;
+	public void inserir(Usuario usuario) throws Erro;
+	public void alterar(Usuario usuario) throws Erro;
+	public void excluir(Usuario usuario) throws Erro;
 	
 }

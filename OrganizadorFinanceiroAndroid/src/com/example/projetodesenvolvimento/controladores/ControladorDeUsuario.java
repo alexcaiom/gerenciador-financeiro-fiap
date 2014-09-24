@@ -3,19 +3,25 @@ package com.example.projetodesenvolvimento.controladores;
 import android.content.Context;
 
 import com.example.projetodesenvolvimento.enums.EnumUsuarioAutenticado;
-import com.example.projetodesenvolvimento.excecoes.ErroNegocio;
+import com.example.projetodesenvolvimento.excecoes.Erro;
+import com.example.projetodesenvolvimento.facade.FacadeUsuario;
 import com.example.projetodesenvolvimento.orm.modelos.Usuario;
-import com.example.projetodesenvolvimento.ws.implementacoes.UsuarioWS;
 
 public class ControladorDeUsuario extends ControladorDeVO<Usuario>{
 	
 	private Context contexto;
 	private static ControladorDeUsuario instancia;
 	
-	public void cadastrar(String nome, String email, String login, String senha, String confirmacaoSenha) throws ErroNegocio{
-		Usuario usuario = new Usuario(login, confirmacaoSenha, EnumUsuarioAutenticado.SUCESSO.getCodigo());
+	
+	public void login(String login, String senha) throws Erro {
+		FacadeUsuario.getInstancia(contexto).logar(login, senha);
+		
+	}
+	
+	public void cadastrar(String nome, String email, String login, String senha) throws Erro{
+		Usuario usuario = new Usuario(login, senha, EnumUsuarioAutenticado.SUCESSO.getCodigo());
 		encriptaVO(usuario);
-		UsuarioWS.getInstancia(contexto).cadastrar(usuario);
+		FacadeUsuario.getInstancia(contexto).cadastrar(usuario);
 	}
 	
 	public Context getContexto() {

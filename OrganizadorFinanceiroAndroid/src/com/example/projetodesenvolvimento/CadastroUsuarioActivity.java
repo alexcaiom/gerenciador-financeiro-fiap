@@ -9,10 +9,10 @@ import android.widget.EditText;
 
 import com.example.projetodesenvolvimento.abstratas.ClasseActivity;
 import com.example.projetodesenvolvimento.controladores.ControladorDeUsuario;
-import com.example.projetodesenvolvimento.enums.EnumUsuarioAutenticado;
+import com.example.projetodesenvolvimento.excecoes.Erro;
 import com.example.projetodesenvolvimento.excecoes.ErroNegocio;
-import com.example.projetodesenvolvimento.orm.modelos.Usuario;
-import com.example.projetodesenvolvimento.ws.implementacoes.UsuarioWS;
+import com.example.projetodesenvolvimento.excecoes.SysErr;
+import com.example.projetodesenvolvimento.utils.Dialogos;
 
 public class CadastroUsuarioActivity extends ClasseActivity {
 
@@ -64,10 +64,26 @@ public class CadastroUsuarioActivity extends ClasseActivity {
 		boolean camposDeSenhaEConfirmacaoDeSenhaSaoCorrespondentes = verificaSeSenhaEConfimacaoDeSenhaSaoIguais(senha, confirmacaoSenha);
 		if (camposDeSenhaEConfirmacaoDeSenhaSaoCorrespondentes) {
 			try {
-				ControladorDeUsuario.getInstancia(this).cadastrar(nome, email, login, senha, confirmacaoSenha);
-			} catch (ErroNegocio e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				ControladorDeUsuario.getInstancia(this).cadastrar(nome, email, login, senha);
+				irPara(MenuActivity.class);
+			} catch (Erro e) {
+				if (e instanceof ErroNegocio) {
+
+					/**
+					 * Aqui podemos ter um login invalido
+					 */
+					String aviso = e.getMessage();
+					if (aviso.contains("{") || aviso.contains("}")) {
+						aviso = aviso.replace("{\"erro\"", "").replace("}", "");
+					}
+					avisar(aviso);
+				} else if (e instanceof SysErr) {
+					Dialogos.Alerta.exibirMensagemErro(e, CadastroUsuarioActivity.this, null);
+				}
+			} catch (Exception e) {
+				Dialogos.Alerta.exibirMensagemErro(e, CadastroUsuarioActivity.this, null);
+			} finally {
+				Dialogos.Progresso.fecharDialogoProgresso();
 			}
 			
 		} else {

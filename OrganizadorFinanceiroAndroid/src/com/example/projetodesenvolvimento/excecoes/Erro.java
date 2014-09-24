@@ -17,5 +17,8 @@ public class Erro extends Throwable {
 		super(descricaoErro);
 		super.initCause(e);
 	}
+	public Erro(Throwable e) {
+		super(e);
+	}
 	
 }

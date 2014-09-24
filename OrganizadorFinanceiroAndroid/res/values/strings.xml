@@ -40,5 +40,6 @@
     <string name="label_excluir_dados">Excluir Dados</string>
     <string name="label_informacoes">Informações</string>
     <string name="title_activity_financas">FinancasActivity</string>
+    <string name="label_erro">Ocorreu um erro no processamento da sua solicitação</string>
 
 </resources>

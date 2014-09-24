@@ -119,7 +119,7 @@ public class WebService{
  
     //Use this method to do a HttpGet/WebGet on the web service
     public String webGet(String methodName, Map<String, String> params) {
-        String getUrl = webServiceUrl + methodName;
+        String getUrl = webServiceUrl;
  
         int i = 0;
         for (Map.Entry<String, String> param : params.entrySet())

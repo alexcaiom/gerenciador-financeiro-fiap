@@ -75,7 +75,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/label_login"
-            android:ems="10" />
+            android:ems="10" 
+            android:singleLine="true"/>
 
     </TableRow>
 

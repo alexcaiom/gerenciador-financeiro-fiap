@@ -3,17 +3,14 @@
  */
 package com.example.projetodesenvolvimento.orm.bo;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.util.Log;
 
 import com.example.projetodesenvolvimento.abstratas.Classe;
+import com.example.projetodesenvolvimento.excecoes.Erro;
 import com.example.projetodesenvolvimento.excecoes.ErroNegocio;
 import com.example.projetodesenvolvimento.excecoes.SysErr;
 import com.example.projetodesenvolvimento.interfaces.IUsuarioBO;
-import com.example.projetodesenvolvimento.orm.dao.finder.FinderUsuario;
 import com.example.projetodesenvolvimento.orm.modelos.Usuario;
 import com.example.projetodesenvolvimento.servicos.remotos.ServicoUsuarioRemoto;
 
@@ -38,7 +35,7 @@ public class BOUsuario extends Classe implements IUsuarioBO {
 	 * @throws SysErr 
 	 * @throws ErroNegocio 
 	 */
-	public void autentica(String login, String senha) throws ErroNegocio, SysErr {
+	public void autentica(String login, String senha) throws Erro {
 		log("Autenticando "+getNomeEntidade());
 		ServicoUsuarioRemoto.logar(login, senha);
 	}
@@ -51,7 +48,7 @@ public class BOUsuario extends Classe implements IUsuarioBO {
 	}
 
 	@Override
-	public void inserir(Usuario usuario) throws ErroNegocio, SysErr {
+	public void inserir(Usuario usuario) throws Erro {
 		Log.i(CLASSE_NOME, "Inserindo "+getNomeEntidade());
 		ServicoUsuarioRemoto.cadastrar(usuario);
 	}

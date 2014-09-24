@@ -23,8 +23,8 @@ public class Usuario extends Pessoa {
 		this.bloqueado = bloqueado;
 	}
 	
-	public Usuario(String login, String senha, int bloqueado, String nome, Integer idade, GregorianCalendar dataDeNascimento){
-		super(nome, idade, dataDeNascimento);
+	public Usuario(String login, String senha, int bloqueado, String nome, Integer idade, GregorianCalendar dataDeNascimento, String email){
+		super(nome, idade, dataDeNascimento, email);
 		this.login = login;
 		this.senha = senha;
 		this.bloqueado = bloqueado;

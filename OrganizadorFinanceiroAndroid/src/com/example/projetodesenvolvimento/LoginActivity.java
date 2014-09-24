@@ -13,10 +13,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.projetodesenvolvimento.abstratas.ClasseActivity;
+import com.example.projetodesenvolvimento.controladores.ControladorDeUsuario;
+import com.example.projetodesenvolvimento.excecoes.Erro;
 import com.example.projetodesenvolvimento.excecoes.ErroNegocio;
 import com.example.projetodesenvolvimento.excecoes.SysErr;
 import com.example.projetodesenvolvimento.interfaces.ClasseActivityInterface;
-import com.example.projetodesenvolvimento.servicos.remotos.ServicoUsuarioRemoto;
 import com.example.projetodesenvolvimento.utils.Constantes;
 import com.example.projetodesenvolvimento.utils.Dialogos;
 
@@ -57,7 +58,7 @@ public class LoginActivity extends ClasseActivity  implements ClasseActivityInte
 		txtSenha.setOnKeyListener(new OnKeyListener() {
 			@Override
 			public boolean onKey(View v, int keyCode, KeyEvent event) {
-				if (keyCode == KeyEvent.KEYCODE_ENTER) {
+				if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP) {
 					logar();
 				} else {
 					lblDadosInvalidos.setVisibility(View.GONE);
@@ -72,20 +73,33 @@ public class LoginActivity extends ClasseActivity  implements ClasseActivityInte
 		String senha = txtSenha.getText().toString();
 		try {
 			Dialogos.Progresso.exibirDialogoProgresso(this, this);
-			ServicoUsuarioRemoto.logar(login, senha);
+			ControladorDeUsuario.getInstancia(this).login(login, senha);
 			Dialogos.Progresso.fecharDialogoProgresso();
 			irPara(DESTINO);
-		} catch (ErroNegocio e) {
-			/**
-			 * Aqui podemos ter um login invalido
-			 */
-			if (e.getMessage().equals(Constantes.DADOS_LOGIN_INVALIDOS)) {
-				avisar(Constantes.DADOS_LOGIN_INVALIDOS);
-				txtSenha.requestFocus();
-				lblDadosInvalidos.setVisibility(View.VISIBLE);
+		} catch (Erro e) {
+			if (e instanceof ErroNegocio) {
+
+				/**
+				 * Aqui podemos ter um login invalido
+				 */
+				if (e.getMessage().equals(Constantes.DADOS_LOGIN_INVALIDOS)) {
+					avisar(Constantes.DADOS_LOGIN_INVALIDOS);
+					txtSenha.requestFocus();
+					lblDadosInvalidos.setVisibility(View.VISIBLE);
+				} else {
+					String aviso = e.getMessage();
+					if (aviso.contains("{") || aviso.contains("}")) {
+						aviso = aviso.replace("{", "").replace("}", "");
+					}
+					avisar(aviso);
+				}
+			} else if (e instanceof SysErr) {
+				Dialogos.Alerta.exibirMensagemErro(e, LoginActivity.this, null);
 			}
-		} catch (SysErr e) {
+		} catch (Exception e) {
 			Dialogos.Alerta.exibirMensagemErro(e, LoginActivity.this, null);
+		} finally {
+			Dialogos.Progresso.fecharDialogoProgresso();
 		}
 	}
 

@@ -40,4 +40,8 @@ public class Constantes {
 	public static final String CONEXAO_LOCAL = "alexcaiom.com.br";
 	public static final String CONEXAO_CONTEXTO = "GerenciadorFinanceiro/rest";
 	
+	
+	
+	public static final CharSequence EXCECAO = "Exception";
+	
 }

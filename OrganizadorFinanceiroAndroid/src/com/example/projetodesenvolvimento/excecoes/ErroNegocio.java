@@ -10,8 +10,8 @@ package com.example.projetodesenvolvimento.excecoes;
 @SuppressWarnings("serial")
 public class ErroNegocio extends Erro {
 
-	public ErroNegocio(String erro) {
-		super(erro);
+	public ErroNegocio(String e) {
+		super(e);
 	}
 	
 }
