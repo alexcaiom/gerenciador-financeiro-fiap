@@ -59,7 +59,14 @@ public class LoginActivity extends ClasseActivity  implements ClasseActivityInte
 			@Override
 			public boolean onKey(View v, int keyCode, KeyEvent event) {
 				if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP) {
-					logar();
+					btnLogin.requestFocus();
+//					try {
+//						Thread.sleep(1000);
+//						logar();
+//					} catch (InterruptedException e) {
+//						e.printStackTrace();
+//						Dialogos.Alerta.exibirMensagemErro(e, LoginActivity.this, null);
+//					}
 				} else {
 					lblDadosInvalidos.setVisibility(View.GONE);
 				}
@@ -91,7 +98,7 @@ public class LoginActivity extends ClasseActivity  implements ClasseActivityInte
 					if (aviso.contains("{") || aviso.contains("}")) {
 						aviso = aviso.replace("{", "").replace("}", "");
 					}
-					avisar(aviso);
+					Dialogos.Alerta.exibirMensagemInformacao(this, false, aviso, "Atenção!", null);
 				}
 			} else if (e instanceof SysErr) {
 				Dialogos.Alerta.exibirMensagemErro(e, LoginActivity.this, null);
