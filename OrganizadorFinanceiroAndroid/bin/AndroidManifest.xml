@@ -8,6 +8,9 @@
         android:minSdkVersion="14"
         android:targetSdkVersion="14" />
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -61,6 +64,10 @@
         <activity
             android:name="com.example.projetodesenvolvimento.FinancasActivity"
             android:label="@string/title_activity_financas" >
+        </activity>
+        <activity
+            android:name="com.example.projetodesenvolvimento.GraficoActivity"
+            android:label="@string/title_activity_grafico" >
         </activity>
     </application>
 

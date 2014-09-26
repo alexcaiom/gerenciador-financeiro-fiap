@@ -21,28 +21,32 @@ import com.example.projetodesenvolvimento.ws.implementacoes.UsuarioWS;
 public class ServicoUsuarioRemoto extends Classe {
 
 	private static ServicoUsuarioRemoto instancia;
-	private static Context contexto;
+	private Context contexto;
 	
-	public static void logar(String login, String senha) throws Erro{
+	public void logar(String login, String senha) throws Erro{
 		Usuario usuario = null;
 		try {
-			usuario = new UsuarioWS().login(login, senha);
+			usuario = UsuarioWS.getInstancia(contexto).login(login, senha);
 		} catch (Erro e){
 			throw e;
 		}
 		Sessao.addParametro(Constantes.USUARIO, usuario);
 	}
 
-	public static void cadastrar(Usuario usuario) throws Erro {
+	public void deslogar(String login) throws Erro {
+		UsuarioWS.getInstancia(contexto).logout(login);
+	}
+
+	public void cadastrar(Usuario usuario) throws Erro {
 		UsuarioWS.getInstancia(contexto).cadastrar(usuario);
 	}
 	
-	public static void alterar(Usuario usuario) throws ErroNegocio, SysErr {
-		new UsuarioWS().alterar(usuario);
+	public void alterar(Usuario usuario) throws ErroNegocio, SysErr {
+		UsuarioWS.getInstancia(contexto).alterar(usuario);
 	}
 
-	public static void excluir(Usuario usuario) throws ErroNegocio, SysErr {
-		new UsuarioWS().excluir(usuario);
+	public void excluir(Usuario usuario) throws ErroNegocio, SysErr {
+		UsuarioWS.getInstancia(contexto).excluir(usuario);
 	}
 
 	public static ServicoUsuarioRemoto getInstancia(Context contexto){
@@ -52,5 +56,4 @@ public class ServicoUsuarioRemoto extends Classe {
 		}
 		return instancia;
 	}
-	
 }

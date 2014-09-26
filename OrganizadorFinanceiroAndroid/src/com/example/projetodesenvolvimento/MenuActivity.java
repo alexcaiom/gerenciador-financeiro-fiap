@@ -2,13 +2,16 @@ package com.example.projetodesenvolvimento;
 
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.GridView;
 
 import com.example.projetodesenvolvimento.abstratas.ClasseActivity;
+import com.example.projetodesenvolvimento.enums.EnumGraficoTipo;
 import com.example.projetodesenvolvimento.gui.GridItemVO;
 import com.example.projetodesenvolvimento.gui.adaptadores.AdaptadorMenu;
+import com.example.projetodesenvolvimento.utils.Constantes;
 
 public class MenuActivity extends ClasseActivity {
 
@@ -16,7 +19,7 @@ public class MenuActivity extends ClasseActivity {
 	GridItemVO[] itensPropriedades = 
 		{new GridItemVO(R.string.label_calendario,		R.drawable.tela_grid_01_calendario		, getAcaoClique(CalendarioActivity.class)),
 		new GridItemVO(R.string.label_backup,			R.drawable.tela_grid_02_bkp				, getAcaoClique(BackupSettingsActivity.class)),
-		new GridItemVO(R.string.label_graficos,			R.drawable.tela_grid_03_graficos		, getAcaoClique(BackupSettingsActivity.class)),
+		new GridItemVO(R.string.label_graficos,			R.drawable.tela_grid_03_graficos		, getAcaoCliqueGraficos(GraficoActivity.class)),
 		new GridItemVO(R.string.label_categorias,		R.drawable.tela_grid_04_categorias		, getAcaoClique(BackupSettingsActivity.class)),
 		new GridItemVO(R.string.label_financas,			R.drawable.tela_grid_05_financas		, getAcaoClique(FinancasActivity.class)),
 		new GridItemVO(R.string.label_excluir_dados,	R.drawable.tela_grid_06_excluir_dados	, getAcaoClique(BackupSettingsActivity.class)),
@@ -35,6 +38,20 @@ public class MenuActivity extends ClasseActivity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.menu, menu);
 		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		Integer id = item.getItemId();
+		switch (id) {
+		case R.id.action_logout:
+			deslogar();
+			break;
+
+		default:
+			break;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
@@ -57,6 +74,17 @@ public class MenuActivity extends ClasseActivity {
 			@Override
 			public void onClick(View v) {
 				irPara(destino);
+			}
+		};
+	}
+	
+	private OnClickListener getAcaoCliqueGraficos(final Class destino) {
+		return new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Bundle parametros = new Bundle();
+				parametros.putString(Constantes.PARAMETRO_TIPO_GRAFICO, EnumGraficoTipo.GRAFICO_DE_PIZZA.getGoogleCode());
+				irPara(destino, parametros);
 			}
 		};
 	}

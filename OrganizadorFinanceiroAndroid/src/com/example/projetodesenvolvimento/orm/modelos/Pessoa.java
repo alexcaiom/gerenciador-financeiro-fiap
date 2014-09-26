@@ -3,6 +3,7 @@
  */
 package com.example.projetodesenvolvimento.orm.modelos;
 
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 /**
@@ -13,7 +14,7 @@ public class Pessoa {
 
 	private String nome;
 	private Integer idade;
-	private GregorianCalendar dataDeNascimento;
+	private Calendar dataDeNascimento;
 	private String email;
 	
 	public Pessoa() {}
@@ -42,11 +43,11 @@ public class Pessoa {
 		this.idade = idade;
 	}
 
-	public GregorianCalendar getDataDeNascimento() {
+	public Calendar getDataDeNascimento() {
 		return dataDeNascimento;
 	}
 
-	public void setDataDeNascimento(GregorianCalendar dataDeNascimento) {
+	public void setDataDeNascimento(Calendar dataDeNascimento) {
 		this.dataDeNascimento = dataDeNascimento;
 	}
 

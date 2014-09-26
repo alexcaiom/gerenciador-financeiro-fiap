@@ -9,6 +9,8 @@ import android.content.Context;
 
 import com.example.projetodesenvolvimento.excecoes.Erro;
 import com.example.projetodesenvolvimento.orm.modelos.Usuario;
+import com.example.projetodesenvolvimento.utils.Constantes;
+import com.example.projetodesenvolvimento.utils.UtilsData;
 import com.example.projetodesenvolvimento.ws.WSAcoes;
 
 /**
@@ -31,14 +33,22 @@ public class UsuarioWS extends WSAcoes {
 			
 		}catch (Erro e){
 			throw e;
+		} catch (Exception e) {
+			throw new Erro(e);
 		}
 		
 		return usuario;
 	}
+	
 
-	public JSONObject getUsuario(String usuario, String senha) {
-		// TODO Auto-generated method stub
-		return null;
+	public void logout(String login) throws Erro {
+		String acao = "logout";
+		try{
+			url = Constantes.CONEXAO_PROTOCOLO+"://"+enderecoServidor+"/"+Constantes.CONEXAO_CONTEXTO+"/"+entidade+"/"+acao+"/"+login;
+			comunicarComOServidor(url);
+		} catch (Exception e){
+			throw new Erro(e);
+		}
 	}
 
 	public void cadastrar(Usuario usuario) throws Erro {
@@ -54,6 +64,8 @@ public class UsuarioWS extends WSAcoes {
 			
 		}catch (Erro e){
 			throw e;
+		} catch (Exception e) {
+			throw new Erro(e);
 		}
 	}
 
@@ -67,9 +79,13 @@ public class UsuarioWS extends WSAcoes {
 		
 	}
 	
-	private void preencheVo(Usuario u, JSONObject o){
+	private void preencheVo(Usuario u, JSONObject o) throws Exception{
 		if (existe(o) && existe(u)) {
-			
+			u.comLogin(o.getString("login"));
+			u.comSenha(o.getString("senha"));
+//			u.estaBloqueado(o.get)
+			u.setNome(o.getString("nome"));
+			u.setDataDeNascimento(UtilsData.strToCalendar(getJSonStringSeExistir(o, "dataNascimento")));
 		}
 	}
 	
@@ -88,5 +104,4 @@ public class UsuarioWS extends WSAcoes {
 		}
 		return instancia;
 	}
-	
 }

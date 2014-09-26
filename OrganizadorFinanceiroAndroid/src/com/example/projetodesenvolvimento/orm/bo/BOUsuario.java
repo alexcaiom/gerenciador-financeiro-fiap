@@ -37,7 +37,7 @@ public class BOUsuario extends Classe implements IUsuarioBO {
 	 */
 	public void autentica(String login, String senha) throws Erro {
 		log("Autenticando "+getNomeEntidade());
-		ServicoUsuarioRemoto.logar(login, senha);
+		ServicoUsuarioRemoto.getInstancia(contexto).logar(login, senha);
 	}
 
 	public static BOUsuario getInstancia(Context contexto) {
@@ -50,7 +50,7 @@ public class BOUsuario extends Classe implements IUsuarioBO {
 	@Override
 	public void inserir(Usuario usuario) throws Erro {
 		Log.i(CLASSE_NOME, "Inserindo "+getNomeEntidade());
-		ServicoUsuarioRemoto.cadastrar(usuario);
+		ServicoUsuarioRemoto.getInstancia(contexto).cadastrar(usuario);
 	}
 
 	@Override

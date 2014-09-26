@@ -15,6 +15,10 @@ public class ControladorDeUsuario extends ControladorDeVO<Usuario>{
 	
 	public void login(String login, String senha) throws Erro {
 		FacadeUsuario.getInstancia(contexto).logar(login, senha);
+	}
+	
+	public void logout(String login) throws Erro {
+		FacadeUsuario.getInstancia(contexto).deslogar(login);
 		
 	}
 	
@@ -45,5 +49,4 @@ public class ControladorDeUsuario extends ControladorDeVO<Usuario>{
 		
 		
 	}
-	
 }

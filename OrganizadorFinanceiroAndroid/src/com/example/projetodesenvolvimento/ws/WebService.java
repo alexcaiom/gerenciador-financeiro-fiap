@@ -28,6 +28,8 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.example.projetodesenvolvimento.excecoes.Erro;
+
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
@@ -50,8 +52,8 @@ public class WebService{
     public WebService(String serviceName, Context contexto){
         HttpParams myParams = new BasicHttpParams();
  
-        HttpConnectionParams.setConnectionTimeout(myParams, 1999999999);
-        HttpConnectionParams.setSoTimeout(myParams, 1999999999);
+        HttpConnectionParams.setConnectionTimeout(myParams, 0);
+        HttpConnectionParams.setSoTimeout(myParams, 0);
         httpClient = new DefaultHttpClient(myParams);
         localContext = new BasicHttpContext();
         webServiceUrl = serviceName;
@@ -118,7 +120,7 @@ public class WebService{
     }
  
     //Use this method to do a HttpGet/WebGet on the web service
-    public String webGet(String methodName, Map<String, String> params) {
+    public String webGet(String methodName, Map<String, String> params) throws Throwable{
         String getUrl = webServiceUrl;
  
         int i = 0;
@@ -134,21 +136,21 @@ public class WebService{
             try {
                 getUrl += param.getKey() + "=" + URLEncoder.encode(param.getValue(),"UTF-8");
             } catch (UnsupportedEncodingException e) {
-                
-                e.printStackTrace();
+                throw e;
             }
             i++;
         }
  
         httpGet = new HttpGet(getUrl);
         Log.e("WebGetURL: ",getUrl);
+        Log.e("com.example.projetodesenvolvimento", getUrl);
  
         try {
             response = httpClient.execute(httpGet);
         } catch (HttpHostConnectException e){
-        	Toast.makeText(contexto, "Conexão a http://localhost:8080 recusada", Toast.LENGTH_SHORT).show();
+        	throw new Erro(e, "Conexão a "+webServiceUrl+" recusada");
         } catch (Exception e) {
-            Log.e("Groshie:", e.getMessage());
+            throw e;
         }
  
         // we assume that the response body contains the error message
@@ -157,9 +159,9 @@ public class WebService{
         		ret = EntityUtils.toString(response.getEntity());
         	}
         } catch (IOException e) {
-            Log.e("Groshie:", e.getMessage());
+            throw e;
         }
- 
+        Log.e("com.example.projetodesenvolvimento", ret);
          return ret;
     }
  

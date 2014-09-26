@@ -55,9 +55,12 @@ public class UtilsData extends Classe{
 	}
 	
 	public static Calendar dateToCalendar(Date data) throws Exception {
-		Calendar calendario = GregorianCalendar.getInstance();
-		calendario.setTime(data);
-		return calendario;
+		if (existe(data)) {
+			Calendar calendario = GregorianCalendar.getInstance();
+			calendario.setTime(data);
+			return calendario;
+		}
+		return null;
 	}
 	
 	public static Date calendarToDate(Calendar data) throws Exception {
@@ -65,25 +68,28 @@ public class UtilsData extends Classe{
 	}
 
 	public static Date strToDate(String str) throws Exception {
-		int y;
-		int m;
-		int d;
+		if (existe(str)) {
+			int y;
+			int m;
+			int d;
 
-		if (!isValidDateFormat(str))
-			throw new Exception("Invalid date format");
+			if (!isValidDateFormat(str))
+				throw new Exception("Invalid date format");
 
-		if (!isValidDate(str))
-			throw new Exception("Invalid date format");
+			if (!isValidDate(str))
+				throw new Exception("Invalid date format");
 
-		d = strToInt(str.substring(0, 2));
-		m = strToInt(str.substring(3, 5));
-		y = strToInt(str.substring(6));
+			d = strToInt(str.substring(0, 2));
+			m = strToInt(str.substring(3, 5));
+			y = strToInt(str.substring(6));
 
-		Calendar data = Calendar.getInstance();
+			Calendar data = Calendar.getInstance();
 
-		data.set(y, m - 1, d, 0, 0, 0);
+			data.set(y, m - 1, d, 0, 0, 0);
 
-		return data.getTime();
+			return data.getTime();
+		}
+		return null;
 	}
 
 	public static boolean isValidDateFormat(String str) {

@@ -30,4 +30,10 @@ public class Sessao {
 		return temParametro(Constantes.USUARIO) && getParametro(Constantes.USUARIO) != null;
 	}
 	
+	public static final void deslogar(){
+		if (usuarioLogado()) {
+			parametros.remove(Constantes.USUARIO);
+		}
+	}
+	
 }

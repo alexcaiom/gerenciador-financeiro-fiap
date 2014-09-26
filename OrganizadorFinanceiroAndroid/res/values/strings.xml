@@ -41,5 +41,7 @@
     <string name="label_informacoes">Informações</string>
     <string name="title_activity_financas">FinancasActivity</string>
     <string name="label_erro">Ocorreu um erro no processamento da sua solicitação</string>
+    <string name="label_logout">Deslogar</string>
+    <string name="title_activity_grafico">GraficoActivity</string>
 
 </resources>

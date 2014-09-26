@@ -14,9 +14,7 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.example.projetodesenvolvimento.R;
 import com.example.projetodesenvolvimento.abstratas.Classe;
-import com.example.projetodesenvolvimento.abstratas.ClasseActivity;
 import com.example.projetodesenvolvimento.excecoes.Erro;
 import com.example.projetodesenvolvimento.excecoes.ErroNegocio;
 import com.example.projetodesenvolvimento.excecoes.SysErr;
@@ -31,10 +29,10 @@ public class WSAcoes extends Classe {
 	private static WSAcoes instancia = null;
 
 	//você precisar colocar o endereco do pc em que encontra seu servidor tomcat
-	private final String enderecoServidor = "177.60.189.183";
-//	private final String enderecoServidor = "www.alexcaiom.com.br";
-	private final int porta=8081;
-	String url = "";
+//	private final String enderecoServidor = "177.60.189.183";
+	protected final String enderecoServidor = "www.alexcaiom.com.br";
+	protected final int porta=8081;
+	protected String url = "";
 	Map<String, String> params = new HashMap<String, String>();
 	WebService webService = null;
 	WebServiceTask tarefa = null;
@@ -44,8 +42,8 @@ public class WSAcoes extends Classe {
     /**
      * Pega Lista de Usuarios do Servidor
      */
-    public void pesquisarUsuariosPorIPComo(String ip) {
-    	url = "http://"+enderecoServidor+/*":"+porta+*/"/MyIPRest/rest/usuario/pesquisarPorIPComo/"+ip;
+    /*public void pesquisarUsuariosPorIPComo(String ip) {
+    	url = "http://"+enderecoServidor+":"+porta+"/MyIPRest/rest/usuario/pesquisarPorIPComo/"+ip;
     	
     	webService = new WebService(url, contexto);
     	
@@ -63,11 +61,30 @@ public class WSAcoes extends Classe {
     		// TODO Auto-generated catch block
     		e1.printStackTrace();
     	}
-    }
+    }*/
     
-    public JSONArray getJSONArray(String acao, String...parametros){
-    	url = "http://"+enderecoServidor+/*":"+porta+*/"/MyIPRest/rest/usuario/pesquisarPorIPComo/";
-    	return null;
+    public JSONArray getJSONArray(String acao, String entidade, String...parametros) throws Erro{
+    	url = Constantes.CONEXAO_PROTOCOLO+"://"+enderecoServidor+"/"+Constantes.CONEXAO_CONTEXTO+"/"+entidade+"/"+acao;
+
+    	for (String p : parametros) {
+    		url += "/" + p;
+    	}
+
+    	String resposta = comunicarComOServidor(url);
+
+    	JSONArray array = null;
+    	try{
+    		boolean aRespostaEhUmJSONArrayValido = existe(resposta)  && !resposta.isEmpty() && respostaEstaSemErros(resposta); 
+    		if (aRespostaEhUmJSONArrayValido) {
+    			array = new JSONArray(resposta);
+    		} else {
+    			throw new ErroNegocio(resposta);
+    		}
+    	} catch (JSONException e){
+    		e.printStackTrace();
+    	}
+
+    	return array;
     }
     
     public JSONObject getJSONObject(String acao, String entidade, String...parametros) throws Erro{
@@ -94,10 +111,8 @@ public class WSAcoes extends Classe {
     	return o;
     }
     
-    private String comunicarComOServidor(String url) throws Erro{
-    	if (this.tarefa == null) {
-    		this.tarefa = new WebServiceTask();
-		}
+    protected String comunicarComOServidor(String url) throws Erro{
+    	this.tarefa = new WebServiceTask();
     	
     	Map<String, String> dados = new HashMap<String, String>();
     	dados.put("URL", url);
@@ -123,13 +138,9 @@ public class WSAcoes extends Classe {
 			throw new SysErr(resposta);
 		}
 		
-		boolean contemPalavraUsuario = resposta.contains("usuario");
-		boolean contemPalavraUsuariosParaLista = resposta.contains("usuarios");
-		boolean contemPalavraMovimento = resposta.contains("movimento");
-		boolean contemPalavraMovimentosParaLista = resposta.contains("movimentos");
+		boolean contemConexaoRecusada = resposta.contains("Conexão") && resposta.contains("recusada");
 		
-		boolean respostaSemErros = !contemPalavraException && (contemPalavraUsuario || contemPalavraUsuariosParaLista
-															|| contemPalavraMovimento || contemPalavraMovimentosParaLista);
+		boolean respostaSemErros = !contemConexaoRecusada && !contemPalavraException;
 		return respostaSemErros;
 	}
     
@@ -142,7 +153,14 @@ public class WSAcoes extends Classe {
     	protected String doInBackground(Map<String, String>... dados) {
     		String url = (String) dados[0].get("URL");
     		webService = new WebService(url, contexto);
-    		String resultado = webService.webGet(url, params);
+    		String resultado = "";
+			try {
+				resultado = webService.webGet(url, params);
+			} catch (Throwable e) {
+				if (existe(e) && existe(e.getMessage())) {
+					resultado = e.getMessage();
+				}
+			}
     		
     		return resultado;
     	}
@@ -151,6 +169,15 @@ public class WSAcoes extends Classe {
     	protected void onPostExecute(String result) {
     		super.onPostExecute(result);
     	}
+    }
+    
+    public String getJSonStringSeExistir(JSONObject o, String chave) throws JSONException{
+    	if (existe(o) && existe(chave)) {
+			if (o.has(chave)) {
+				return o.getString(chave);
+			}
+		}
+    	return null;
     }
 
 	public static WSAcoes getInstancia(Context contexto){

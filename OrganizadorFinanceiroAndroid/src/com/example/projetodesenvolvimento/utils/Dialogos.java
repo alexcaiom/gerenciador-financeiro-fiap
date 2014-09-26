@@ -28,7 +28,15 @@ public class Dialogos extends Classe{
 	public static class Alerta {
 		static AlertDialog dialogo;
 
-
+		/**
+		 * Exibe mensagem de Alerta.<br/>
+		 * <b>Lembre-se de chamar o metodo fecharDialogo()</b>
+		 * @param contexto
+		 * @param cancelavel
+		 * @param mensagem
+		 * @param titulo
+		 * @param escutadorOk
+		 */
 		public static void exibirMensagemInformacao(Context contexto, boolean cancelavel, 
 				CharSequence mensagem, CharSequence titulo, 
 				OnClickListener escutadorOk){
@@ -75,10 +83,10 @@ public class Dialogos extends Classe{
 		 * <b>Lembre-se de chamar o metodo de fechamento</b>
 		 * @param contexto
 		 */
-		public static void exibirDialogoProgresso(Context contexto, ClasseActivity tela){
+		public static void exibirDialogoProgresso(ClasseActivity tela){
 			telaAlvo = tela;
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-				LayoutInflater inflador = (LayoutInflater) contexto.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				LayoutInflater inflador = (LayoutInflater) tela.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 				dialogoProcessamento = inflador.inflate(R.layout.dialogo_progresso, null);
 				tela.addContentView(dialogoProcessamento, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 				int shortAnimTime = tela.getResources().getInteger(android.R.integer.config_shortAnimTime);
