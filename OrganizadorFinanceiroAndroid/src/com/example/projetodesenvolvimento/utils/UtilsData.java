@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import com.example.projetodesenvolvimento.abstratas.Classe;
 
@@ -59,6 +60,20 @@ public class UtilsData extends Classe{
 			Calendar calendario = GregorianCalendar.getInstance();
 			calendario.setTime(data);
 			return calendario;
+		}
+		return null;
+	}
+	
+	public static String dateToString(Date d) throws Exception {
+		if (existe(d)) {
+			return new SimpleDateFormat(formatoBR, Locale.getDefault()).format(d);
+		}
+		return null;
+	}
+	
+	public static String calendarToString(Calendar data) throws Exception {
+		if (existe(data)) {
+			return dateToString(data.getTime());
 		}
 		return null;
 	}

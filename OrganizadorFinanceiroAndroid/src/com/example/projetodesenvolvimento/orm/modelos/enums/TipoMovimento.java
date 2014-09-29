@@ -1,14 +1,14 @@
 package com.example.projetodesenvolvimento.orm.modelos.enums;
 public enum TipoMovimento {
 
-	DEBITO(1, 'D', "Debito"),
-	CREDITO(2, 'C', "Credito");
+	DEBITO(1, "D", "Debito"),
+	CREDITO(2, "C", "Credito");
 	
 	int tipo;
-	char sigla;
+	String sigla;
 	String descricao;
 	
-	TipoMovimento(int tipo, char sigla, String descricao) {
+	TipoMovimento(int tipo, String sigla, String descricao) {
 		this.tipo = tipo;
 		this.sigla = sigla;
 		this.descricao = descricao;
@@ -22,11 +22,11 @@ public enum TipoMovimento {
 		this.tipo = tipo;
 	}
 
-	public char getSigla() {
+	public String getSigla() {
 		return sigla;
 	}
 
-	public void setSigla(char sigla) {
+	public void setSigla(String sigla) {
 		this.sigla = sigla;
 	}
 
@@ -38,9 +38,9 @@ public enum TipoMovimento {
 		this.descricao = descricao;
 	}
 	
-	public static TipoMovimento getMovimentoPorTipo(char tipo){
+	public static TipoMovimento getMovimentoPorTipo(String tipo){
 		for (TipoMovimento tipoDoMovimento : TipoMovimento.values()) {
-			if (tipoDoMovimento.getSigla() == tipo) {
+			if (tipoDoMovimento.getSigla().equals(tipo)) {
 				return tipoDoMovimento;
 			}
 		}

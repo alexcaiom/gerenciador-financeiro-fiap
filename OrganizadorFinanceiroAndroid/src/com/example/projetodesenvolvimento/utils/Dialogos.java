@@ -3,20 +3,21 @@
  */
 package com.example.projetodesenvolvimento.utils;
 
-import com.example.projetodesenvolvimento.abstratas.Classe;
-import com.example.projetodesenvolvimento.abstratas.ClasseActivity;
-import com.example.projetodesenvolvimento.R;
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
+
+import com.example.projetodesenvolvimento.R;
+import com.example.projetodesenvolvimento.abstratas.Classe;
+import com.example.projetodesenvolvimento.abstratas.ClasseActivity;
+import com.example.projetodesenvolvimento.abstratas.ClasseFragmentoActivity;
 
 
 /**
@@ -76,7 +77,7 @@ public class Dialogos extends Classe{
 	
 	public static class Progresso {
 		static View dialogoProcessamento = null;
-		static ClasseActivity telaAlvo = null;
+		static Activity telaAlvo = null;
 		
 		/**
 		 * Mostra um Dialogo de Progresso de Processamento<br>
@@ -100,9 +101,30 @@ public class Dialogos extends Classe{
 						}
 				});
 			}
-			
-			
-			
+		}
+		
+		/**
+		 * Mostra um Dialogo de Progresso de Processamento<br>
+		 * <b>Lembre-se de chamar o metodo de fechamento</b>
+		 * @param contexto
+		 */
+		public static void exibirDialogoProgresso(ClasseFragmentoActivity tela){
+			telaAlvo = tela;
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+				LayoutInflater inflador = (LayoutInflater) tela.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				dialogoProcessamento = inflador.inflate(R.layout.dialogo_progresso, null);
+				tela.addContentView(dialogoProcessamento, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+				int shortAnimTime = tela.getResources().getInteger(android.R.integer.config_shortAnimTime);
+				dialogoProcessamento.setVisibility(View.VISIBLE);
+				dialogoProcessamento.animate().setDuration(shortAnimTime)
+				.alpha(1)
+				.setListener(new AnimatorListenerAdapter() {
+					@Override
+					public void onAnimationEnd(Animator animation) {
+						dialogoProcessamento.setVisibility(View.VISIBLE);
+					}
+				});
+			}
 		}
 		
 		public static void fecharDialogoProgresso(){

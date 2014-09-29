@@ -3,14 +3,11 @@
  */
 package com.example.projetodesenvolvimento.orm.dao.finder;
 
-import java.util.ArrayList;
-import java.util.List;
+import android.content.Context;
+import android.database.Cursor;
 
 import com.example.projetodesenvolvimento.excecoes.SysErr;
 import com.example.projetodesenvolvimento.orm.modelos.Usuario;
-
-import android.content.Context;
-import android.database.Cursor;
 
 /**
  * @author Alex
@@ -128,4 +125,10 @@ public class FinderUsuario extends Finder<Usuario>{
 		cursor.getColumnCount();
 		return usuario;
 	}*/
+	
+	@Override
+	void preencheVO(Cursor c, Usuario o) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -19,7 +19,7 @@ public class MenuActivity extends ClasseActivity {
 	GridItemVO[] itensPropriedades = 
 		{new GridItemVO(R.string.label_calendario,		R.drawable.tela_grid_01_calendario		, getAcaoClique(CalendarioActivity.class)),
 		new GridItemVO(R.string.label_backup,			R.drawable.tela_grid_02_bkp				, getAcaoClique(BackupSettingsActivity.class)),
-		new GridItemVO(R.string.label_graficos,			R.drawable.tela_grid_03_graficos		, getAcaoCliqueGraficos(GraficoActivity.class)),
+		new GridItemVO(R.string.label_graficos,			R.drawable.tela_grid_03_graficos		, getAcaoCliqueComParametros(GraficosActivity.class)),
 		new GridItemVO(R.string.label_categorias,		R.drawable.tela_grid_04_categorias		, getAcaoClique(BackupSettingsActivity.class)),
 		new GridItemVO(R.string.label_financas,			R.drawable.tela_grid_05_financas		, getAcaoClique(FinancasActivity.class)),
 		new GridItemVO(R.string.label_excluir_dados,	R.drawable.tela_grid_06_excluir_dados	, getAcaoClique(BackupSettingsActivity.class)),
@@ -78,12 +78,12 @@ public class MenuActivity extends ClasseActivity {
 		};
 	}
 	
-	private OnClickListener getAcaoCliqueGraficos(final Class destino) {
+	private OnClickListener getAcaoCliqueComParametros(final Class destino) {
 		return new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Bundle parametros = new Bundle();
-				parametros.putString(Constantes.PARAMETRO_TIPO_GRAFICO, EnumGraficoTipo.GRAFICO_DE_PIZZA.getGoogleCode());
+				parametros.putString(Constantes.PARAMETRO_TIPO_GRAFICO, EnumGraficoTipo.GRAFICO_DE_BARRAS_VERTICAL.getGoogleCode());
 				irPara(destino, parametros);
 			}
 		};

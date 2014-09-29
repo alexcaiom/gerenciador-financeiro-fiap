@@ -6,8 +6,8 @@ package com.example.projetodesenvolvimento.orm.modelos;
 import java.math.BigDecimal;
 import java.util.Calendar;
 
-import com.example.projetodesenvolvimento.abstratas.Classe;
 import com.example.projetodesenvolvimento.orm.modelos.enums.TipoMovimento;
+import com.example.projetodesenvolvimento.utils.UtilsData;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -39,32 +39,43 @@ public class Movimentacao {
 	public Long getCodigo() {
 		return codigo;
 	}
-	public void setCodigo(long codigo) {
+	public Movimentacao comCodigo(long codigo) {
 		this.codigo = codigo;
+		return this;
 	}
 	public BigDecimal getValor() {
 		return valor;
 	}
-	public void setValor(BigDecimal valor) {
+	public Movimentacao comValor(BigDecimal valor) {
 		this.valor = valor;
+		return this;
 	}
 	public TipoMovimento getTipo() {
 		return tipo;
 	}
-	public void setTipo(TipoMovimento tipo) {
+	public Movimentacao comTipo(TipoMovimento tipo) {
 		this.tipo = tipo;
+		return this;
 	}
 	public String getDescricao() {
 		return descricao;
 	}
-	public void setDescricao(String descricao) {
+	public Movimentacao comDescricao(String descricao) {
 		this.descricao = descricao;
+		return this;
 	}
 	public Calendar getData() {
 		return data;
 	}
-	public void setData(Calendar data) {
+	public Movimentacao comData(Calendar data) {
 		this.data = data;
+		return this;
+	}
+
+
+	@Override
+	public String toString() {
+		return "R$ " + valor + ", tipo=" + tipo.getSigla();
 	}
 	
 }

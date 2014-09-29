@@ -9,8 +9,9 @@ package com.example.projetodesenvolvimento.enums;
  */
 public enum EnumGraficoTipo {
 
-	GRAFICO_DE_BARRAS(1, "", "Gráfico de Barras"),
-	GRAFICO_DE_PIZZA(2, "p3", "Gráfico de Pizza");
+	GRAFICO_DE_BARRAS_VERTICAL(1, "bvg", "Gráfico de Barras Vertical"),
+	GRAFICO_DE_BARRAS_HORIZONTAL(2, "bhg", "Gráfico de Barras Horizontal"),
+	GRAFICO_DE_PIZZA(3, "p3", "Gráfico de Pizza");
 	
 	int codigo;
 	String googleCode;

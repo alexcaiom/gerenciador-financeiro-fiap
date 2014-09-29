@@ -3,11 +3,10 @@
  */
 package com.example.projetodesenvolvimento;
 
-import java.util.Map;
-
-import android.os.AsyncTask;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -36,7 +35,6 @@ public class LoginActivity extends ClasseActivity  implements ClasseActivityInte
 	EditText txtUsuario,  txtSenha;
 	TextView lblDadosInvalidos;
 	Handler handler;
-	LoginTask thread;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +50,6 @@ public class LoginActivity extends ClasseActivity  implements ClasseActivityInte
 		txtSenha = (EditText) findViewById(R.id.txtSenha);
 		lblDadosInvalidos = (TextView) findViewById(R.id.lblLoginInvalido);
 		
-		
-
 		carregarEventos();
 	}
 	
@@ -62,6 +58,11 @@ public class LoginActivity extends ClasseActivity  implements ClasseActivityInte
 		btnLogin.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				if (txtUsuario.getText().toString().isEmpty()
+						|| txtSenha.getText().toString().isEmpty()) {
+					exibirLabelErroLoginComMensagem("Login e senha devem ser preenchidos.");
+					return;
+				}
 				logar();
 			}
 		});
@@ -73,20 +74,22 @@ public class LoginActivity extends ClasseActivity  implements ClasseActivityInte
 			}
 		});
 		
+		txtUsuario.setOnKeyListener(new OnKeyListener() {
+			@Override
+			public boolean onKey(View v, int keyCode, KeyEvent event) {
+				ocultarLabelErro();
+				return false;
+			}
+		});
+		
 		txtSenha.setOnKeyListener(new OnKeyListener() {
 			@Override
 			public boolean onKey(View v, int keyCode, KeyEvent event) {
+				lblDadosInvalidos.setVisibility(View.GONE);
 				if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP) {
 					btnLogin.requestFocus();
-//					try {
-//						Thread.sleep(1000);
-//						logar();
-//					} catch (InterruptedException e) {
-//						e.printStackTrace();
-//						Dialogos.Alerta.exibirMensagemErro(e, LoginActivity.this, null);
-//					}
 				} else {
-					lblDadosInvalidos.setVisibility(View.GONE);
+					ocultarLabelErro();
 				}
 				return false;
 			}
@@ -101,25 +104,23 @@ public class LoginActivity extends ClasseActivity  implements ClasseActivityInte
 		Runnable thread = new Runnable() {
 			public void run() {
 				try {
-					//Este trecho vai demorar
-//					String login = dados[0].get("login");
-//					String senha = dados[0].get("senha");
+					//Este trecho vai demorar devido ao Login Remoto
 					ControladorDeUsuario.getInstancia(LoginActivity.this).login(login, senha);
 					Dialogos.Progresso.fecharDialogoProgresso();
 					irPara(DESTINO);
 				} catch (Erro e) {
+					Dialogos.Progresso.fecharDialogoProgresso();
 					if (e instanceof ErroNegocio) {
-						Dialogos.Progresso.fecharDialogoProgresso();
 						/**
 						 * Aqui podemos ter um login invalido
 						 */
 						if (e.getMessage().equals(Constantes.DADOS_LOGIN_INVALIDOS)) {
-							avisar(Constantes.DADOS_LOGIN_INVALIDOS);
+							Dialogos.Alerta.exibirMensagemInformacao(LoginActivity.this, false, e.getMessage(), "Atenção!", null);
 							txtSenha.requestFocus();
-							lblDadosInvalidos.setVisibility(View.VISIBLE);
+							exibirLabelErroLoginComMensagem(Constantes.DADOS_LOGIN_INVALIDOS);
 						} else {
 							String aviso = e.getMessage();
-							aviso = aviso.replace("{", "").replace("}", "").replace("\"erro\":", "");
+							aviso = aviso.replace("{", "").replace("}", "").replace("erro", "").replace("\"", "").replace(":", "");
 							Dialogos.Alerta.exibirMensagemInformacao(LoginActivity.this, false, aviso, "Atenção!", null);
 						}
 					} else if (e instanceof SysErr) {
@@ -133,36 +134,19 @@ public class LoginActivity extends ClasseActivity  implements ClasseActivityInte
 			}
 		};
 		
-		new Thread(thread).start();
-		
-//		thread = new LoginTask();
-//		Map<String, String> params = new HashMap<String, String>();
-//		params.put("login", login);
-//		params.put("senha", senha);
-//		
-//		thread.execute(params);
+		new Handler(Looper.getMainLooper()).post(thread);
 		
 	}
 	
-	public class LoginTask extends AsyncTask<Map<String, String>, Void, Void> {
-		@Override
-		protected void onPreExecute() {
-			Dialogos.Progresso.exibirDialogoProgresso(LoginActivity.this);
-			super.onPreExecute();
-		}
-		
-    	@Override
-    	protected Void doInBackground(Map<String, String>... dados) {
-    		
-			return null;
-    		
-    	}
-    	
-    	@Override
-    	protected void onPostExecute(Void result) {
-    		
-    		super.onPostExecute(result);
-    	}
-    }
-
+	private void exibirLabelErroLoginComMensagem(String texto){
+		lblDadosInvalidos.setBackgroundColor(Color.RED);
+		lblDadosInvalidos.setTextColor(Color.WHITE);
+		lblDadosInvalidos.setText(texto);
+		lblDadosInvalidos.setVisibility(View.VISIBLE);
+	}
+	
+	private void ocultarLabelErro(){
+		lblDadosInvalidos.setVisibility(View.GONE);
+	}
+	
 }

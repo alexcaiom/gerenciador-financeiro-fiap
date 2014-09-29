@@ -3,11 +3,10 @@
  */
 package com.example.projetodesenvolvimento.abstratas;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import com.example.projetodesenvolvimento.CadastroUsuarioActivity;
@@ -27,20 +26,21 @@ import com.example.projetodesenvolvimento.utils.Sessao;
  * @author Alex
  *
  */
-public abstract class ClasseActivity extends Activity implements ClasseActivityInterface{
+public abstract class ClasseFragmentoActivity extends FragmentActivity implements ClasseActivityInterface{
 
 	public final String CLASSE_NOME = getClass().getSimpleName();
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//		verificaSessao();
+		verificaSessao();
 	}
 	
 	@Override
-	protected void onResume() {
+	public void onResume() {
 		super.onResume();
-//		verificaSessao();
+		verificaSessao();
 	}
 
 	public void irPara(Class tela, Bundle parametros){
@@ -102,18 +102,18 @@ public abstract class ClasseActivity extends Activity implements ClasseActivityI
 			public void run() {
 				try {
 					//Este trecho vai demorar
-					ControladorDeUsuario.getInstancia(ClasseActivity.this).logout(usuarioLogado.getLogin());
+					ControladorDeUsuario.getInstancia(ClasseFragmentoActivity.this).logout(usuarioLogado.getLogin());
 					Dialogos.Progresso.fecharDialogoProgresso();
 				} catch (Erro e) {
 					if (e instanceof ErroNegocio) {
 						Dialogos.Progresso.fecharDialogoProgresso();
 					} else if (e instanceof SysErr) {
-						Dialogos.Alerta.exibirMensagemErro(e, ClasseActivity.this, null);
+						Dialogos.Alerta.exibirMensagemErro(e, ClasseFragmentoActivity.this, null);
 						Dialogos.Alerta.fecharDialogo();
 					}
 				} catch (Exception e) {
 					Dialogos.Progresso.fecharDialogoProgresso();
-					Dialogos.Alerta.exibirMensagemErro(e, ClasseActivity.this, null);
+					Dialogos.Alerta.exibirMensagemErro(e, ClasseFragmentoActivity.this, null);
 				}
 			}
 		};

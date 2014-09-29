@@ -131,10 +131,19 @@ public class WSAcoes extends Classe {
     	return resultadoExecucao;
     }
     
-    private boolean respostaEstaSemErros(String resposta) throws SysErr {
+    private boolean respostaEstaSemErros(String resposta) throws SysErr, ErroNegocio {
     	
 		boolean contemPalavraException = resposta.contains(Constantes.EXCECAO);
 		if (contemPalavraException) {
+			throw new SysErr(resposta);
+		}
+		boolean contemPalavraErro = resposta.contains("\"erro\"");
+		if (contemPalavraErro) {
+			throw new ErroNegocio(resposta);
+		}
+		
+		boolean contemTagHTML = resposta.contains("<html>");
+		if (contemTagHTML) {
 			throw new SysErr(resposta);
 		}
 		
