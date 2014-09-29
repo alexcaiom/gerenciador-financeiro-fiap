@@ -3,11 +3,9 @@
  */
 package com.example.projetodesenvolvimento;
 
-import java.util.Map;
-
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -36,7 +34,6 @@ public class LoginActivity extends ClasseActivity  implements ClasseActivityInte
 	EditText txtUsuario,  txtSenha;
 	TextView lblDadosInvalidos;
 	Handler handler;
-	LoginTask thread;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -108,8 +105,8 @@ public class LoginActivity extends ClasseActivity  implements ClasseActivityInte
 					Dialogos.Progresso.fecharDialogoProgresso();
 					irPara(DESTINO);
 				} catch (Erro e) {
+					Dialogos.Progresso.fecharDialogoProgresso();
 					if (e instanceof ErroNegocio) {
-						Dialogos.Progresso.fecharDialogoProgresso();
 						/**
 						 * Aqui podemos ter um login invalido
 						 */
@@ -117,52 +114,40 @@ public class LoginActivity extends ClasseActivity  implements ClasseActivityInte
 							avisar(Constantes.DADOS_LOGIN_INVALIDOS);
 							txtSenha.requestFocus();
 							lblDadosInvalidos.setVisibility(View.VISIBLE);
+							lblDadosInvalidos.setText(R.string.label_loginSenhaInvalidos);
 						} else {
 							String aviso = e.getMessage();
-							aviso = aviso.replace("{", "").replace("}", "").replace("\"erro\":", "");
+							aviso = aviso.replace("{", "").replace("}", "").replace("\"erro\":", "").replace("\"", "");
 							Dialogos.Alerta.exibirMensagemInformacao(LoginActivity.this, false, aviso, "Atenção!", null);
 						}
+//						reportarErros(e);
 					} else if (e instanceof SysErr) {
-						Dialogos.Alerta.exibirMensagemErro(e, LoginActivity.this, null);
-						Dialogos.Alerta.fecharDialogo();
+						String aviso = e.getMessage();
+						aviso = aviso.replace("{", "").replace("}", "").replace("\"erro\":", "").replace("\"", "");
+						Dialogos.Alerta.exibirMensagemInformacao(LoginActivity.this, false, aviso, "Atenção!", null);
+//						avisar(aviso);
 					}
 				} catch (Exception e) {
 					Dialogos.Progresso.fecharDialogoProgresso();
-					Dialogos.Alerta.exibirMensagemErro(e, LoginActivity.this, null);
+					String aviso = e.getMessage();
+					aviso = aviso.replace("{", "").replace("}", "").replace("\"erro\":", "").replace("\"", "");
+					Dialogos.Alerta.exibirMensagemInformacao(LoginActivity.this, false, aviso, "Atenção!", null);
+					lblDadosInvalidos.setVisibility(View.VISIBLE);
+					lblDadosInvalidos.setText(e.getMessage());
 				}
 			}
 		};
 		
-		new Thread(thread).start();
-		
-//		thread = new LoginTask();
-//		Map<String, String> params = new HashMap<String, String>();
-//		params.put("login", login);
-//		params.put("senha", senha);
-//		
-//		thread.execute(params);
-		
+//		new Thread(thread).start();
+		new Handler(Looper.getMainLooper()).post(thread);
 	}
 	
-	public class LoginTask extends AsyncTask<Map<String, String>, Void, Void> {
-		@Override
-		protected void onPreExecute() {
-			Dialogos.Progresso.exibirDialogoProgresso(LoginActivity.this);
-			super.onPreExecute();
-		}
-		
-    	@Override
-    	protected Void doInBackground(Map<String, String>... dados) {
-    		
-			return null;
-    		
-    	}
-    	
-    	@Override
-    	protected void onPostExecute(Void result) {
-    		
-    		super.onPostExecute(result);
-    	}
-    }
-
+	private void reportarErros(Erro e){
+		String aviso = e.getMessage();
+		aviso = aviso.replace("{", "").replace("}", "").replace("\"erro\":", "");
+//		Dialogos.Alerta.exibirMensagemInformacao(LoginActivity.this, false, aviso, "Atenção!", null);
+//		avisar(aviso);
+		lblDadosInvalidos.setText(aviso);
+		lblDadosInvalidos.setVisibility(View.VISIBLE);
+	}
 }
