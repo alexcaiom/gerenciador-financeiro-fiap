@@ -67,7 +67,16 @@
         </activity>
         <activity
             android:name="com.example.projetodesenvolvimento.GraficoActivity"
-            android:label="@string/title_activity_grafico" >
+            android:label="@string/title_activity_grafico"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name="com.example.projetodesenvolvimento.GraficosActivity"
+            android:label="@string/title_activity_graficos" >
+        </activity>
+        <activity
+            android:name="com.example.projetodesenvolvimento.ListaMovimentoActivity"
+            android:label="@string/title_activity_lista_movimento" >
         </activity>
     </application>
 

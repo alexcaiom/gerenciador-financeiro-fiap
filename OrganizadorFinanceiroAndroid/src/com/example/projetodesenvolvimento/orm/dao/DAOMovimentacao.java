@@ -9,6 +9,7 @@ import android.content.Context;
 import com.example.projetodesenvolvimento.excecoes.SysErr;
 import com.example.projetodesenvolvimento.orm.dao.interfaces.GenericDAO;
 import com.example.projetodesenvolvimento.orm.modelos.Movimentacao;
+import com.example.projetodesenvolvimento.utils.GeradorSQLBean;
 import com.example.projetodesenvolvimento.utils.UtilsData;
 
 /**
@@ -28,7 +29,7 @@ public class DAOMovimentacao extends GenericDAO<Movimentacao> {
 		try {
 			ContentValues values = new ContentValues();
 			values.put("descricao", orm.getDescricao());
-			values.put("senha", UtilsData.calendarToString(orm.getData()));
+			values.put("data", UtilsData.calendarToString(orm.getData()));
 			values.put("sigla", orm.getTipo().getSigla());
 			values.put("valor", orm.getValor().doubleValue());
 
@@ -61,13 +62,12 @@ public class DAOMovimentacao extends GenericDAO<Movimentacao> {
 		ContentValues values = new ContentValues();
 		values.put("descricao", orm.getDescricao());
 		try {
-			values.put("senha", UtilsData.calendarToString(orm.getData()));
-		} catch (Exception e) {
-			throw new Error(e);
+			values.put("data", UtilsData.calendarToString(orm.getData()));
+		} catch (Exception e1) {
+			e1.printStackTrace();
 		}
 		values.put("sigla", orm.getTipo().getSigla());
 		values.put("valor", orm.getValor().doubleValue());
-
 
 		int resultado = getBD(TIPO_BD_ESCRITA).update(getNomeTabela(), values, "codigo=?", new String[]{orm.getCodigo().toString()});
 		if(resultado == -1){
@@ -81,7 +81,7 @@ public class DAOMovimentacao extends GenericDAO<Movimentacao> {
 	 */
 	@Override
 	public void excluir(Movimentacao orm) throws SysErr {
-		int resultado = getBD(TIPO_BD_ESCRITA).delete(orm.getClass().getSimpleName(), "codigo", new String[]{orm.getCodigo().toString()});
+		int resultado = getBD(TIPO_BD_ESCRITA).delete(getNomeTabela(), "codigo", new String[]{orm.getCodigo().toString()});
 		if(resultado == -1){
 			throw new SysErr("Erro ao tentar excluir "+getNomeTabela());
 		}

@@ -110,7 +110,7 @@ public class WebService{
             response = httpClient.execute(httpPost,localContext);
  
             if (response != null) {
-                ret = EntityUtils.toString(response.getEntity());
+            	ret = EntityUtils.toString(response.getEntity());
             }
         } catch (Exception e) {
             Log.e("Groshie", "HttpUtils: " + e);

@@ -19,6 +19,7 @@ public class Constantes {
 	 * OPERACOES
 	 */
 	public static final String USUARIO 						= "login";
+	public static final String MOVIMENTACAO					= "movimentacao";
 	
 	
 	public static final String ITEM_AMIGO 					= "amigo";

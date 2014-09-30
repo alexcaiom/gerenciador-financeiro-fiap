@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 import com.example.projetodesenvolvimento.abstratas.Classe;
 import com.example.projetodesenvolvimento.excecoes.SysErr;
+import com.example.projetodesenvolvimento.utils.GeradorSQLBean;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -49,7 +50,7 @@ public class DAO<T> extends Classe {
 	}
 	
 	public String getNomeTabela() {
-		return new StringBuilder("tb_").append(persistentClass.getSimpleName()).toString();
+		return GeradorSQLBean.getInstancia(persistentClass).getNomeTabela();
 	}
 	
 

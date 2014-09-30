@@ -3,11 +3,11 @@
  */
 package com.example.projetodesenvolvimento.orm.modelos;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Calendar;
 
 import com.example.projetodesenvolvimento.orm.modelos.enums.TipoMovimento;
-import com.example.projetodesenvolvimento.utils.UtilsData;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -17,7 +17,7 @@ import com.j256.ormlite.table.DatabaseTable;
  *
  */
 @DatabaseTable(tableName="TBL_MOVIMENTACAO")
-public class Movimentacao {
+public class Movimentacao implements Serializable {
 
 	@DatabaseField(id = true, allowGeneratedIdInsert = true, generatedId = true, canBeNull = false, dataType = DataType.LONG)
 	private Long codigo;
@@ -27,6 +27,7 @@ public class Movimentacao {
 	private TipoMovimento tipo;
 	private String descricao;
 	private Calendar data;
+	private String login;
 	
 	public Movimentacao() {}
 	public Movimentacao(long codigo, BigDecimal valor,
@@ -62,6 +63,13 @@ public class Movimentacao {
 	}
 	public Movimentacao comDescricao(String descricao) {
 		this.descricao = descricao;
+		return this;
+	}
+	public String getLogin() {
+		return login;
+	}
+	public Movimentacao comLogin(String login) {
+		this.login = login;
 		return this;
 	}
 	public Calendar getData() {

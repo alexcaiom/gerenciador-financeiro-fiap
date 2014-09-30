@@ -12,6 +12,8 @@
     <string name="title_activity_cadastro_usuario">Cadastre-se</string>
     <string name="title_activity_menu">MenuActivity</string>
 
+    <string name="label_cadastro_movimento">Cadastro de Movimento</string>
+
     <!-- Labels de Cadastro de Movimentos -->
     <string name="label_descricao">Descrição</string>
     <string name="label_data">Data</string>
@@ -47,5 +49,6 @@
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>
     <string name="title_section3">Section 3</string>
+    <string name="title_activity_lista_movimento">ListaMovimentoActivity</string>
 
 </resources>

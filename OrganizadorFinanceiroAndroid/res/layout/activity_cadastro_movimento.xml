@@ -1,85 +1,138 @@
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".CadastroMovimentoActivity"
-     >
+    android:layout_height="match_parent" >
 
-    <TableRow 
-        android:orientation="horizontal"
+    <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/label_descricao"
-            android:textSize="@dimen/activity_horizontal_margin" />
-        
-        <EditText 
-            android:id="@+id/cadastro.txtDescricao"
+        android:layout_height="wrap_content"
+        tools:context=".CadastroMovimentoActivity" >
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="@string/label_descricao"
-            android:inputType="text"
-            android:singleLine="true"
-            />
-    </TableRow>
-    <TableRow 
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        
-        <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:text="@string/label_tipo" />
-        
-       <RadioGroup 
-           android:id="@+id/tipoMovimento"
-           android:layout_width="0dip"
-           android:layout_gravity="center_horizontal" 
-           android:layout_height="wrap_content"
-           android:layout_weight="1" >
-        <RadioButton android:id="@+id/radioGasto" 
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="true" 
-            android:text="@string/tipo_movimento_gasto" />
-        <RadioButton android:id="@+id/radioGanho"
-            android:layout_width="wrap_content" 
-            android:layout_height="wrap_content"
-            android:text="@string/tipo_movimento_ganho" />
-    </RadioGroup>
-    </TableRow>
-    <TableRow 
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        
-        <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:text="@string/label_valor" />
-        
-        <EditText 
-            android:id="@+id/cadastro.txtValor"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/calendar_bg_blue"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/label_cadastro_movimento"
+                android:textSize="@dimen/tamanho_20dp"
+                android:textColor="@color/white"
+                 />
+
+        </LinearLayout>
+
+        <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="@string/label_valor"
-            android:inputType="numberDecimal|"
-            android:singleLine="true"
-            />
-    </TableRow>
-	<TableRow 
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    	<Button 
-    	    android:id="@+id/usuario.btnCadastrar"
-    	    android:layout_width="wrap_content"
-    	    android:layout_height="wrap_content"
-    	    android:text="@string/label_cadastrar"
-    	    />    
-	</TableRow>
-</TableLayout>
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/label_descricao"
+                android:textSize="@dimen/tamanho_20dp"
+                 />
+
+            <EditText
+                android:id="@+id/movimento.cadastro.txtDescricao"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/label_descricao"
+                android:inputType="textCapSentences"
+                android:singleLine="true" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/label_tipo"
+                android:textSize="@dimen/tamanho_20dp" />
+
+            <RadioGroup
+                android:id="@+id/movimento.cadastro.tipoMovimento"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1" >
+
+                <RadioButton
+                    android:id="@+id/movimento.cadastro.radioGasto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/tipo_movimento_gasto" />
+
+                <RadioButton
+                    android:id="@+id/movimento.cadastro.radioGanho"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tipo_movimento_ganho" />
+            </RadioGroup>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/label_valor"
+                android:textSize="@dimen/tamanho_20dp" />
+
+            <EditText
+                android:id="@+id/movimento.cadastro.txtValor"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/label_valor"
+                android:inputType="numberDecimal"
+                android:singleLine="true" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/label_data"
+                android:textSize="@dimen/tamanho_20dp" />
+
+            <EditText
+                android:id="@+id/movimento.cadastro.txtData"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/label_data"
+                android:inputType="none"
+                android:singleLine="true"
+                 />
+        </TableRow>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/movimento.cadastro.btnCadastrar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_cadastrar" />
+        </LinearLayout>
+    </TableLayout>
+
+</ScrollView>

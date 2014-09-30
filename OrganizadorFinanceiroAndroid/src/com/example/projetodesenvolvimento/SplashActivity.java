@@ -48,6 +48,7 @@ public class SplashActivity extends ClasseActivity {
 
 	@Override
 	public void carregarTela() {
+		ocultarBarraDeAcoes();
 //		imagemInstrucoes = (ImageView) findViewById(R.id.img_instrucoes);
 		galeria = (Gallery) findViewById(R.id.splash_imagens);
 		btnCadastrar = (Button) findViewById(R.id.btnIrParaTelaCadastro);

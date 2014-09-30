@@ -49,7 +49,7 @@ public class LoginActivity extends ClasseActivity  implements ClasseActivityInte
 		txtUsuario = (EditText) findViewById(R.id.txtLogin);
 		txtSenha = (EditText) findViewById(R.id.txtSenha);
 		lblDadosInvalidos = (TextView) findViewById(R.id.lblLoginInvalido);
-		
+		ocultarBarraDeAcoes();
 		carregarEventos();
 	}
 	
@@ -104,37 +104,37 @@ public class LoginActivity extends ClasseActivity  implements ClasseActivityInte
 		Runnable thread = new Runnable() {
 			public void run() {
 				try {
-					//Este trecho vai demorar devido ao Login Remoto
 					ControladorDeUsuario.getInstancia(LoginActivity.this).login(login, senha);
 					Dialogos.Progresso.fecharDialogoProgresso();
 					irPara(DESTINO);
-				} catch (Erro e) {
-					Dialogos.Progresso.fecharDialogoProgresso();
-					if (e instanceof ErroNegocio) {
-						/**
-						 * Aqui podemos ter um login invalido
-						 */
-						if (e.getMessage().equals(Constantes.DADOS_LOGIN_INVALIDOS)) {
-							Dialogos.Alerta.exibirMensagemInformacao(LoginActivity.this, false, e.getMessage(), "Atenção!", null);
-							txtSenha.requestFocus();
-							exibirLabelErroLoginComMensagem(Constantes.DADOS_LOGIN_INVALIDOS);
-						} else {
-							String aviso = e.getMessage();
-							aviso = aviso.replace("{", "").replace("}", "").replace("erro", "").replace("\"", "").replace(":", "");
-							Dialogos.Alerta.exibirMensagemInformacao(LoginActivity.this, false, aviso, "Atenção!", null);
+					} catch (Erro e) {
+						Dialogos.Progresso.fecharDialogoProgresso();
+						if (e instanceof ErroNegocio) {
+							/**
+							 * Aqui podemos ter um login invalido
+							 */
+							if (e.getMessage().equals(Constantes.DADOS_LOGIN_INVALIDOS)) {
+								Dialogos.Alerta.exibirMensagemInformacao(LoginActivity.this, false, e.getMessage(), "Atenção!", null);
+								txtSenha.requestFocus();
+								exibirLabelErroLoginComMensagem(Constantes.DADOS_LOGIN_INVALIDOS);
+							} else {
+								String aviso = e.getMessage();
+								aviso = aviso.replace("{", "").replace("}", "").replace("erro", "").replace("\"", "").replace(":", "");
+								Dialogos.Alerta.exibirMensagemInformacao(LoginActivity.this, false, aviso, "Atenção!", null);
+							}
+						} else if (e instanceof SysErr) {
+							Dialogos.Alerta.exibirMensagemErro(e, LoginActivity.this, null);
+							Dialogos.Alerta.fecharDialogo();
 						}
-					} else if (e instanceof SysErr) {
+					} catch (Exception e) {
+						Dialogos.Progresso.fecharDialogoProgresso();
 						Dialogos.Alerta.exibirMensagemErro(e, LoginActivity.this, null);
-						Dialogos.Alerta.fecharDialogo();
 					}
-				} catch (Exception e) {
-					Dialogos.Progresso.fecharDialogoProgresso();
-					Dialogos.Alerta.exibirMensagemErro(e, LoginActivity.this, null);
-				}
 			}
 		};
 		
-		new Handler(Looper.getMainLooper()).post(thread);
+		new Thread(thread).start();
+//		new Handler(Looper.getMainLooper()).post(thread);
 		
 	}
 	

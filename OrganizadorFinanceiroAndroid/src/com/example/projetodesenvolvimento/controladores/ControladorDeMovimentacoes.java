@@ -3,7 +3,9 @@
  */
 package com.example.projetodesenvolvimento.controladores;
 
+import com.example.projetodesenvolvimento.excecoes.Erro;
 import com.example.projetodesenvolvimento.orm.modelos.Movimentacao;
+import com.example.projetodesenvolvimento.servicos.ServicoMovimentacaoLocal;
 
 import android.content.Context;
 
@@ -18,6 +20,31 @@ public class ControladorDeMovimentacoes extends ControladorDeVO<Movimentacao> {
 	
 	public void cadastrar(Movimentacao m){
 		
+	}
+	
+	public void gravar(Movimentacao movimentacao) {
+		boolean deveCadastrar = naoExiste(movimentacao.getCodigo());
+		boolean deveAlterar = existe(movimentacao.getCodigo());
+		if (deveCadastrar) {
+			try {
+				getServicoLocal().cadastrar(movimentacao);
+			} catch (Erro e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if (deveAlterar) {
+			try {
+				getServicoLocal().alterar(movimentacao);
+			} catch (Erro e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	private ServicoMovimentacaoLocal getServicoLocal(){
+		return ServicoMovimentacaoLocal.getInstancia(contexto);
 	}
 	
 	public static ControladorDeMovimentacoes getInstancia(Context contexto){
@@ -44,5 +71,4 @@ public class ControladorDeMovimentacoes extends ControladorDeVO<Movimentacao> {
 	public void setContexto(Context contexto) {
 		this.contexto = contexto;
 	}
-	
 }

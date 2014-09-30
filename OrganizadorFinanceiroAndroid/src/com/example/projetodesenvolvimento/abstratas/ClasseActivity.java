@@ -142,4 +142,8 @@ public abstract class ClasseActivity extends Activity implements ClasseActivityI
 		boolean existe = !naoExiste(o);
 		return existe;
 	}
+	
+	public void ocultarBarraDeAcoes(){
+		getActionBar().hide();
+	}
 }

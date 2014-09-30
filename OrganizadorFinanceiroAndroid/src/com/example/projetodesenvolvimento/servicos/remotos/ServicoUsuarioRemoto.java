@@ -6,6 +6,7 @@ package com.example.projetodesenvolvimento.servicos.remotos;
 import android.content.Context;
 
 import com.example.projetodesenvolvimento.abstratas.Classe;
+import com.example.projetodesenvolvimento.enums.EnumUsuarioAutenticado;
 import com.example.projetodesenvolvimento.excecoes.Erro;
 import com.example.projetodesenvolvimento.excecoes.ErroNegocio;
 import com.example.projetodesenvolvimento.excecoes.SysErr;
@@ -25,11 +26,12 @@ public class ServicoUsuarioRemoto extends Classe {
 	
 	public void logar(String login, String senha) throws Erro{
 		Usuario usuario = null;
-		try {
-			usuario = UsuarioWS.getInstancia(contexto).login(login, senha);
-		} catch (Erro e){
-			throw e;
-		}
+//		try {
+//			usuario = UsuarioWS.getInstancia(contexto).login(login, senha);
+			usuario = new Usuario(login, senha, EnumUsuarioAutenticado.SUCESSO.getCodigo());
+//		} catch (Erro e){
+//			throw e;
+//		}
 		Sessao.addParametro(Constantes.USUARIO, usuario);
 	}
 

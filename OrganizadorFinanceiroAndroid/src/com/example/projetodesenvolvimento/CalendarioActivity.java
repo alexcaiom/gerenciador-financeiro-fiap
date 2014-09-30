@@ -34,8 +34,6 @@ import com.example.projetodesenvolvimento.utils.UtilsData;
 
 @TargetApi(Build.VERSION_CODES.CUPCAKE)
 public class CalendarioActivity extends ClasseActivity implements OnClickListener {
-	private static final String tag = "SimpleCalendarViewActivity";
-
 	private ImageView calendarToJournalButton;
 	private Button selectedDayMonthYearButton;
 	private Button currentMonth;
@@ -58,7 +56,7 @@ public class CalendarioActivity extends ClasseActivity implements OnClickListene
 		calendar = Calendar.getInstance(Locale.getDefault());
 		month = calendar.get(Calendar.MONTH) + 1;
 		year = calendar.get(Calendar.YEAR);
-		Log.d(tag, "Calendar Instance:= " + "Month: " + month + " " + "Year: "
+		log("Calendar Instance:= " + "Month: " + month + " " + "Year: "
 				+ year);
 
 		selectedDayMonthYearButton = (Button) this
@@ -103,7 +101,7 @@ public class CalendarioActivity extends ClasseActivity implements OnClickListene
 			} else {
 				month--;
 			}
-			Log.d(tag, "Setting Prev Month in GridCellAdapter: " + "Month: "
+			log("Setting Prev Month in GridCellAdapter: " + "Month: "
 					+ month + " Year: " + year);
 			setGridCellAdapterToDate(month, year);
 		}
@@ -114,7 +112,7 @@ public class CalendarioActivity extends ClasseActivity implements OnClickListene
 			} else {
 				month++;
 			}
-			Log.d(tag, "Setting Next Month in GridCellAdapter: " + "Month: "
+			log("Setting Next Month in GridCellAdapter: " + "Month: "
 					+ month + " Year: " + year);
 			setGridCellAdapterToDate(month, year);
 		}
@@ -122,7 +120,7 @@ public class CalendarioActivity extends ClasseActivity implements OnClickListene
 	}
 
 	public void onDestroy() {
-		Log.d(tag, "Destroying View ...");
+		log("Destroying View ...");
 		super.onDestroy();
 	}
 
