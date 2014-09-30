@@ -3,6 +3,7 @@
  */
 package com.example.projetodesenvolvimento;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -49,8 +50,6 @@ public class LoginActivity extends ClasseActivity  implements ClasseActivityInte
 		txtSenha = (EditText) findViewById(R.id.txtSenha);
 		lblDadosInvalidos = (TextView) findViewById(R.id.lblLoginInvalido);
 		
-		
-
 		carregarEventos();
 	}
 	
@@ -59,6 +58,11 @@ public class LoginActivity extends ClasseActivity  implements ClasseActivityInte
 		btnLogin.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				if (txtUsuario.getText().toString().isEmpty()
+						|| txtSenha.getText().toString().isEmpty()) {
+					exibirLabelErroLoginComMensagem("Login e senha devem ser preenchidos.");
+					return;
+				}
 				logar();
 			}
 		});
@@ -70,20 +74,22 @@ public class LoginActivity extends ClasseActivity  implements ClasseActivityInte
 			}
 		});
 		
+		txtUsuario.setOnKeyListener(new OnKeyListener() {
+			@Override
+			public boolean onKey(View v, int keyCode, KeyEvent event) {
+				ocultarLabelErro();
+				return false;
+			}
+		});
+		
 		txtSenha.setOnKeyListener(new OnKeyListener() {
 			@Override
 			public boolean onKey(View v, int keyCode, KeyEvent event) {
+				lblDadosInvalidos.setVisibility(View.GONE);
 				if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP) {
 					btnLogin.requestFocus();
-//					try {
-//						Thread.sleep(1000);
-//						logar();
-//					} catch (InterruptedException e) {
-//						e.printStackTrace();
-//						Dialogos.Alerta.exibirMensagemErro(e, LoginActivity.this, null);
-//					}
 				} else {
-					lblDadosInvalidos.setVisibility(View.GONE);
+					ocultarLabelErro();
 				}
 				return false;
 			}
@@ -98,9 +104,7 @@ public class LoginActivity extends ClasseActivity  implements ClasseActivityInte
 		Runnable thread = new Runnable() {
 			public void run() {
 				try {
-					//Este trecho vai demorar
-//					String login = dados[0].get("login");
-//					String senha = dados[0].get("senha");
+					//Este trecho vai demorar devido ao Login Remoto
 					ControladorDeUsuario.getInstancia(LoginActivity.this).login(login, senha);
 					Dialogos.Progresso.fecharDialogoProgresso();
 					irPara(DESTINO);
@@ -111,43 +115,38 @@ public class LoginActivity extends ClasseActivity  implements ClasseActivityInte
 						 * Aqui podemos ter um login invalido
 						 */
 						if (e.getMessage().equals(Constantes.DADOS_LOGIN_INVALIDOS)) {
-							avisar(Constantes.DADOS_LOGIN_INVALIDOS);
+							Dialogos.Alerta.exibirMensagemInformacao(LoginActivity.this, false, e.getMessage(), "Atenção!", null);
 							txtSenha.requestFocus();
-							lblDadosInvalidos.setVisibility(View.VISIBLE);
-							lblDadosInvalidos.setText(R.string.label_loginSenhaInvalidos);
+							exibirLabelErroLoginComMensagem(Constantes.DADOS_LOGIN_INVALIDOS);
 						} else {
 							String aviso = e.getMessage();
-							aviso = aviso.replace("{", "").replace("}", "").replace("\"erro\":", "").replace("\"", "");
+							aviso = aviso.replace("{", "").replace("}", "").replace("erro", "").replace("\"", "").replace(":", "");
 							Dialogos.Alerta.exibirMensagemInformacao(LoginActivity.this, false, aviso, "Atenção!", null);
 						}
-//						reportarErros(e);
 					} else if (e instanceof SysErr) {
-						String aviso = e.getMessage();
-						aviso = aviso.replace("{", "").replace("}", "").replace("\"erro\":", "").replace("\"", "");
-						Dialogos.Alerta.exibirMensagemInformacao(LoginActivity.this, false, aviso, "Atenção!", null);
-//						avisar(aviso);
+						Dialogos.Alerta.exibirMensagemErro(e, LoginActivity.this, null);
+						Dialogos.Alerta.fecharDialogo();
 					}
 				} catch (Exception e) {
 					Dialogos.Progresso.fecharDialogoProgresso();
-					String aviso = e.getMessage();
-					aviso = aviso.replace("{", "").replace("}", "").replace("\"erro\":", "").replace("\"", "");
-					Dialogos.Alerta.exibirMensagemInformacao(LoginActivity.this, false, aviso, "Atenção!", null);
-					lblDadosInvalidos.setVisibility(View.VISIBLE);
-					lblDadosInvalidos.setText(e.getMessage());
+					Dialogos.Alerta.exibirMensagemErro(e, LoginActivity.this, null);
 				}
 			}
 		};
 		
-//		new Thread(thread).start();
 		new Handler(Looper.getMainLooper()).post(thread);
+		
 	}
 	
-	private void reportarErros(Erro e){
-		String aviso = e.getMessage();
-		aviso = aviso.replace("{", "").replace("}", "").replace("\"erro\":", "");
-//		Dialogos.Alerta.exibirMensagemInformacao(LoginActivity.this, false, aviso, "Atenção!", null);
-//		avisar(aviso);
-		lblDadosInvalidos.setText(aviso);
+	private void exibirLabelErroLoginComMensagem(String texto){
+		lblDadosInvalidos.setBackgroundColor(Color.RED);
+		lblDadosInvalidos.setTextColor(Color.WHITE);
+		lblDadosInvalidos.setText(texto);
 		lblDadosInvalidos.setVisibility(View.VISIBLE);
 	}
+	
+	private void ocultarLabelErro(){
+		lblDadosInvalidos.setVisibility(View.GONE);
+	}
+	
 }
