@@ -12,6 +12,7 @@ public class UtilsData extends Classe{
 
 	private static final String DATA_EXTENSO_MES = "MMMM";
 	private static String formatoBR = "d' de 'MMMM' de 'yyyy";
+	private static String formatoBRTelaListaMovimentos = "EEE - dd/MM/yyyy";
 	public static final String[] diasDaSemana = new String[] { "Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab" };
 	public static final String[] meses = { "Janeiro", "Fevereiro", "Março",
 			"Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro",
@@ -19,6 +20,18 @@ public class UtilsData extends Classe{
 	public static final String[] months = { "January", "February", "March",
 		"April", "May", "June", "July", "August", "September",
 		"October", "November", "December" };
+	
+	
+	public static final String DATA_EXTENSO = "dd 'de' MMMMM 'de' yyyy";
+	public static final String DATA_EXTENSO_DIA_1_CARACTER = "d 'de' MMMMM 'de' yyyy";
+	public static final String DATA_EXTENSO_SEMANA = "EEEEE',' " + DATA_EXTENSO;
+	public static final String DATA_ANO_4D = "yyyy";
+	public static final String DATA_ANO_2D = "yy";
+	public static final String DATA_MES_2D = "MM";
+	public static final String DATA_MES_ANO_4D = "MMMMM yyyy";
+	public static final String DATA_DEFAULT = "dd/MM/yyyy";
+	public static final String DATA_COMPLETA = "dd/MM/yyyy HH:mm:ss";
+	public static final String DATA_MES_2D_ANO_4D = "MM/yyyy";
 
 	/**
 	 * Metodo que detecta com base na Data atual do servidor o dia da semana
@@ -41,7 +54,7 @@ public class UtilsData extends Classe{
 	 * @return
 	 */
 	public static String getDataHojeExtenso(Calendar data) {
-		SimpleDateFormat format = new SimpleDateFormat(formatoBR);
+		SimpleDateFormat format = new SimpleDateFormat(formatoBR, Locale.getDefault());
 		return format.format(data.getTime());
 	}
 	
@@ -74,6 +87,13 @@ public class UtilsData extends Classe{
 	public static String calendarToString(Calendar data) throws Exception {
 		if (existe(data)) {
 			return dateToString(data.getTime());
+		}
+		return null;
+	}
+	
+	public static String calendarToStringTelaItens(Calendar data) throws Exception {
+		if (existe(data)) {
+			return new SimpleDateFormat(formatoBRTelaListaMovimentos, Locale.getDefault()).format(data.getTime());
 		}
 		return null;
 	}

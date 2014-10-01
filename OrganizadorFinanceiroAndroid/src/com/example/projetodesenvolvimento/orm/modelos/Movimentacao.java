@@ -26,8 +26,11 @@ public class Movimentacao implements Serializable {
 	@DatabaseField(canBeNull = false, dataType = DataType.ENUM_STRING)
 	private TipoMovimento tipo;
 	private String descricao;
+	@DatabaseField(columnName="data", dataType = DataType.DATE_LONG)
 	private Calendar data;
 	private String login;
+	@DatabaseField(columnName="fonte", dataType = DataType.STRING)
+	private Categoria categoria;
 	
 	public Movimentacao() {}
 	public Movimentacao(long codigo, BigDecimal valor,
@@ -79,8 +82,12 @@ public class Movimentacao implements Serializable {
 		this.data = data;
 		return this;
 	}
-
-
+	public Categoria getCategoria() {
+		return categoria;
+	}
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
+	}
 	@Override
 	public String toString() {
 		return "R$ " + valor + ", tipo=" + tipo.getSigla();

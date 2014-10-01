@@ -133,8 +133,8 @@ public class LoginActivity extends ClasseActivity  implements ClasseActivityInte
 			}
 		};
 		
-		new Thread(thread).start();
-//		new Handler(Looper.getMainLooper()).post(thread);
+//		new Thread(thread).start();
+		new Handler(Looper.getMainLooper()).post(thread);
 		
 	}
 	

@@ -1,0 +1,63 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".GestaoFontesMovimentoActivity" >
+
+    <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        >
+    
+    <Button 
+        android:id="@+id/movimento.fontes.btnAddFonte"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+"
+        android:layout_alignParentRight="true"
+        android:textSize="@dimen/tamanho_20dp"
+        />
+
+    <EditText
+        android:id="@+id/movimento.fontes.txtFonte"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:ems="10"
+        android:hint="@string/label_fonte_descricao"
+        android:textSize="@dimen/tamanho_20dp"
+         >
+
+        <requestFocus />
+    </EditText>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:text="@string/label_fonte_descricao"
+        android:textSize="@dimen/tamanho_20dp" />
+
+    </RelativeLayout>
+    
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <ListView 
+            android:id="@+id/movimento.fontes.lista"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/tamanho_20dp"
+            >
+            
+            
+        </ListView>
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,21 +1,17 @@
 package com.example.projetodesenvolvimento;
 
-import com.example.projetodesenvolvimento.abstratas.ClasseActivity;
-import com.example.projetodesenvolvimento.adaptadores.GalleryImageAdapter;
-
 import android.os.Bundle;
-import android.app.Activity;
-import android.view.DragEvent;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnDragListener;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.Gallery;
-import android.widget.ImageView;
-import android.widget.Toast;
+
+import com.example.projetodesenvolvimento.abstratas.ClasseActivity;
+import com.example.projetodesenvolvimento.adaptadores.GalleryImageAdapter;
+import com.example.projetodesenvolvimento.orm.modelos.Movimentacao;
+import com.example.projetodesenvolvimento.utils.Dialogos;
+import com.example.projetodesenvolvimento.utils.GeradorSQLBean;
 
 public class SplashActivity extends ClasseActivity {
 	
@@ -50,9 +46,9 @@ public class SplashActivity extends ClasseActivity {
 	public void carregarTela() {
 		ocultarBarraDeAcoes();
 //		imagemInstrucoes = (ImageView) findViewById(R.id.img_instrucoes);
-		galeria = (Gallery) findViewById(R.id.splash_imagens);
-		btnCadastrar = (Button) findViewById(R.id.btnIrParaTelaCadastro);
-		btnLogin = (Button) findViewById(R.id.btnIrParaTelaLogin);
+		galeria 		= (Gallery) findViewById(R.id.splash_imagens);
+		btnCadastrar 	= (Button) findViewById(R.id.btnIrParaTelaCadastro);
+		btnLogin 		= (Button) findViewById(R.id.btnIrParaTelaLogin);
 		carregarEventos();
 		
 	}
@@ -87,6 +83,7 @@ public class SplashActivity extends ClasseActivity {
 				return false;
 			}
 		});*/
+		
 	}
 	
 }

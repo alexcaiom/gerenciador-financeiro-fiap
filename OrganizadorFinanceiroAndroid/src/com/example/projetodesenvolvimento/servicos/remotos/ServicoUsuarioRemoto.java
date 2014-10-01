@@ -27,8 +27,8 @@ public class ServicoUsuarioRemoto extends Classe {
 	public void logar(String login, String senha) throws Erro{
 		Usuario usuario = null;
 //		try {
-//			usuario = UsuarioWS.getInstancia(contexto).login(login, senha);
 			usuario = new Usuario(login, senha, EnumUsuarioAutenticado.SUCESSO.getCodigo());
+//			usuario = UsuarioWS.getInstancia(contexto).login(login, senha);
 //		} catch (Erro e){
 //			throw e;
 //		}

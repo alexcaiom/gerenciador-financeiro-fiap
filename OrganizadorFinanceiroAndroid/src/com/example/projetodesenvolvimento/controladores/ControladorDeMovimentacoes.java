@@ -3,6 +3,8 @@
  */
 package com.example.projetodesenvolvimento.controladores;
 
+import java.util.List;
+
 import com.example.projetodesenvolvimento.excecoes.Erro;
 import com.example.projetodesenvolvimento.orm.modelos.Movimentacao;
 import com.example.projetodesenvolvimento.servicos.ServicoMovimentacaoLocal;
@@ -22,25 +24,19 @@ public class ControladorDeMovimentacoes extends ControladorDeVO<Movimentacao> {
 		
 	}
 	
-	public void gravar(Movimentacao movimentacao) {
+	public void gravar(Movimentacao movimentacao) throws Erro {
 		boolean deveCadastrar = naoExiste(movimentacao.getCodigo());
 		boolean deveAlterar = existe(movimentacao.getCodigo());
 		if (deveCadastrar) {
-			try {
-				getServicoLocal().cadastrar(movimentacao);
-			} catch (Erro e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			getServicoLocal().cadastrar(movimentacao);
 		}
 		if (deveAlterar) {
-			try {
-				getServicoLocal().alterar(movimentacao);
-			} catch (Erro e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			getServicoLocal().alterar(movimentacao);
 		}
+	}
+	
+	public List<Movimentacao> pesquisarPorLogin(String login) {
+		return getServicoLocal().pesquisarPorLogin(login);
 	}
 	
 	private ServicoMovimentacaoLocal getServicoLocal(){

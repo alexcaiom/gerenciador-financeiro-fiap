@@ -29,9 +29,12 @@ public class WSAcoes extends Classe {
 	private static WSAcoes instancia = null;
 
 	//você precisar colocar o endereco do pc em que encontra seu servidor tomcat
-//	private final String enderecoServidor = "177.60.189.183";
+//	protected final String enderecoServidor = "152.251.102.247";
+//	protected final String enderecoServidor = "177.60.189.183";
 	protected final String enderecoServidor = "www.alexcaiom.com.br";
-	protected final int porta=8081;
+	protected final String porta="";
+//	protected final String porta=":8081";
+//	protected final int porta=8081;
 	protected String url = "";
 	Map<String, String> params = new HashMap<String, String>();
 	WebService webService = null;
@@ -64,7 +67,7 @@ public class WSAcoes extends Classe {
     }*/
     
     public JSONArray getJSONArray(String acao, String entidade, String...parametros) throws Erro{
-    	url = Constantes.CONEXAO_PROTOCOLO+"://"+enderecoServidor+"/"+Constantes.CONEXAO_CONTEXTO+"/"+entidade+"/"+acao;
+    	url = Constantes.CONEXAO_PROTOCOLO+"://"+enderecoServidor+porta+"/"+Constantes.CONEXAO_CONTEXTO+"/"+entidade+"/"+acao;
 
     	for (String p : parametros) {
     		url += "/" + p;
@@ -88,7 +91,7 @@ public class WSAcoes extends Classe {
     }
     
     public JSONObject getJSONObject(String acao, String entidade, String...parametros) throws Erro{
-    	url = Constantes.CONEXAO_PROTOCOLO+"://"+enderecoServidor+"/"+Constantes.CONEXAO_CONTEXTO+"/"+entidade+"/"+acao;
+    	url = Constantes.CONEXAO_PROTOCOLO+"://"+enderecoServidor+porta+"/"+Constantes.CONEXAO_CONTEXTO+"/"+entidade+"/"+acao;
     	
     	for (String p : parametros) {
 			url += "/" + p;

@@ -122,6 +122,33 @@
                  />
         </TableRow>
 
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/label_fonte"
+                android:textSize="@dimen/tamanho_20dp" />
+
+            <Spinner
+                android:id="@+id/movimento.cadastro.cmbFonte"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:hint="@string/label_fonte"
+                android:textSize="@dimen/tamanho_20dp"
+                 />
+            
+			<Button
+			     android:id="@+id/movimento.cadastro.btnGerenciarFontes"
+			     android:layout_width="wrap_content"
+			     android:layout_height="match_parent"
+			     android:background="@drawable/livro"
+			    />
+        </TableRow>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

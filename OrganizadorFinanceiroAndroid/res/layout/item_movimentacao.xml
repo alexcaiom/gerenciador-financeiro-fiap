@@ -2,35 +2,37 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal" >
+    android:gravity="center_vertical"
+    >
 
     <LinearLayout
         android:id="@+id/linearLayout1"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:gravity="left"
+        android:gravity="left|center_vertical"
         android:orientation="vertical" >
 
         <ImageView
-            android:id="@+id/imgTipoMovimento"
+            android:id="@+id/item.movimento.imgTipoMovimento"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/check_verde" />
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignParentRight="true"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:gravity="right"
+        android:layout_toRightOf="@+id/linearLayout1"
+        android:gravity="center_horizontal"
         android:orientation="vertical" >
 
         <TextView
-            android:id="@+id/TextView02"
+            android:id="@+id/item.movimento.descricao"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:text="Descrição" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -41,29 +43,29 @@
                 android:id="@+id/ImageView01"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/movimentacao" />
+                android:src="@drawable/calendario_mini" />
 
             <TextView
-                android:id="@+id/TextView01"
+                android:id="@+id/item.movimento.data"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="Data" />
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/linearLayout1"
-        android:gravity="start"
+        android:gravity="right"
         android:orientation="vertical" >
 
         <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/item.movimento.valor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:text="Valor R$ " />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -76,10 +78,10 @@
                 android:src="@drawable/calendario_mini" />
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/item.movimento.fonte"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="Fonte" />
         </LinearLayout>
     </LinearLayout>
 

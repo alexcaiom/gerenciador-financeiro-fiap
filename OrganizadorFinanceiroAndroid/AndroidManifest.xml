@@ -78,6 +78,10 @@
             android:name="com.example.projetodesenvolvimento.ListaMovimentoActivity"
             android:label="@string/title_activity_lista_movimento" >
         </activity>
+        <activity
+            android:name="com.example.projetodesenvolvimento.GestaoFontesMovimentoActivity"
+            android:label="@string/title_activity_gestao_fontes_movimento" >
+        </activity>
     </application>
 
 </manifest>

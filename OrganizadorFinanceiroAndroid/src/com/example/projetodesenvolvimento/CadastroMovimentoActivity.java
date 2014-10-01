@@ -17,9 +17,11 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 
 import com.example.projetodesenvolvimento.abstratas.ClasseActivity;
 import com.example.projetodesenvolvimento.controladores.ControladorDeMovimentacoes;
+import com.example.projetodesenvolvimento.excecoes.Erro;
 import com.example.projetodesenvolvimento.orm.modelos.Movimentacao;
 import com.example.projetodesenvolvimento.orm.modelos.Usuario;
 import com.example.projetodesenvolvimento.orm.modelos.enums.TipoMovimento;
@@ -38,6 +40,8 @@ public class CadastroMovimentoActivity extends ClasseActivity {
 	private RadioButton 	radioGasto;
 	private EditText 		txtValor;
 	private EditText 		txtData;
+	private Spinner			cmbFonte;
+	private Button			btnGerenciarFontes;
 	private Button 			btnCadastrar;
 	
 	private Calendar data = GregorianCalendar.getInstance();
@@ -79,14 +83,15 @@ public class CadastroMovimentoActivity extends ClasseActivity {
 	@Override
 	public void carregarTela() {
 		ocultarBarraDeAcoes();
-		txtDescricao 	= (EditText) 	findViewById(R.id.movimento_cadastro_txtDescricao);
-		radioTipo 		= (RadioGroup) 	findViewById(R.id.movimento_cadastro_tipoMovimento);
-		radioGasto		= (RadioButton) findViewById(R.id.movimento_cadastro_radioGasto);
-		radioGanho		= (RadioButton) findViewById(R.id.movimento_cadastro_radioGanho);
-		txtValor 		= (EditText) 	findViewById(R.id.movimento_cadastro_txtValor);
-		
-		txtData		 	= (EditText) 	findViewById(R.id.movimento_cadastro_txtData);
-		btnCadastrar	= (Button) 		findViewById(R.id.movimento_cadastro_btnCadastrar);
+		txtDescricao 		= (EditText) 	findViewById(R.id.movimento_cadastro_txtDescricao);
+		radioTipo 			= (RadioGroup) 	findViewById(R.id.movimento_cadastro_tipoMovimento);
+		radioGasto			= (RadioButton) findViewById(R.id.movimento_cadastro_radioGasto);
+		radioGanho			= (RadioButton) findViewById(R.id.movimento_cadastro_radioGanho);
+		txtValor 			= (EditText) 	findViewById(R.id.movimento_cadastro_txtValor);
+		cmbFonte			= (Spinner) 	findViewById(R.id.movimento_cadastro_cmbFonte);
+		btnGerenciarFontes 	= (Button) 		findViewById(R.id.movimento_cadastro_btnGerenciarFontes);
+		txtData		 		= (EditText) 	findViewById(R.id.movimento_cadastro_txtData);
+		btnCadastrar		= (Button) 		findViewById(R.id.movimento_cadastro_btnCadastrar);
 		
 		boolean temMovimentacao = existe(movimentacao);
 		if (temMovimentacao) {
@@ -111,13 +116,6 @@ public class CadastroMovimentoActivity extends ClasseActivity {
 			}
 		}
 		
-		txtData.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				exibirDialogoCampoData();
-			}
-		});
-		
 		carregarEventos();
 	}
 
@@ -133,7 +131,24 @@ public class CadastroMovimentoActivity extends ClasseActivity {
 				}
 			}
 		});
-		
+		btnGerenciarFontes.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				
+			}
+		});
+		txtData.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				exibirDialogoCampoData();
+			}
+		});
+		btnGerenciarFontes.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				irPara(GestaoFontesMovimentoActivity.class);
+			}
+		});
 	}
 
 	protected boolean validarDadosFormulario() {
@@ -173,7 +188,19 @@ public class CadastroMovimentoActivity extends ClasseActivity {
 	}
 	
 	protected void gravar() {
-		ControladorDeMovimentacoes.getInstancia(CadastroMovimentoActivity.this).gravar(movimentacao);
+		try{
+			ControladorDeMovimentacoes.getInstancia(CadastroMovimentoActivity.this).gravar(movimentacao);
+			android.content.DialogInterface.OnClickListener escutadorOk = new android.content.DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					onBackPressed();
+				}
+			};
+			Dialogos.Alerta.exibirMensagemInformacao(CadastroMovimentoActivity.this, false, "Cadastrado com sucesso!", "Informação", escutadorOk );
+		}catch (Erro e){
+			Dialogos.Alerta.exibirMensagemErro(e, CadastroMovimentoActivity.this, null);
+		}
+		
 	}
 	
 	private boolean campoEmBranco(EditText campo){

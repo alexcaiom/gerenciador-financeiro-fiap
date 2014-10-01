@@ -49,12 +49,20 @@ public class BOMovimentacao extends Classe implements IMovimentacaoBO {
 	
 	public Movimentacao pesquisarPorCodigo (String codigo){
 		if (existe(codigo) && !codigo.isEmpty()) {
-			log("pesquisando por ");
+			log(getNomeEntidade()+" pesquisando por codigo: "+codigo);
 			Movimentacao m = new Movimentacao();
 			m.comCodigo(Long.valueOf(codigo));
 			return getFinder().findById(m);
 		}
 		return null;		
+	}
+	
+	public List<Movimentacao> pesquisarPorLogin(String login){
+		if (existe(login) && !login.isEmpty()) {
+			log(getNomeEntidade()+" pesquisando por login: "+login);
+			return getFinder().pesquisarPorLogin(login);
+		}
+		return null;
 	}
 	
 	public List<Movimentacao> listar(){

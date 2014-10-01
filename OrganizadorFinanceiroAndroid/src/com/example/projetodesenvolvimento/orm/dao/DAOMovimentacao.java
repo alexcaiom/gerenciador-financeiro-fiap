@@ -9,8 +9,6 @@ import android.content.Context;
 import com.example.projetodesenvolvimento.excecoes.SysErr;
 import com.example.projetodesenvolvimento.orm.dao.interfaces.GenericDAO;
 import com.example.projetodesenvolvimento.orm.modelos.Movimentacao;
-import com.example.projetodesenvolvimento.utils.GeradorSQLBean;
-import com.example.projetodesenvolvimento.utils.UtilsData;
 
 /**
  * @author Alex
@@ -19,7 +17,6 @@ import com.example.projetodesenvolvimento.utils.UtilsData;
 public class DAOMovimentacao extends GenericDAO<Movimentacao> {
 
 	private static DAOMovimentacao instancia;
-	private Context contexto;
 	
 	/* (non-Javadoc)
 	 * @see com.myip.orm.interfaces.IGenericDAO#inserir(java.lang.Object)
@@ -29,8 +26,8 @@ public class DAOMovimentacao extends GenericDAO<Movimentacao> {
 		try {
 			ContentValues values = new ContentValues();
 			values.put("descricao", orm.getDescricao());
-			values.put("data", UtilsData.calendarToString(orm.getData()));
-			values.put("sigla", orm.getTipo().getSigla());
+			values.put("data", orm.getData().getTimeInMillis());
+			values.put("tipo_id", orm.getTipo().getTipo());
 			values.put("valor", orm.getValor().doubleValue());
 
 			long insertId = 0;
@@ -61,11 +58,7 @@ public class DAOMovimentacao extends GenericDAO<Movimentacao> {
 	public void atualizar(Movimentacao orm) throws SysErr {
 		ContentValues values = new ContentValues();
 		values.put("descricao", orm.getDescricao());
-		try {
-			values.put("data", UtilsData.calendarToString(orm.getData()));
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
+		values.put("data", orm.getData().getTimeInMillis());
 		values.put("sigla", orm.getTipo().getSigla());
 		values.put("valor", orm.getValor().doubleValue());
 

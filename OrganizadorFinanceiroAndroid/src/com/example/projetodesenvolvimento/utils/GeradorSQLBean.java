@@ -2,7 +2,9 @@ package com.example.projetodesenvolvimento.utils;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -118,11 +120,11 @@ public class GeradorSQLBean extends Classe {
 		 * Estrangeira (FK)
 		 */
 		if(!campo.getName().contains("serialVersionUID")){
-			if(!(tipoCampo.startsWith("com") || tipoCampo.startsWith("java.util") || 
+			if((!tipoCampo.startsWith("com") || tipoCampo.startsWith("java.util") || 
 					campo.getAnnotations().length == 0) || campo.getType().isPrimitive()){
 				txtcampo.append(getCampoNormal(campo).trim()).append(" ").append(getTipoCampo(campo).trim()).append(" ").append(getAtributosDeAnotacoes(campo.getAnnotations()).trim());
 			}else {
-				txtcampo.append(getCampoChaveEstrangeira(campo).trim()).append(" ").append(getTipoCampo(campo).trim()).append(getAtributosDeAnotacoes(campo.getAnnotations()).trim());
+				txtcampo.append(getCampoChaveEstrangeira(campo).trim()).append(" ").append(getTipoCampo(campo).trim()).append(" ").append(getAtributosDeAnotacoes(campo.getAnnotations()).trim());
 			}
 		}
 		
@@ -194,6 +196,10 @@ public class GeradorSQLBean extends Classe {
 				return "INTEGER";
 			} else if(classeTipo.getName().contains("com.")){
 				return "INTEGER";
+			} else if (classeTipo == Calendar.class) {
+				return "long";
+			} else if (classeTipo == BigDecimal.class) {
+				return "double";
 			}
 		} else {
 			if(!campo.getName().contains("serialVersionUID")){

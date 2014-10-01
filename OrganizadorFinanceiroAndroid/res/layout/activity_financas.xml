@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".FinancasActivity" >
-
+	<!-- Linha 1 - Navegabilidade entre os meses -->
     <LinearLayout
         android:id="@+id/buttonlayout"
         android:layout_width="fill_parent"
@@ -61,7 +61,7 @@
             android:visibility="visible" />
 
     </LinearLayout>
-
+	<!-- Linha 2 - Título -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
@@ -79,13 +79,15 @@
             android:textColor="@color/white" />
         
     </LinearLayout>
-
+	
+	<!-- Lista -->
     <ListView
         android:id="@+id/financas.lista"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
     </ListView>
 
+    <!-- Quadro de Resumos -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
@@ -125,7 +127,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TextView" />
-
     </RelativeLayout>
 
 </LinearLayout>
