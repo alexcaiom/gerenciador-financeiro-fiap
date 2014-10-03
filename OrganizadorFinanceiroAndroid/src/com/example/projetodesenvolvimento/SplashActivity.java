@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.Gallery;
 
 import com.example.projetodesenvolvimento.abstratas.ClasseActivity;
-import com.example.projetodesenvolvimento.adaptadores.GalleryImageAdapter;
+import com.example.projetodesenvolvimento.gui.adaptadores.GalleryImageAdapter;
 import com.example.projetodesenvolvimento.orm.modelos.Movimentacao;
 import com.example.projetodesenvolvimento.utils.Dialogos;
 import com.example.projetodesenvolvimento.utils.GeradorSQLBean;

@@ -12,8 +12,8 @@ import java.util.List;
 import android.content.Context;
 import android.database.Cursor;
 
+import com.example.projetodesenvolvimento.abstratas.ClasseActivity;
 import com.example.projetodesenvolvimento.excecoes.SysErr;
-import com.example.projetodesenvolvimento.orm.modelos.Categoria;
 import com.example.projetodesenvolvimento.orm.modelos.Movimentacao;
 import com.example.projetodesenvolvimento.orm.modelos.enums.TipoMovimento;
 import com.example.projetodesenvolvimento.utils.GeradorSQLBean;
@@ -28,7 +28,7 @@ public class FinderMovimentacao extends Finder<Movimentacao>{
 
 	public FinderMovimentacao(){}
 
-	public FinderMovimentacao(Context contexto) throws SysErr {
+	public FinderMovimentacao(ClasseActivity contexto) throws SysErr {
 		log("Instanciando...");
 		this.contexto = contexto;
 		this.bd = getBD();
@@ -78,12 +78,12 @@ public class FinderMovimentacao extends Finder<Movimentacao>{
 		return u;
 	}
 	
-	public List<Movimentacao> pesquisarPorLogin(String login) {
+	public List<Movimentacao> pesquisarPorLoginETipoMovimento(String login, TipoMovimento tipo, Long dataInicioPesquisa, Long dataFimPesquisa) {
 		List<Movimentacao> lista = new ArrayList<Movimentacao>();
 		log("Consultando "+getNomeEntidade());
 		try {
-//			cursor = getBD().query(GeradorSQLBean.getInstancia(Movimentacao.class).getNomeTabela(), null, "login=?", new String[]{login}, null, null, null);
-			cursor = getBD().query(GeradorSQLBean.getInstancia(Movimentacao.class).getNomeTabela(), null, null, null, null, null, null);
+			cursor = getBD().query(GeradorSQLBean.getInstancia(Movimentacao.class).getNomeTabela(), null, "login=? and data between ? and ?", new String[]{login, dataInicioPesquisa.toString(), dataFimPesquisa.toString()}, null, null, "data");
+//			cursor = getBD().query(GeradorSQLBean.getInstancia(Movimentacao.class).getNomeTabela(), null, null, null, null, null, null);
 
 			log("Registros encontrados: "+cursor.getCount());
 			if(cursor.getCount() > 0 && cursor.getColumnCount() >= 6 && cursor.moveToFirst()){
@@ -141,6 +141,7 @@ public class FinderMovimentacao extends Finder<Movimentacao>{
 			o.comData(data);
 			o.comTipo(TipoMovimento.getMovimentoPorTipo(c.getInt(c.getColumnIndex("tipo_id"))));
 			o.comValor(new BigDecimal(c.getDouble(c.getColumnIndex("valor"))));
+			o.comLogin(c.getString(c.getColumnIndex("login")));
 			/*Categoria categoria = new Categoria();
 			categoria.setDescricao(c.getString(c.getColumnIndex("fonte_id")));
 			o.setCategoria(categoria);*/
@@ -148,7 +149,7 @@ public class FinderMovimentacao extends Finder<Movimentacao>{
 	}
 	
 
-	public static FinderMovimentacao getInstancia(Context contexto)  {
+	public static FinderMovimentacao getInstancia(ClasseActivity contexto)  {
 		if(instancia == null){
 			try {
 				instancia = new FinderMovimentacao(contexto);

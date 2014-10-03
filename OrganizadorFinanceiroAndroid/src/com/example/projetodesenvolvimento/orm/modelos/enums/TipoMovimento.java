@@ -45,7 +45,7 @@ public enum TipoMovimento {
 				return tipoDoMovimento;
 			}
 		}
-		return null;
+		return TipoMovimento.DEBITO;
 	}
 	
 }

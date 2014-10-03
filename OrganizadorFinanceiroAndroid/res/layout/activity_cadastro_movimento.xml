@@ -8,24 +8,36 @@
         android:layout_height="wrap_content"
         tools:context=".CadastroMovimentoActivity" >
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:background="@drawable/calendar_bg_blue"
             android:gravity="center"
-            android:orientation="horizontal" >
+            android:orientation="horizontal"
+            
+             >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:layout_alignParentLeft="true"
                 android:text="@string/label_cadastro_movimento"
                 android:textSize="@dimen/tamanho_20dp"
                 android:textColor="@color/white"
                  />
+            
+            <Button 
+                android:id="@+id/movimento.cadastro.btnExcluir"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:gravity="center_vertical"
+                android:background="@drawable/lixeira"
+                />
 
-        </LinearLayout>
+        </RelativeLayout>
 
         <TableRow
             android:layout_width="match_parent"
@@ -96,9 +108,10 @@
                 android:id="@+id/movimento.cadastro.txtValor"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="@string/label_valor"
+                android:hint="0.00"
                 android:inputType="numberDecimal"
-                android:singleLine="true" />
+                android:singleLine="true"
+                 />
         </TableRow>
 
         <TableRow

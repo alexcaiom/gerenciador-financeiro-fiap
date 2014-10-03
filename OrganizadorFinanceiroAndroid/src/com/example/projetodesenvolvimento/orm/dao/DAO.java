@@ -4,6 +4,7 @@ import java.lang.reflect.ParameterizedType;
 import java.sql.SQLException;
 
 import com.example.projetodesenvolvimento.abstratas.Classe;
+import com.example.projetodesenvolvimento.abstratas.ClasseActivity;
 import com.example.projetodesenvolvimento.excecoes.SysErr;
 import com.example.projetodesenvolvimento.utils.GeradorSQLBean;
 
@@ -15,7 +16,7 @@ import android.database.sqlite.SQLiteDatabase;
 public class DAO<T> extends Classe {
 	
 	public final Class<T> persistentClass;
-	public Context contexto;
+	public ClasseActivity contexto;
 	public GerenciadorBD gerenciador;
 	public SQLiteDatabase bd;
 	public Cursor cursor;
@@ -61,7 +62,7 @@ public class DAO<T> extends Classe {
 		return contexto;
 	}
 	
-	public final void setContexto(Context contexto){
+	public final void setContexto(ClasseActivity contexto){
 		this.contexto = contexto;
 	}
 	

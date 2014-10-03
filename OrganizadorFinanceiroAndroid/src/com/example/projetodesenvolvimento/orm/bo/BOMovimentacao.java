@@ -9,12 +9,14 @@ import android.content.Context;
 import android.util.Log;
 
 import com.example.projetodesenvolvimento.abstratas.Classe;
+import com.example.projetodesenvolvimento.abstratas.ClasseActivity;
 import com.example.projetodesenvolvimento.excecoes.Erro;
 import com.example.projetodesenvolvimento.excecoes.SysErr;
 import com.example.projetodesenvolvimento.interfaces.IMovimentacaoBO;
 import com.example.projetodesenvolvimento.orm.dao.DAOMovimentacao;
 import com.example.projetodesenvolvimento.orm.dao.finder.FinderMovimentacao;
 import com.example.projetodesenvolvimento.orm.modelos.Movimentacao;
+import com.example.projetodesenvolvimento.orm.modelos.enums.TipoMovimento;
 
 /**
  * @author Alex
@@ -23,9 +25,9 @@ import com.example.projetodesenvolvimento.orm.modelos.Movimentacao;
 public class BOMovimentacao extends Classe implements IMovimentacaoBO {
 
 	private static BOMovimentacao instancia;
-	private Context contexto;
+	private ClasseActivity contexto;
 	
-	private BOMovimentacao(Context contexto){
+	private BOMovimentacao(ClasseActivity contexto){
 		this.contexto = contexto;
 	}
 	
@@ -57,10 +59,10 @@ public class BOMovimentacao extends Classe implements IMovimentacaoBO {
 		return null;		
 	}
 	
-	public List<Movimentacao> pesquisarPorLogin(String login){
+	public List<Movimentacao> pesquisarPorLoginETipoMovimento(String login, TipoMovimento tipo, Long dataInicioPesquisa, Long dataFimPesquisa){
 		if (existe(login) && !login.isEmpty()) {
 			log(getNomeEntidade()+" pesquisando por login: "+login);
-			return getFinder().pesquisarPorLogin(login);
+			return getFinder().pesquisarPorLoginETipoMovimento(login, tipo, dataInicioPesquisa, dataFimPesquisa);
 		}
 		return null;
 	}
@@ -73,7 +75,7 @@ public class BOMovimentacao extends Classe implements IMovimentacaoBO {
 		return CLASSE_NOME.substring(2);
 	}
 	
-	public static BOMovimentacao getInstancia(Context contexto) {
+	public static BOMovimentacao getInstancia(ClasseActivity contexto) {
 		if(instancia == null){
 			instancia = new BOMovimentacao(contexto);
 			instancia.contexto = contexto;

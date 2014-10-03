@@ -6,6 +6,7 @@ package com.example.projetodesenvolvimento.orm.dao.interfaces;
 import com.example.projetodesenvolvimento.excecoes.SysErr;
 import com.example.projetodesenvolvimento.orm.dao.DAO;
 
+import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 
 
@@ -15,11 +16,51 @@ import android.database.sqlite.SQLiteDatabase;
  */
 public abstract class GenericDAO<T>  extends DAO<T> implements IGenericDAO<T> {
 
-	public abstract T incluir(T orm) throws SysErr;
-	
-	public abstract void atualizar(T orm)  throws SysErr ;
-	
-	public abstract void excluir(T orm)  throws SysErr;	
+	public Long incluir(T orm, ContentValues values) throws SysErr {
+		long insertId = 0;
+		try {
+			iniciarTransacao();
+			getBD().insert(getNomeTabela(), null,values);
+			if(insertId == -1){
+				throw new SysErr("Erro ao tentar inserir "+getNomeTabela());
+			}
+			commit();
+			finalizarTransacao();
+		} catch (SysErr e) {
+			orm = null;
+			throw e;
+		} finally {
+			finalizar();
+		}
+		return insertId;
+	}
+
+	public void atualizar(ContentValues values, String whereClause, String[] whereArgs) throws SysErr{
+		try{
+			iniciarTransacao();
+			getBD(TIPO_BD_ESCRITA).update(getNomeTabela(), values, whereClause, whereArgs);
+			commit();
+			finalizarTransacao();
+		} catch (SysErr e){
+			throw new SysErr(e, "Erro ao Atualizar "+getNomeTabela());
+		} finally {
+			finalizar();
+		}
+	}
+
+	public void excluir(String whereClause, String[] whereArgs) throws SysErr{
+		try{
+			iniciarTransacao();
+			getBD().delete(getNomeTabela(), whereClause, whereArgs);
+			commit();
+			finalizarTransacao();
+		} catch (SysErr e){
+			
+			throw new SysErr(e, "Erro ao Excluir "+getNomeTabela());
+		} finally {
+			finalizar();
+		}
+	}
 	
 	public SQLiteDatabase getBD()  throws SysErr{
 		return getBD(TIPO_BD_ESCRITA);

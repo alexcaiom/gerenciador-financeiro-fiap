@@ -5,11 +5,14 @@ package com.example.projetodesenvolvimento.controladores;
 
 import java.util.List;
 
-import com.example.projetodesenvolvimento.excecoes.Erro;
-import com.example.projetodesenvolvimento.orm.modelos.Movimentacao;
-import com.example.projetodesenvolvimento.servicos.ServicoMovimentacaoLocal;
-
 import android.content.Context;
+
+import com.example.projetodesenvolvimento.abstratas.ClasseActivity;
+import com.example.projetodesenvolvimento.excecoes.Erro;
+import com.example.projetodesenvolvimento.excecoes.SysErr;
+import com.example.projetodesenvolvimento.orm.modelos.Movimentacao;
+import com.example.projetodesenvolvimento.orm.modelos.enums.TipoMovimento;
+import com.example.projetodesenvolvimento.servicos.ServicoMovimentacaoLocal;
 
 /**
  * @author Alex
@@ -18,10 +21,14 @@ import android.content.Context;
 public class ControladorDeMovimentacoes extends ControladorDeVO<Movimentacao> {
 
 	private static ControladorDeMovimentacoes instancia;
-	private Context contexto;
+	private ClasseActivity contexto;
 	
 	public void cadastrar(Movimentacao m){
 		
+	}
+	
+	public void excluir(Movimentacao movimentacao) throws SysErr {
+		getServicoLocal().excluir(movimentacao);		
 	}
 	
 	public void gravar(Movimentacao movimentacao) throws Erro {
@@ -35,15 +42,15 @@ public class ControladorDeMovimentacoes extends ControladorDeVO<Movimentacao> {
 		}
 	}
 	
-	public List<Movimentacao> pesquisarPorLogin(String login) {
-		return getServicoLocal().pesquisarPorLogin(login);
+	public List<Movimentacao> pesquisarPorLoginETipoMovimento(String login, TipoMovimento tipo, Long dataInicioPesquisa, Long dataFimPesquisa) {
+		return getServicoLocal().pesquisarPorLoginETipoMovimento(login, tipo, dataInicioPesquisa, dataFimPesquisa);
 	}
 	
 	private ServicoMovimentacaoLocal getServicoLocal(){
 		return ServicoMovimentacaoLocal.getInstancia(contexto);
 	}
 	
-	public static ControladorDeMovimentacoes getInstancia(Context contexto){
+	public static ControladorDeMovimentacoes getInstancia(ClasseActivity contexto){
 		if (naoExiste(instancia)) {
 			instancia = new ControladorDeMovimentacoes();
 			instancia.setContexto(contexto);
@@ -64,7 +71,7 @@ public class ControladorDeMovimentacoes extends ControladorDeVO<Movimentacao> {
 	}
 
 
-	public void setContexto(Context contexto) {
+	public void setContexto(ClasseActivity contexto) {
 		this.contexto = contexto;
 	}
 }

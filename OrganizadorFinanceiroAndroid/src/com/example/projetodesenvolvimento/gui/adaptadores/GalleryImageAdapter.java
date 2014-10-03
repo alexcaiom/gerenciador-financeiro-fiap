@@ -1,4 +1,4 @@
-package com.example.projetodesenvolvimento.adaptadores;
+package com.example.projetodesenvolvimento.gui.adaptadores;
 
 import android.content.Context;
 import android.view.View;

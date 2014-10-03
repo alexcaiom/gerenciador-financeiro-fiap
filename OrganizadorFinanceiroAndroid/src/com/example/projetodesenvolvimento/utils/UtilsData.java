@@ -12,6 +12,7 @@ public class UtilsData extends Classe{
 
 	private static final String DATA_EXTENSO_MES = "MMMM";
 	private static String formatoBR = "d' de 'MMMM' de 'yyyy";
+	private static String formatoBRCompleto = "EEEE, d' de 'MMMM' de 'yyyy";
 	private static String formatoBRTelaListaMovimentos = "EEE - dd/MM/yyyy";
 	public static final String[] diasDaSemana = new String[] { "Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab" };
 	public static final String[] meses = { "Janeiro", "Fevereiro", "Março",
@@ -80,6 +81,13 @@ public class UtilsData extends Classe{
 	public static String dateToString(Date d) throws Exception {
 		if (existe(d)) {
 			return new SimpleDateFormat(formatoBR, Locale.getDefault()).format(d);
+		}
+		return null;
+	}
+	
+	public static String calendarToStringDataCompleta(Calendar data) throws Exception {
+		if (existe(data)) {
+			return new SimpleDateFormat(formatoBRCompleto, Locale.getDefault()).format(data.getTime());
 		}
 		return null;
 	}

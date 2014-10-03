@@ -1,9 +1,11 @@
 package com.example.projetodesenvolvimento;
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.View;
@@ -12,16 +14,21 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.projetodesenvolvimento.abstratas.ClasseActivity;
 import com.example.projetodesenvolvimento.controladores.ControladorDeMovimentacoes;
 import com.example.projetodesenvolvimento.gui.adaptadores.AdaptadorListaMovimentos;
 import com.example.projetodesenvolvimento.orm.modelos.Movimentacao;
 import com.example.projetodesenvolvimento.orm.modelos.Usuario;
+import com.example.projetodesenvolvimento.orm.modelos.enums.TipoMovimento;
 import com.example.projetodesenvolvimento.utils.Constantes;
 import com.example.projetodesenvolvimento.utils.Sessao;
+import com.example.projetodesenvolvimento.utils.UtilsData;
+import com.example.projetodesenvolvimento.utils.UtilsNumero;
 
 public class FinancasActivity extends ClasseActivity implements OnClickListener {
+	private Button btnAtualizar;
 	private TextView currentMonth;
 	private ImageView prevMonth;
 	private ImageView nextMonth;
@@ -32,54 +39,23 @@ public class FinancasActivity extends ClasseActivity implements OnClickListener 
 	
 	private List<Movimentacao> movimentacaoes;
 	private ListView lista;
-
+	
+	private TextView lblVlrTotalPago;
+	private TextView lblVlrTotal;
+	private TextView lblVlrTotalOutros;
+	
+	private double vlrTotalPago;
+	private double vlrTotalGanho;
+	private double vlrTotal;
+	private double vlrTotalOutros;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_financas);
 		carregarTela();
 	}
-
-	private void setGridCellAdapterToDate(int month, int year) {
-		calendar.set(year, month - 1, calendar.get(Calendar.DAY_OF_MONTH));
-		currentMonth.setText(DateFormat.format(dateTemplate,calendar.getTime()));
-	}
-
-	@Override
-	public void onClick(View v) {
-		if (v == prevMonth) {
-			if (month <= 1) {
-				month = 12;
-				year--;
-			} else {
-				month--;
-			}
-			log("Setting Prev Month in GridCellAdapter: " + "Month: "
-					+ month + " Year: " + year);
-			setGridCellAdapterToDate(month, year);
-		}
-		if (v == nextMonth) {
-			if (month > 11) {
-				month = 1;
-				year++;
-			} else {
-				month++;
-			}
-			log("Setting Next Month in GridCellAdapter: " + "Month: "
-					+ month + " Year: " + year);
-			setGridCellAdapterToDate(month, year);
-		}
-		if (v == addEvent) {
-			irPara(CadastroMovimentoActivity.class);
-		}
-
-	}
-
-	public void onDestroy() {
-		log("Destroying View ...");
-		super.onDestroy();
-	}
-
+	
 	@Override
 	public void carregarTela() {
 		calendar = Calendar.getInstance(Locale.getDefault());
@@ -90,23 +66,113 @@ public class FinancasActivity extends ClasseActivity implements OnClickListener 
 		/**
 		 * Barra de Navegabilidade de Meses
 		 */
-		prevMonth 		= (ImageView)	findViewById(R.id.financas_prevMonth);
-		currentMonth 	= (TextView) 	findViewById(R.id.financas_currentMonth);
+		btnAtualizar 		= (Button) 		findViewById(R.id.financas_atualiza);
+		prevMonth 			= (ImageView)	findViewById(R.id.financas_prevMonth);
+		currentMonth 		= (TextView) 	findViewById(R.id.financas_currentMonth);
 		currentMonth.setText(DateFormat.format(dateTemplate,calendar.getTime()));
-		nextMonth 		= (ImageView) 	findViewById(R.id.financas_nextMonth);
-		addEvent 		= (Button) 		findViewById(R.id.financas_addEvent);
+		nextMonth 			= (ImageView) 	findViewById(R.id.financas_nextMonth);
+		addEvent 			= (Button) 		findViewById(R.id.financas_addEvent);
 		
-		lista 			= (ListView) 	findViewById(R.id.financas_lista);
+		lista 				= (ListView) 	findViewById(R.id.financas_lista);
+		lblVlrTotalPago 	= (TextView) 	findViewById(R.id.financas_lblTotPago);
+		lblVlrTotal 		= (TextView) 	findViewById(R.id.financas_lblVlrTotal);
+		lblVlrTotalOutros 	= (TextView) 	findViewById(R.id.financas_lblVlrTotOutros);
+		
 		preencheListaMovimentos();
 		ocultarBarraDeAcoes();
 		carregarEventos();
 	}
 
+
+	@Override
+	public void onClick(View v) {
+		if (v == btnAtualizar) {
+			preencheListaMovimentos();
+		}
+		if (v == prevMonth) {
+			if (month <= 1) {
+				month = 12;
+				year--;
+			} else {
+				month--;
+			}
+			log("Setting Prev Month in GridCellAdapter: " + "Month: "
+					+ month + " Year: " + year);
+			setMesSelecionadoPara(month, year);
+			preencheListaMovimentos();
+		}
+		if (v == nextMonth) {
+			if (month > 11) {
+				month = 1;
+				year++;
+			} else {
+				month++;
+			}
+			log("Setting Next Month in GridCellAdapter: " + "Month: "
+					+ month + " Year: " + year);
+			setMesSelecionadoPara(month, year);
+			preencheListaMovimentos();
+		}
+		if (v == addEvent) {
+			irPara(CadastroMovimentoActivity.class);
+		}
+
+	}
+
 	private void preencheListaMovimentos() {
+		Calendar dataInicioPeriodo = GregorianCalendar.getInstance();
+		Calendar dataFimPeriodo = GregorianCalendar.getInstance();
+		dataInicioPeriodo.set(year, month-1, 1);
+		dataFimPeriodo.set(year, month-1, 1);
+		dataFimPeriodo.add(GregorianCalendar.MONTH, 1);
+		dataFimPeriodo.add(GregorianCalendar.DAY_OF_MONTH, -1);
 		Usuario usuarioLogado = (Usuario) Sessao.getParametro(Constantes.USUARIO);
-		movimentacaoes = ControladorDeMovimentacoes.getInstancia(FinancasActivity.this).pesquisarPorLogin(usuarioLogado.getLogin());
+		try {
+			UtilsData.calendarToStringDataCompleta(dataInicioPeriodo);
+			UtilsData.calendarToStringDataCompleta(dataFimPeriodo);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		movimentacaoes = ControladorDeMovimentacoes.getInstancia(FinancasActivity.this).pesquisarPorLoginETipoMovimento(usuarioLogado.getLogin(), null, dataInicioPeriodo.getTimeInMillis(), dataFimPeriodo.getTimeInMillis());
 		AdaptadorListaMovimentos adaptador = new AdaptadorListaMovimentos(FinancasActivity.this, movimentacaoes);
 		lista.setAdapter(adaptador);
+		vlrTotal = 0;
+		vlrTotalOutros = 0;
+		vlrTotalPago = 0;
+		vlrTotalGanho = 0;
+		for (Movimentacao m : movimentacaoes) {
+			boolean movimentoEhPagamento = m.getTipo().equals(TipoMovimento.DEBITO);
+			if (movimentoEhPagamento) {
+				vlrTotalPago += m.getValor().doubleValue();
+			}
+			
+//			boolean movimentoEhOutros = movimentoEhPagamento &&
+			boolean movimentoEhRecebimento = m.getTipo().equals(TipoMovimento.CREDITO);
+			if (movimentoEhRecebimento) {
+				vlrTotalGanho += m.getValor().doubleValue();
+			}
+			
+			vlrTotalOutros += m.getValor().doubleValue();
+			
+		}		
+		
+		lblVlrTotalPago.setText(UtilsNumero.getMoeda(vlrTotalPago));
+//		lblVlrTotalOutros.setText(UtilsNumero.getMoeda(vlrTotalOutros));
+		vlrTotal = vlrTotalGanho - vlrTotalPago;
+		lblVlrTotal.setText(UtilsNumero.getMoeda(vlrTotal));
+		
+		boolean estaNegativado = vlrTotal < 0;
+		boolean estaBem = vlrTotal > 0;
+		if (estaNegativado) {
+			lblVlrTotal.setTextColor(Color.RED);
+		} else if (estaBem) {
+			lblVlrTotal.setTextColor(Color.GREEN);
+		} else {
+			lblVlrTotal.setTextColor(Color.GRAY);
+		}
+		
+		avisar("Lista de movimentos de "+currentMonth.getText().toString() + " preenchida", Toast.LENGTH_SHORT);
 	}
 
 	@Override
@@ -120,5 +186,10 @@ public class FinancasActivity extends ClasseActivity implements OnClickListener 
 	protected void onResume() {
 		super.onResume();
 		preencheListaMovimentos();
+	}
+	
+	private void setMesSelecionadoPara(int month, int year) {
+		calendar.set(year, month - 1, calendar.get(Calendar.DAY_OF_MONTH));
+		currentMonth.setText(DateFormat.format(dateTemplate,calendar.getTime()));
 	}
 }

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.CalendarView.OnDateChangeListener;
@@ -22,6 +23,7 @@ import android.widget.Spinner;
 import com.example.projetodesenvolvimento.abstratas.ClasseActivity;
 import com.example.projetodesenvolvimento.controladores.ControladorDeMovimentacoes;
 import com.example.projetodesenvolvimento.excecoes.Erro;
+import com.example.projetodesenvolvimento.excecoes.SysErr;
 import com.example.projetodesenvolvimento.orm.modelos.Movimentacao;
 import com.example.projetodesenvolvimento.orm.modelos.Usuario;
 import com.example.projetodesenvolvimento.orm.modelos.enums.TipoMovimento;
@@ -43,6 +45,7 @@ public class CadastroMovimentoActivity extends ClasseActivity {
 	private Spinner			cmbFonte;
 	private Button			btnGerenciarFontes;
 	private Button 			btnCadastrar;
+	private Button			btnExcluir;
 	
 	private Calendar data = GregorianCalendar.getInstance();
 	
@@ -92,6 +95,7 @@ public class CadastroMovimentoActivity extends ClasseActivity {
 		btnGerenciarFontes 	= (Button) 		findViewById(R.id.movimento_cadastro_btnGerenciarFontes);
 		txtData		 		= (EditText) 	findViewById(R.id.movimento_cadastro_txtData);
 		btnCadastrar		= (Button) 		findViewById(R.id.movimento_cadastro_btnCadastrar);
+		btnExcluir			= (Button) 		findViewById(R.id.movimento_cadastro_btnExcluir);
 		
 		boolean temMovimentacao = existe(movimentacao);
 		if (temMovimentacao) {
@@ -107,7 +111,6 @@ public class CadastroMovimentoActivity extends ClasseActivity {
 				e.printStackTrace();
 			}
 		} else {
-			txtValor.setText(Double.valueOf(0.0).toString());
 			try {
 				txtData.setText(UtilsData.getDataHojeExtenso());
 			} catch (Exception e) {
@@ -143,10 +146,37 @@ public class CadastroMovimentoActivity extends ClasseActivity {
 				exibirDialogoCampoData();
 			}
 		});
+		txtData.setOnFocusChangeListener(new OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					exibirDialogoCampoData();
+				}
+			}
+		});
+		
 		btnGerenciarFontes.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				irPara(GestaoFontesMovimentoActivity.class);
+			}
+		});
+		btnExcluir.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				android.content.DialogInterface.OnClickListener acaoSim = new android.content.DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						try {
+							ControladorDeMovimentacoes.getInstancia(CadastroMovimentoActivity.this).excluir(movimentacao);
+							onBackPressed();
+						} catch (SysErr e) {
+							Dialogos.Alerta.exibirMensagemErro(e, CadastroMovimentoActivity.this, null);
+						}
+					}
+				};
+				
+				Dialogos.Alerta.exibirMensagemPergunta(CadastroMovimentoActivity.this, true, "Deseja mesmo excluir este movimento?", "Alerta", acaoSim, null, null);
 			}
 		});
 	}
@@ -176,7 +206,11 @@ public class CadastroMovimentoActivity extends ClasseActivity {
 		}
 		movimentacao.comDescricao(txtDescricao.getText().toString());
 		movimentacao.comLogin(usuario.getLogin());
-		movimentacao.comValor(new BigDecimal(txtValor.getText().toString()));
+		if (!txtValor.getText().toString().isEmpty()) {
+			movimentacao.comValor(new BigDecimal(txtValor.getText().toString()));
+		} else {
+			movimentacao.comValor(new BigDecimal(0));	
+		}
 		movimentacao.comData(data);
 		boolean ehCredito 	= radioTipo.getCheckedRadioButtonId() == radioGanho.getId();
 		boolean ehDebito 	= radioTipo.getCheckedRadioButtonId() == radioGasto.getId();
@@ -250,7 +284,7 @@ public class CadastroMovimentoActivity extends ClasseActivity {
 					int dayOfMonth) {
 				data.set(year, month, dayOfMonth);
 				try {
-					dialogo.setTitle(UtilsData.calendarToString(data));
+					dialogo.setTitle(UtilsData.calendarToStringDataCompleta(data));
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

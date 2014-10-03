@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_vertical"
-    >
+    android:gravity="center_vertical" >
 
     <LinearLayout
         android:id="@+id/linearLayout1"
@@ -21,9 +20,10 @@
 
     <LinearLayout
         android:id="@+id/linearLayout2"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/linearLayout3"
         android:layout_toRightOf="@+id/linearLayout1"
         android:gravity="center_horizontal"
         android:orientation="vertical" >
@@ -32,6 +32,7 @@
             android:id="@+id/item.movimento.descricao"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="left"
             android:text="Descrição" />
 
         <LinearLayout
@@ -47,7 +48,7 @@
 
             <TextView
                 android:id="@+id/item.movimento.data"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Data" />
         </LinearLayout>
@@ -69,13 +70,14 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:gravity="right" >
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/item.movimento.imgMovimento"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/calendario_mini" />
+                android:src="@drawable/movimentacao" />
 
             <TextView
                 android:id="@+id/item.movimento.fonte"

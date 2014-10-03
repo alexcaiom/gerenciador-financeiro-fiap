@@ -3,9 +3,9 @@
  */
 package com.example.projetodesenvolvimento.orm.dao.finder;
 
-import android.content.Context;
 import android.database.Cursor;
 
+import com.example.projetodesenvolvimento.abstratas.ClasseActivity;
 import com.example.projetodesenvolvimento.excecoes.SysErr;
 import com.example.projetodesenvolvimento.orm.modelos.Usuario;
 
@@ -19,7 +19,7 @@ public class FinderUsuario extends Finder<Usuario>{
 
 	public FinderUsuario(){}
 
-	public FinderUsuario(Context contexto) throws SysErr {
+	public FinderUsuario(ClasseActivity contexto) throws SysErr {
 		log("Instanciando...");
 		this.contexto = contexto;
 		this.bd = getBD();

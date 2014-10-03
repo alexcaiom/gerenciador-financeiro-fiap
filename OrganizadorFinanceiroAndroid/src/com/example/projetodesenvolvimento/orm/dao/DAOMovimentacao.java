@@ -4,11 +4,15 @@
 package com.example.projetodesenvolvimento.orm.dao;
 
 import android.content.ContentValues;
-import android.content.Context;
+import android.graphics.AvoidXfermode;
+import android.widget.Toast;
 
+import com.example.projetodesenvolvimento.abstratas.ClasseActivity;
 import com.example.projetodesenvolvimento.excecoes.SysErr;
 import com.example.projetodesenvolvimento.orm.dao.interfaces.GenericDAO;
 import com.example.projetodesenvolvimento.orm.modelos.Movimentacao;
+import com.example.projetodesenvolvimento.utils.UtilsData;
+import com.example.projetodesenvolvimento.utils.UtilsNumero;
 
 /**
  * @author Alex
@@ -29,17 +33,19 @@ public class DAOMovimentacao extends GenericDAO<Movimentacao> {
 			values.put("data", orm.getData().getTimeInMillis());
 			values.put("tipo_id", orm.getTipo().getTipo());
 			values.put("valor", orm.getValor().doubleValue());
-
+			values.put("login", orm.getLogin());
+			
+			String mensagem = "Inserindo "+orm.getDescricao() + " - R$ "+UtilsNumero.getMoeda(orm.getValor().doubleValue())+
+								" - em "+UtilsData.dateToString(orm.getData().getTime());
+			contexto.avisar(mensagem, Toast.LENGTH_SHORT);
 			long insertId = 0;
-			insertId = getBD(TIPO_BD_ESCRITA).insert(getNomeTabela(), null,values);
+			insertId = incluir(orm, values);
 
 			if(insertId > -1){
 				orm.comCodigo(insertId);
 			} else {
 				throw new SysErr("Erro ao tentar inserir "+getNomeTabela());
 			}
-			getBD(TIPO_BD_ESCRITA).close();
-			
 		} catch (android.database.SQLException e) {
 			orm = null;
 			e.printStackTrace();
@@ -59,14 +65,10 @@ public class DAOMovimentacao extends GenericDAO<Movimentacao> {
 		ContentValues values = new ContentValues();
 		values.put("descricao", orm.getDescricao());
 		values.put("data", orm.getData().getTimeInMillis());
-		values.put("sigla", orm.getTipo().getSigla());
+		values.put("tipo_id", orm.getTipo().getTipo());
 		values.put("valor", orm.getValor().doubleValue());
 
-		int resultado = getBD(TIPO_BD_ESCRITA).update(getNomeTabela(), values, "codigo=?", new String[]{orm.getCodigo().toString()});
-		if(resultado == -1){
-			throw new SysErr("Erro ao tentar atualizar "+getNomeTabela());
-		}
-		getBD(TIPO_BD_ESCRITA).close();
+		atualizar(values, "codigo=?", new String[]{orm.getCodigo().toString()});
 	}
 
 	/* (non-Javadoc)
@@ -74,14 +76,10 @@ public class DAOMovimentacao extends GenericDAO<Movimentacao> {
 	 */
 	@Override
 	public void excluir(Movimentacao orm) throws SysErr {
-		int resultado = getBD(TIPO_BD_ESCRITA).delete(getNomeTabela(), "codigo", new String[]{orm.getCodigo().toString()});
-		if(resultado == -1){
-			throw new SysErr("Erro ao tentar excluir "+getNomeTabela());
-		}
-		getBD(TIPO_BD_ESCRITA).close();
+		excluir("codigo=?", new String[]{orm.getCodigo().toString()});
 	}
 	
-	public static DAOMovimentacao getInstancia(Context contexto){
+	public static DAOMovimentacao getInstancia(ClasseActivity contexto){
 		if (naoExiste(instancia)) {
 			instancia = new DAOMovimentacao();
 			instancia.contexto = contexto;
