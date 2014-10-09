@@ -4,11 +4,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".FinancasActivity" >
-	<!-- Linha 1 - Navegabilidade entre os meses -->
+
+    <!-- Linha 1 - Navegabilidade entre os meses -->
+
     <LinearLayout
         android:id="@+id/buttonlayout"
         android:layout_width="fill_parent"
         android:layout_height="60sp"
+        android:layout_above="@+id/financas.titulo"
         android:background="@drawable/topbar"
         android:gravity="left|top"
         android:height="60sp"
@@ -16,8 +19,8 @@
 
         <Button
             android:id="@+id/financas.atualiza"
-            android:layout_width="54sp"
-            android:layout_height="60sp"
+            android:layout_width="31dp"
+            android:layout_height="29dp"
             android:background="@drawable/atualiza" />
 
         <ImageView
@@ -26,9 +29,8 @@
             android:layout_height="fill_parent"
             android:layout_gravity="center"
             android:layout_marginLeft="10sp"
-            android:src="@drawable/calendar_left_arrow_selector"
             android:contentDescription="Não sei"
-             >
+            android:src="@drawable/calendar_left_arrow_selector" >
         </ImageView>
 
         <TextView
@@ -40,7 +42,6 @@
             android:text="123"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#FFFFFF" >
-
         </TextView>
 
         <ImageView
@@ -58,14 +59,16 @@
             android:layout_height="60sp"
             android:background="@drawable/plus"
             android:visibility="visible" />
-
     </LinearLayout>
-	<!-- Linha 2 - Título -->
+    <!-- Linha 2 - Título -->
+
     <LinearLayout
+        android:id="@+id/financas.titulo"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="@drawable/topbar"
-        android:gravity="center" >
+        android:background="@drawable/topbar" >
+
+        <!-- android:layout_above="@+id/financas.scrollLista" -->
 
         <TextView
             android:layout_width="wrap_content"
@@ -73,83 +76,72 @@
             android:gravity="center"
             android:text="Dinheiro"
             android:textAlignment="center"
+            android:textColor="@color/white"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="@color/white" />
-        
+            android:textStyle="bold" />
     </LinearLayout>
-	
-    <ScrollView
+
+    <ListView
+        android:id="@+id/financas.lista"
+        android:layout_width="match_parent"
+        android:layout_height="301dp"
+        android:layout_weight="1.30"
+        android:scrollbars="vertical" >
+    </ListView>
+
+    <!-- Quadro de Resumos -->
+
+    <RelativeLayout
+        android:id="@+id/financas.rodape"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        >
+        android:layout_alignParentBottom="true" >
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/financas.lblPagos"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:text="Pagos:" />
 
-            <!-- Lista -->
+        <TextView
+            android:id="@+id/financas.lblTotPago"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:text="TextView" />
 
-            <ListView
-                android:id="@+id/financas.lista"
-                android:layout_width="match_parent"
-                android:layout_height="303dp"
-                android:scrollbars="vertical" 
-                >
-            </ListView>
-        </LinearLayout>
+        <TextView
+            android:id="@+id/financas.lblVlrTotOutros"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/financas.lblTotal"
+            android:layout_alignParentRight="true"
+            android:text="TextView" />
 
-    </ScrollView>
-	<!-- Quadro de Resumos -->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" >
+        <TextView
+            android:id="@+id/financas.lblOutros"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/financas.lblPagos"
+            android:text="Outros:" />
 
-                <TextView
-                    android:id="@+id/financas.lblPagos"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Pagos:" />
+        <TextView
+            android:id="@+id/financas.lblTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/financas.lblOutros"
+            android:text="Total:" />
 
-                <TextView
-                    android:id="@+id/financas.lblTotPago"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
-                    android:text="TextView" />
+        <TextView
+            android:id="@+id/financas.lblVlrTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/financas.lblVlrTotOutros"
+            android:text="TextView" />
+    </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/financas.lblVlrTotOutros"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_above="@+id/financas.lblTotal"
-                    android:layout_alignParentRight="true"
-                    android:text="TextView" />
-
-                <TextView
-                    android:id="@+id/financas.lblOutros"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_below="@+id/financas.lblPagos"
-                    android:text="Outros:" />
-
-                <TextView
-                    android:id="@+id/financas.lblTotal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_below="@+id/financas.lblOutros"
-                    android:text="Total:" />
-
-                <TextView
-                    android:id="@+id/financas.lblVlrTotal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_below="@+id/financas.lblVlrTotOutros"
-                    android:text="TextView" />
-            </RelativeLayout>
 </LinearLayout>

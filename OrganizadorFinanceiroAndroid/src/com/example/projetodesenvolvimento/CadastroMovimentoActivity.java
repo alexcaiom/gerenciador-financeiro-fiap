@@ -119,6 +119,10 @@ public class CadastroMovimentoActivity extends ClasseActivity {
 			}
 		}
 		
+		if (naoExiste(movimentacao)) {
+			btnExcluir.setVisibility(View.GONE);
+		}
+		
 		carregarEventos();
 	}
 

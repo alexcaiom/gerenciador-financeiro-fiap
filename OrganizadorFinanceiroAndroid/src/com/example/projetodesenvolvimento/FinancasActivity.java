@@ -120,12 +120,13 @@ public class FinancasActivity extends ClasseActivity implements OnClickListener 
 	}
 
 	private void preencheListaMovimentos() {
+		int diaDePagamento = 25;
 		Calendar dataInicioPeriodo = GregorianCalendar.getInstance();
 		Calendar dataFimPeriodo = GregorianCalendar.getInstance();
-		dataInicioPeriodo.set(year, month-1, 1);
-		dataFimPeriodo.set(year, month-1, 1);
-		dataFimPeriodo.add(GregorianCalendar.MONTH, 1);
-		dataFimPeriodo.add(GregorianCalendar.DAY_OF_MONTH, -1);
+		dataInicioPeriodo.set(year, month-2, diaDePagamento-1);
+		dataFimPeriodo.set(year, month-1, diaDePagamento);
+//		dataFimPeriodo.add(GregorianCalendar.MONTH, 1);
+//		dataFimPeriodo.add(GregorianCalendar.DAY_OF_MONTH, -1);
 		Usuario usuarioLogado = (Usuario) Sessao.getParametro(Constantes.USUARIO);
 		try {
 			UtilsData.calendarToStringDataCompleta(dataInicioPeriodo);
@@ -184,8 +185,8 @@ public class FinancasActivity extends ClasseActivity implements OnClickListener 
 	
 	@Override
 	protected void onResume() {
-		super.onResume();
 		preencheListaMovimentos();
+		super.onResume();
 	}
 	
 	private void setMesSelecionadoPara(int month, int year) {

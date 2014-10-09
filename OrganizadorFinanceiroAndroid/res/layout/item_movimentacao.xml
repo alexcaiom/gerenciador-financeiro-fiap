@@ -33,7 +33,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
-            android:text="Descrição" />
+            android:text="Descrição"
+            android:textSize="@dimen/tamanho_20dp"
+             />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -50,7 +52,9 @@
                 android:id="@+id/item.movimento.data"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Data" />
+                android:text="Data"
+                android:textSize="@dimen/tamanho_20dp"
+                 />
         </LinearLayout>
     </LinearLayout>
 
