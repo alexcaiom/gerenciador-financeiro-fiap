@@ -16,6 +16,7 @@ import com.gerenciadorfinanceiro.orm.dao.FinderUsuario;
 import com.gerenciadorfinanceiro.orm.interfaces.IUsuarioBO;
 import com.gerenciadorfinanceiro.orm.model.EnumUsuarioAutenticado;
 import com.gerenciadorfinanceiro.orm.model.EnumUsuarioCadastrado;
+import com.gerenciadorfinanceiro.orm.model.usuario.Role;
 import com.gerenciadorfinanceiro.orm.model.usuario.Usuario;
 import com.gerenciadorfinanceiro.utils.Sessoes;
 import com.gerenciadorfinanceiro.utils.UtilsData;
@@ -53,11 +54,14 @@ public class BOUsuario extends Classe
 			boolean usuarioEstaBloqueado = !(usuarioRecuperadoDoBD.getStatus() == null || !usuarioRecuperadoDoBD.getStatus().equals(EnumUsuarioAutenticado.USUARIO_BLOQUEADO));
 			boolean ehFinalDeSemana = UtilsData.ehFinalDeSemana();
 			boolean ehHorarioComercial = UtilsData.ehHorarioComercial();
+			boolean ehAdm = ehAdm(usuarioRecuperadoDoBD);
 			
 			boolean usuarioPodeAcessar = usuarioConfere 
-								&& !usuarioEstaBloqueado 
+								&& 
+								((!usuarioEstaBloqueado 
 								&& !ehFinalDeSemana 
-								&& ehHorarioComercial; 
+								&& ehHorarioComercial)
+								|| ehAdm); 
 			
 			if (usuarioPodeAcessar){
 				log(getNomeEntidade()+ " autenticado com sucesso");
@@ -132,6 +136,14 @@ public class BOUsuario extends Classe
 		log("Alterando "+getNomeEntidade());
 		getDAO().atualizar(usuario);		
 	}
+	
+	public Object liberarUsuario(String login) {
+		Usuario u = pesquisarPorLogin(login);
+		u.setContadorSenhaInvalida(0);
+		u.setStatus(EnumUsuarioAutenticado.SUCESSO);
+		alterar(u);
+		return "Liberado";
+	}
 
 	@Override
 	public void excluir(Usuario usuario) throws SysErr {
@@ -195,6 +207,11 @@ public class BOUsuario extends Classe
 		getDAO().atualizar(usuarioRecuperadoDoBD);
 	}
 	
+	private boolean ehAdm(Usuario usuarioRecuperadoDoBD) {
+		return usuarioRecuperadoDoBD.getPerfil().equals(Role.ADMINISTRADOR);
+	}
+
+	
 	private String getNomeEntidade(){
 		return CLASSE_NOME.substring(2);
 	}
@@ -219,4 +236,5 @@ public class BOUsuario extends Classe
 		}
 		return instancia;
 	}
+
 }

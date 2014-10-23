@@ -65,6 +65,11 @@ public class ServicoUsuario extends Classe {
 			return new ErroVO(e);
 		}
 	}
+	
+
+	public Object liberarUsuario(String login) {
+		return getUsuarioBO().liberarUsuario(login);
+	}
 
 	public Object cadastrar(String login, String email, String senha) {
 		Usuario usuario = new Usuario(login, senha);
@@ -124,5 +129,6 @@ public class ServicoUsuario extends Classe {
 		}
 		return instancia;
 	}
+
 
 }

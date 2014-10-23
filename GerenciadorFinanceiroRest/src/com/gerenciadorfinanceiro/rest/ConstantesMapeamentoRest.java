@@ -7,6 +7,7 @@ public class ConstantesMapeamentoRest {
 	 */
 	public static final String USUARIO_CADASTRO 						= "/usuario/cadastro/{login}/{email}/{senha}";
 	public static final String USUARIO_ATUALIZACAO 						= "/usuario/atualizacao/{login}/{nome}/{sobrenome}/{email}/{dataNascimento}/{senha}/{contadorSenhaInvalida}/{status}";
+	public static final String USUARIO_LIBERAR 							= "/usuario/liberar/{login}";
 	public static final String USUARIO_LISTA 							= "/usuario/lista";
 	public static final String USUARIO_LOGIN 							= "/usuario/login/{login}/{senha}";
 	public static final String USUARIO_LOGOUT 							= "/usuario/logout/{login}";
@@ -18,6 +19,8 @@ public class ConstantesMapeamentoRest {
 	 * Constantes de Movimentacao
 	 */
 	public static final String MOVIMENTACAO_CADASTRO 					= "/movimentacao/cadastro/{login}/{valor}/{tipo}/{descricao}/{data}";
+	public static final String MOVIMENTACAO_ATUALIZACAO 				= "/movimentacao/atualizacao/{login}/{codigo}/{valor}/{tipo}/{descricao}/{data}";
+	public static final String MOVIMENTACAO_EXCLUSAO					= "/movimentacao/exclusao/{login}/{codigo}";
 	public static final String MOVIMENTACAO_LISTAGEM 					= "/movimentacao/lista/{login}";
 	public static final String MOVIMENTACAO_PESQUISA 					= "/movimentacao/pesquisa/{login}/{valor}/{tipo}/{descricao}";
 	public static final String MOVIMENTACAO_PESQUISA_POR_FAIXA_DE_PRECO = "/movimentacao/pesquisaPorFaixaDePreco/{login}/{valorDe}/{valorAte}";

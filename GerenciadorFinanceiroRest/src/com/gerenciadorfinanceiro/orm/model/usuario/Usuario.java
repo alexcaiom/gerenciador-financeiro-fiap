@@ -78,6 +78,9 @@ public class Usuario implements Serializable {
 	private Integer contadorSenhaInvalida = 0;
 	
 	@Enumerated(EnumType.STRING)
+	private Role perfil;
+	
+	@Enumerated(EnumType.STRING)
 	@Column
 	private EnumUsuarioAutenticado status = null;
 	
@@ -185,6 +188,14 @@ public class Usuario implements Serializable {
 
 	public void setContadorSenhaInvalida(Integer contadorSenhaInvalida) {
 		this.contadorSenhaInvalida = contadorSenhaInvalida;
+	}
+
+	public Role getPerfil() {
+		return perfil;
+	}
+
+	public void setPerfil(Role perfil) {
+		this.perfil = perfil;
 	}
 
 	/**

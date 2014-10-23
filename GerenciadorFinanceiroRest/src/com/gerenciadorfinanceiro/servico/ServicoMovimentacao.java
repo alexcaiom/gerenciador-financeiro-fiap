@@ -32,6 +32,40 @@ public class ServicoMovimentacao extends Classe{
 		return resposta;
 	}
 	
+	public String alterar(Movimentacao movimentacao, String login){
+		String resposta = "";
+		try {
+			if (verificaLogin(login)) {
+				getBOMovimentacao().atualizar(movimentacao);
+				resposta = "Movimentacao atualizada com sucesso!";
+			} else {
+				resposta = "Sessao Expirada! Logue-se novamente!";
+			}
+		} catch (Erro e){
+			if (e instanceof ErroNegocio && e.getErro().equals(EnumUsuarioAutenticado.USUARIO_INEXISTENTE.getMensagem())) {
+				resposta = "Não foi possível alterar movimentações para o usuário indicado!";
+			}
+		}
+		return resposta;
+	}
+	
+	public String excluir(Movimentacao movimentacao, String login) {
+		String resposta = "";
+		try {
+			if (verificaLogin(login)) {
+				getBOMovimentacao().excluir(movimentacao);
+				resposta = "Movimentacao excluida com sucesso!";
+			} else {
+				resposta = "Sessao Expirada! Logue-se novamente!";
+			}
+		} catch (Erro e){
+			if (e instanceof ErroNegocio && e.getErro().equals(EnumUsuarioAutenticado.USUARIO_INEXISTENTE.getMensagem())) {
+				resposta = "Não foi possível excluir movimentações para o usuário indicado!";
+			}
+		}
+		return resposta;
+	}
+	
 	public Object pesquisar(Movimentacao movimentacao, String login) {
 		try{
 			if (verificaLogin(login)) {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.projetodesenvolvimento"
+    package="com.organizadorfinanceiro"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -17,23 +17,23 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.example.projetodesenvolvimento.MainActivity"
+            android:name="com.organizadorfinanceiro.MainActivity"
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name="com.example.projetodesenvolvimento.Calendario"
+            android:name="com.organizadorfinanceiro.Calendario"
             android:label="@string/title_activity_calendario" >
         </activity>
         <activity
-            android:name="com.example.projetodesenvolvimento.MyCalendarActivity"
+            android:name="com.organizadorfinanceiro.MyCalendarActivity"
             android:label="@string/title_activity_calendario" >
         </activity>
         <activity
-            android:name="com.example.projetodesenvolvimento.LoginActivity"
+            android:name="com.organizadorfinanceiro.LoginActivity"
             android:label="@string/title_activity_login" >
         </activity>
         <activity
-            android:name="com.example.projetodesenvolvimento.SplashActivity"
+            android:name="com.organizadorfinanceiro.SplashActivity"
             android:label="@string/title_activity_splash" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -42,44 +42,44 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.projetodesenvolvimento.CadastroMovimentoActivity"
+            android:name="com.organizadorfinanceiro.CadastroMovimentoActivity"
             android:label="@string/title_activity_cadastro" >
         </activity>
         <activity
-            android:name="com.example.projetodesenvolvimento.CadastroUsuarioActivity"
+            android:name="com.organizadorfinanceiro.CadastroUsuarioActivity"
             android:label="@string/title_activity_cadastro_usuario" >
         </activity>
         <activity
-            android:name="com.example.projetodesenvolvimento.MenuActivity"
+            android:name="com.organizadorfinanceiro.MenuActivity"
             android:label="@string/title_activity_menu" >
         </activity>
         <activity
-            android:name="com.example.projetodesenvolvimento.BackupSettingsActivity"
+            android:name="com.organizadorfinanceiro.BackupSettingsActivity"
             android:label="@string/title_activity_backup_settings" >
         </activity>
         <activity
-            android:name="com.example.projetodesenvolvimento.CalendarioActivity"
+            android:name="com.organizadorfinanceiro.CalendarioActivity"
             android:label="@string/title_activity_calendario" >
         </activity>
         <activity
-            android:name="com.example.projetodesenvolvimento.FinancasActivity"
+            android:name="com.organizadorfinanceiro.FinancasActivity"
             android:label="@string/title_activity_financas" >
         </activity>
         <activity
-            android:name="com.example.projetodesenvolvimento.GraficoActivity"
+            android:name="com.organizadorfinanceiro.GraficoActivity"
             android:label="@string/title_activity_grafico"
             android:screenOrientation="landscape" >
         </activity>
         <activity
-            android:name="com.example.projetodesenvolvimento.GraficosActivity"
+            android:name="com.organizadorfinanceiro.GraficosActivity"
             android:label="@string/title_activity_graficos" >
         </activity>
         <activity
-            android:name="com.example.projetodesenvolvimento.ListaMovimentoActivity"
+            android:name="com.organizadorfinanceiro.ListaMovimentoActivity"
             android:label="@string/title_activity_lista_movimento" >
         </activity>
         <activity
-            android:name="com.example.projetodesenvolvimento.GestaoFontesMovimentoActivity"
+            android:name="com.organizadorfinanceiro.GestaoFontesMovimentoActivity"
             android:label="@string/title_activity_gestao_fontes_movimento" >
         </activity>
     </application>
